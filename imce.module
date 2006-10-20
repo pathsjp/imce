@@ -41,7 +41,7 @@ function imce_menu($may_cache) {
       'callback' => 'imce_browse',
       'type' => MENU_CALLBACK);
   }
-  elseif (arg(0)=='imce' && arg(1)!='browse' && drupal_valid_token($_REQUEST['token'], 'imce')) {
+  elseif (arg(0)=='imce' && arg(1)!='browse' && $_REQUEST['token']==md5('imce'.session_id())) {
     if (arg(1)=='delete' && user_access('delete files') && ($delpath = file_check_location($_GET['delpath'], imce_get_directory()))) {
       imce_delete_file($delpath);
     }
@@ -68,7 +68,7 @@ function imce_browse() {
   $delete = user_access('delete files');
   $basepath = base_path();
   $private = (variable_get('file_downloads', '')==FILE_DOWNLOADS_PRIVATE);
-  $token = drupal_get_token('imce');
+  $token = md5('imce'.session_id());
   //file list
   $files = imce_scan_directory($dir);
   foreach ($files['list'] as $path=>$file) {
