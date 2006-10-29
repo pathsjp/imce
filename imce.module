@@ -346,7 +346,7 @@ function imce_file_download($file) {
     }
   }
   else {
-    if (!preg_match("/^".variable_get('imce_personal_prefix', 'u')."[0-9]+\//", $file)) {
+    if (!preg_match("/^".str_replace(array('/', '-'), array('\/', '\-'), variable_get('imce_personal_prefix', 'u'))."[0-9]+\//", $file)) {
       return false;
     }
   }
