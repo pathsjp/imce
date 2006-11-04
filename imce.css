@@ -65,6 +65,13 @@ div.forms {
   width: auto;
   display: none;
 }
+#info-div {
+  position: absolute;
+  top: 4px;
+  left: 18px;
+  width: auto;
+  font-size: 11px;
+}
 #imagepreview {/*Image preview area*/
   height: 270px;
   overflow: auto;

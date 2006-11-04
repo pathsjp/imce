@@ -6,7 +6,7 @@ imce.module installation instructions
 2) Enable the module at: admin/build/modules
 3) Assign permissions to user roles at: admin/user/access
 4) Configure the module settings at: admin/settings/imce
-5) Start using imce by clicking the browse button in image or link popup of tinymce or fckeditor. If you configure imce to work with plain textareas there should appear a link under the specified textareas.
+5) Start using imce by clicking the browse button in image or link popup of tinymce or fckeditor. If you configure imce to work with plain textareas there should appear a link under the specified textareas. You can also reach IMCE from your account page.
 
 Note: Make sure you have the closure varible in your theme file. It contains
 the html from footer hook, which activates browse button. For phptemplate based
