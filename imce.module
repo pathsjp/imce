@@ -77,8 +77,8 @@ function imce_menu($may_cache) {
         imce_resize_image($set, $filename, $_POST['img_w'], $_POST['img_h'], $_POST['img_copy']);
       }
     }
-    elseif (arg(1)=='login' && user_access('administer imce') && ($uid=arg(2)) && $uid!=1 && $user->uid!=$uid && ($acc=user_load(array('uid' => $uid))) && array_intersect(user_roles(0, 'access imce'), $acc->roles)) {
-      $_SESSION['imceuser'] = array('uid'=>$acc->uid, 'roles'=>$acc->roles, 'name'=>$acc->name, 'ownperm' =>arg(3)=='own');
+    elseif (arg(1)=='login' && user_access('administer imce') && is_numeric($uid=arg(2)) && $uid!=1 && $user->uid!=$uid && ($acc=user_load(array('uid' => $uid))) && array_intersect(user_roles(0, 'access imce'), $acc->roles)) {
+      $_SESSION['imceuser'] = array('uid'=>$acc->uid, 'roles'=>$acc->roles, 'name'=>($acc->name ? $acc->name : t('Anonymous')), 'ownperm' =>arg(3)=='own');
     }
     elseif (arg(1)=='logout' && user_access('administer imce')) {
       unset($_SESSION['imceuser']);
@@ -427,14 +427,16 @@ function imce_settings_user() {
     $settings = variable_get('imce_settings_roles', array());
     foreach (imce_sorted_roles() as $rid=>$name) {
       if (isset($_SESSION['imceuser']['roles'][$rid]) && is_array($settings[$rid])) {
-        $userset = $settings[$rid] + array('uid'=>$_SESSION['imceuser']['uid']);
-        if ($_SESSION['imceuser']['ownperm']) {
-          $set = $userset;
-        }
-        $set['dir'] = imce_get_directory($userset);
+        $userset = $settings[$rid];
         break;
       }
     }
+    $userset = $userset ? $userset : imce_settings_default();
+    $userset['uid'] = $_SESSION['imceuser']['uid'];
+    if ($_SESSION['imceuser']['ownperm']) {
+      $set = $userset;
+    }
+    $set['dir'] = imce_get_directory($userset);
   }
   return $set;
 }
