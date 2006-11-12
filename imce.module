@@ -13,7 +13,9 @@ function imce_footer() {
     if (variable_get('imce_settings_fck', 0) && strpos($header, 'fckeditor.js')) {//set imce if fckeditor is in action
       $output .= '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/imce_set_fck.js' .'"></script>';
     }
-    return $output;
+    if ($output) {
+      return '<script type="text/javascript"> imceBrowserURL = "'.url('imce/browse').'"; </script>'. $output;
+    }
   }
 }
 
