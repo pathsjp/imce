@@ -16,7 +16,8 @@ function imce_help($section) {
  */
 function imce_footer() {//set imce if tinymce is in action 
   if (strpos(drupal_set_html_head(), 'tinyMCE.init') && user_access('view files')) {
-    return '<script type="text/javascript" src="'. base_path() .drupal_get_path('module', 'imce').'/imce_set.js' .'"></script>';
+    return '<script type="text/javascript"> imceBrowserURL = "'.url('imce/browse').'"; </script>
+<script type="text/javascript" src="'. base_path() .drupal_get_path('module', 'imce').'/imce_set.js' .'"></script>';
   }
 }
 
