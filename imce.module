@@ -165,7 +165,7 @@ theme('table', array(), $rows, array('id'=>'bodytable')).'
 </div>
 <div id="resize-bar">
   <div id="resize-bar-in">^</div>
-  <div id="info-div">'.t('Directory').': '.$set->dir.'<br />'. ($_SESSION['imceuser'] ? t('User').': '.$_SESSION['imceuser']['name'].' - '.l(t('logout'), 'imce/logout') : '') .'</div>
+  <div id="info-div">'.($private&&$set->uid!=1 ? '' : t('Directory').': '.$set->dir.'<br />'). ($_SESSION['imceuser'] ? t('User').': '.$_SESSION['imceuser']['name'].' - '.l(t('logout'), 'imce/logout') : '') .'</div>
 </div>
 <div id="imagepreview">'.theme('status_messages').'</div>
 <div class="forms">'.
