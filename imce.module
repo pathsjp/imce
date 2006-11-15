@@ -355,7 +355,7 @@ function imce_file_download($file) {
     $info = @getimagesize($path);
     $types = array(1 => 'image/gif', 2 => 'image/jpeg', 3 => 'image/png');
     if ($types[$info[2]]) {
-      return array('Content-type: '. $types[$info[2]], 'Content-Disposition: attachment; filename="'. basename($file) .'"');
+      return array('Content-type: '. $types[$info[2]]);
     }
     else {
       return array('Content-type: '. (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download'), 'Content-Disposition: attachment; filename="'. basename($file) .'"');
