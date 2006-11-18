@@ -1,6 +1,6 @@
 // $Id$
 if (Drupal.jsEnabled) {
-  $(imceInitiateTinyMCE);
+  $(window).load(imceInitiateTinyMCE);
 }
 function imceInitiateTinyMCE() {
   if ("undefined" != typeof(window.tinyMCE)) {

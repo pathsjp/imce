@@ -1,6 +1,6 @@
 // $Id$
 if (Drupal.jsEnabled) {
-  $(imceInitiateFCK);
+  $(window).load(imceInitiateFCK);
 }
 function imceInitiateFCK() {
   if ("undefined" != typeof(window.FCKeditorAPI)) {
@@ -10,7 +10,7 @@ function imceInitiateFCK() {
     for (var i in FCKeditorAPI.__Instances) {
       var fck = FCKeditorAPI.__Instances[i];
       for (var t in types) {
-        eval('fck.Config.'+types[t]+'BrowserURL = imceBrowserURL; fck.Config.'+types[t]+'BrowserWindowWidth = width; fck.Config.'+types[t]+'BrowserWindowHeight = height;');
+        eval('fck.Config.'+types[t]+'Browser = true; fck.Config.'+types[t]+'BrowserURL = imceBrowserURL; fck.Config.'+types[t]+'BrowserWindowWidth = width; fck.Config.'+types[t]+'BrowserWindowHeight = height;');
       }
     }
   }
