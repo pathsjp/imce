@@ -6,7 +6,7 @@
  */
 function imce_footer() {
   if (user_access('access imce')) {
-    $header = drupal_set_html_head();
+    $header = drupal_get_js();
     if (variable_get('imce_settings_tinymce', 1) && strpos($header, 'tinyMCE.init')) {//set imce if tinymce is in action
       $output .= '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/imce_set_tinymce.js' .'"></script>';
     }
@@ -14,7 +14,7 @@ function imce_footer() {
       $output .= '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/imce_set_fck.js' .'"></script>';
     }
     if ($output) {
-      return '<script type="text/javascript"> imceBrowserURL = "'.url('imce/browse').'"; </script>'. $output;
+      return '<script type="text/javascript"> var imceBrowserURL = "'.url('imce/browse').'"; </script>'. $output;
     }
   }
 }
@@ -35,7 +35,7 @@ function imce_menu($may_cache) {
   $items = array();
   if ($may_cache) {
     $items[] = array('path' => 'imce/browse',
-      'title' => 'imce browse',
+      'title' => 'IMCE browse',
       'access' => user_access('access imce'),
       'callback' => 'imce_browse',
       'type' => MENU_CALLBACK,
@@ -572,7 +572,7 @@ function imce_form_template($rid) {
   $form['extensions'] = array('#type' => 'textfield',
     '#title' => t('Non-image file support'),
     '#default_value' => $set->extensions,
-    '#description' => t('Although imce is mainly designed to browse images, it supports uploading and browsing of any file type. If you like to use this feature, define your <strong>allowed non-image file extensions</strong> here with a comma between them. Ex .doc, .pdf, .zip.  Note that, image upload limits also apply for these files. For a pure image browser leave this field blank.'),
+    '#description' => t('Although IMCE is mainly designed to browse images, it supports uploading and browsing of any file type. If you like to use this feature, define your <strong>allowed non-image file extensions</strong> here with a comma between them. Ex .doc, .pdf, .zip.  Note that, image upload limits also apply for these files. For a pure image browser leave this field blank.'),
   );
   $form['extras'] = array('#type' => 'checkbox',
     '#title' => '<strong>'.t('Enable extras').'</strong>',
@@ -593,12 +593,12 @@ function imce_form_admin_form() {
   $form['common']['tinymce'] = array('#type' => 'checkbox',//tinyce support
     '#title' => '<strong>'.t('Enable tinyMCE support').'</strong>',
     '#default_value' => variable_get('imce_settings_tinymce', 1),
-    '#description' => t('Make imce the default image/file browser for tinyMCE.'),
+    '#description' => t('Make IMCE the default image/file browser for tinyMCE.'),
   );
   $form['common']['fck'] = array('#type' => 'checkbox',//fck support
     '#title' => '<strong>'.t('Enable FCKEditor support').'</strong>',
     '#default_value' => variable_get('imce_settings_fck', 0),
-    '#description' => t('Replace the built-in file browser of FCKeditor with imce.'),
+    '#description' => t('Replace the built-in file browser of FCKeditor with IMCE.'),
   );
   $form['common']['textarea'] = array('#type' => 'textfield',//plain textarea support
     '#title' => t('Enable inline image/file insertion into plain textareas'),
@@ -615,7 +615,7 @@ function imce_form_admin_form() {
     $form['common']['rank'] = array('#type' => 'textfield',
       '#title' => t('Role precedence'),
       '#default_value' => implode('>', $rids),
-      '#description' => t('A user having <strong>multiple roles</strong> gets the permissions of the highest one. Sort role IDs according to their <strong>precedence from higher to lower</strong> by putting > in between. Here is the id-name pairs of roles having access to imce:').'<div>'.implode(', ', $rtext).'</div>',
+      '#description' => t('A user having <strong>multiple roles</strong> gets the permissions of the highest one. Sort role IDs according to their <strong>precedence from higher to lower</strong> by putting > in between. Here is the id-name pairs of roles having access to IMCE:').'<div>'.implode(', ', $rtext).'</div>',
     );
   }
 
