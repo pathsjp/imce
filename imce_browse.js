@@ -4,7 +4,7 @@ $(imceStartBrowser);
 function imceStartBrowser() {
   var imceOpener = window.opener&&window.opener!=window.self ? window.opener : null;
   if (imceOpener) {
-    if (eval("'function'==typeof(imceOpener."+window.name+"ImceFinish)")) {//custom function for adding
+    if (eval("'undefined'!=typeof(imceOpener."+window.name+"ImceFinish)")) {//custom function for adding
       imceVar['targetWin'] = imceOpener;
       imceVar['customCall'] = window.name+"ImceFinish";
       if(eval("'undefined'!=typeof(imceOpener."+window.name+"ImceUrl)")) {//custom url to be highlighted.
