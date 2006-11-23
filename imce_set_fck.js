@@ -4,7 +4,7 @@ if (Drupal.jsEnabled) {
 }
 function imceInitiateFCK() {
   if ("undefined" != typeof(window.FCKeditorAPI)) {
-    $.each(FCKeditorAPI.__Instances, imceSetFCK);
+    $.each(FCKeditorAPI.__Instances, function(){imceSetFCK(this);});
   }
   else if ("undefined" != typeof(window.FCKeditor_OpenPopup)) {
     $('textarea').each(function () {
@@ -15,7 +15,6 @@ function imceInitiateFCK() {
   }
 }
 function imceSetFCK(fck) {
-  var fck = fck||this;
   var width = 640;
   var height = 480;
   var types = ['Image', 'Link', 'Flash'];
