@@ -394,7 +394,7 @@ function imce_get_directory($set) {
   if (file_check_directory($dir, TRUE)) {
     return $dir;
   }
-  exit(t('Directory error!'));//without a working directory imce is useless. so, terminate.
+  exit(t('Directory error!').' - '.$dir. theme('status_messages'));//without a working directory imce is useless. so, terminate.
 }
 
 /**
@@ -590,7 +590,7 @@ function imce_form_admin_form() {
   $form['#tree'] = TRUE;
 
   $form['common'] = array('#type' => 'fieldset', '#collapsible' => TRUE, '#title' => t('Common settings'),);
-  $form['common']['tinymce'] = array('#type' => 'checkbox',//tinyce support
+  $form['common']['tinymce'] = array('#type' => 'checkbox',//tinymce support
     '#title' => '<strong>'.t('Enable tinyMCE support').'</strong>',
     '#default_value' => variable_get('imce_settings_tinymce', 1),
     '#description' => t('Make IMCE the default image/file browser for tinyMCE.'),
