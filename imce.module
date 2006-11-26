@@ -7,10 +7,12 @@
 function imce_footer() {
   if (user_access('access imce')) {
     $header = drupal_get_js();
-    if (variable_get('imce_settings_tinymce', 1) && strpos($header, 'tinyMCE.init')) {//set imce if tinymce is in action
+    //set imce if tinymce is in action
+    if (module_exists('tinymce') && variable_get('imce_settings_tinymce', 1) && strpos($header, 'tinyMCE.init')) {
       $output .= '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/imce_set_tinymce.js' .'"></script>';
     }
-    if (variable_get('imce_settings_fck', 0) && strpos($header, 'fckeditor.js')) {//set imce if fckeditor is in action
+    //set imce if fckeditor is in action
+    if (module_exists('fckeditor') && variable_get('imce_settings_fck', 0) && strpos($header, 'fckeditor.js')) {
       $output .= '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/imce_set_fck.js' .'"></script>';
     }
     if ($output) {
@@ -57,7 +59,7 @@ function imce_menu($may_cache) {
     }
     if ($access) {
       $items[] = array('path' => 'user/'.$uid.'/imce',
-        'title' => t('IMCE files'),
+        'title' => t('Personal files'),
         'access' => TRUE,
         'callback' => 'imce_user_page',
         'callback arguments' => array($acc),
@@ -150,7 +152,7 @@ function imce_browse() {
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>'.t('Image Browser').'</title>
+  <title>'.t('Image/File Browser').'</title>
   <script type="text/javascript" src="'. $basepath .'misc/jquery.js"></script>
   <script type="text/javascript" src="'. $imcepath .'/imce_browse.js"></script>'.
   ($set->extras ? '<script type="text/javascript" src="'. $imcepath .'/imce_extras.js"></script>' : '').'
@@ -590,16 +592,16 @@ function imce_form_admin_form() {
   $form['#tree'] = TRUE;
 
   $form['common'] = array('#type' => 'fieldset', '#collapsible' => TRUE, '#title' => t('Common settings'),);
-  $form['common']['tinymce'] = array('#type' => 'checkbox',//tinymce support
+  $form['common']['tinymce'] = module_exists('tinymce') ? array('#type' => 'checkbox',//tinymce support
     '#title' => '<strong>'.t('Enable tinyMCE support').'</strong>',
     '#default_value' => variable_get('imce_settings_tinymce', 1),
     '#description' => t('Make IMCE the default image/file browser for tinyMCE.'),
-  );
-  $form['common']['fck'] = array('#type' => 'checkbox',//fck support
+  ) : NULL;
+  $form['common']['fck'] = module_exists('fckeditor') ? array('#type' => 'checkbox',//fck support
     '#title' => '<strong>'.t('Enable FCKEditor support').'</strong>',
     '#default_value' => variable_get('imce_settings_fck', 0),
     '#description' => t('Replace the built-in file browser of FCKeditor with IMCE.'),
-  );
+  ) : NULL;
   $form['common']['textarea'] = array('#type' => 'textfield',//plain textarea support
     '#title' => t('Enable inline image/file insertion into plain textareas'),
     '#default_value' => variable_get('imce_settings_textarea', ''),
@@ -720,7 +722,7 @@ function imce_process_textarea($element, $edit=NULL, $ids=array()) {
 }
 
 /**
- * IMCE user/x page.
+ * IMCE user/x/imce page.
  */
 function imce_user_page($acc) {
   if ($GLOBALS['user']->uid == $acc->uid) {//user
