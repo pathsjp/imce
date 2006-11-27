@@ -78,7 +78,7 @@ function imceHighlight(row, append) {
     var path = imceVar['fileUrl']+'/'+info['f'];
     $(row).addClass('rsel');
     imceVar['activeRow'] = row;
-    $('#imagepreview').html((append ? $('#imagepreview').html() : '') +'<a'+ (imceVar['targetWin'] ? (' href="javascript: imceFinitor(\''+ path +'\', '+ info['w'] +', '+ info['h'] +')"') : '') +'>'+ (info['w']&&info['h'] ? ('<img src="'+ path +'" width="'+ info['w'] +'" height="'+ info['h'] + '" />') : info['f']) +'</a>');
+    $('#imagepreview').html((append ? $('#imagepreview').html() : '') +'<div><a'+ (imceVar['targetWin'] ? (' href="javascript: imceFinitor(\''+ path +'\', '+ info['w'] +', '+ info['h'] +')"') : '') +'>'+ (info['w']&&info['h'] ? ('<img src="'+ path +'" width="'+ info['w'] +'" height="'+ info['h'] + '" />') : info['f']) +'</a>'+ (info['w']&&info['h'] ? '' : ' (<a href="'+ path +'" target="_blank">'+ imceVar['viewText'] +'</a>)') +'</div>');
     if ($('#resizeform').length && info['w'] && info['h']) {
       $('#resizeform').css('visibility', 'visible');
       $('#img_name').val(info['f']);

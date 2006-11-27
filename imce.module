@@ -179,6 +179,7 @@ $resizeform .'
   imceVar["fileUrl"] = "'. ($private ? url('system/files/').trim(substr($set->dir, strlen($syspath)), '\\/') : $basepath.$set->dir) .'";
   imceVar["latestFile"] = "'. ($_SESSION['imcelatest'] ? ($private ? url('system/files/'). trim(substr($_SESSION['imcelatest'], strlen($syspath)), '\\/') : $basepath.$_SESSION['imcelatest']) : '') .'";
   imceVar["confirmDel"] = "'. ($set->delete ? t('Are you sure want to delete this file?') : '') .'";
+  imceVar["viewText"] = "'.t('view').'";
   imceVar["addText"] = "'.t('add').'";'.
 ($set->extras ? ' imceVar["filterText"] = ["'.t('Display'). '", "'. t('all'). '", "'. t('images'). '", "'. t('non-images').'"];' : '') .'
 </script>
