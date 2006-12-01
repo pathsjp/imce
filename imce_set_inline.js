@@ -23,6 +23,7 @@ function _imce_ImceFinish(path, w, h, imceWin) {
   var html = imceActiveType=='image' ? ('<img src="'+ path +'" width="'+ w +'" height="'+ h +'" alt="'+ basename +'" />') : ('<a href="'+ path +'">'+ basename +'</a>');
   imceInsertAtCursor(imceActiveTextarea, html);
   imceWin.close();
+  imceActiveType = null;
 }
 
 //insert html at cursor position
