@@ -43,7 +43,7 @@ function imce_menu($may_cache) {
       'type' => MENU_CALLBACK,
     );
     $items[] = array('path' => 'admin/settings/imce',
-      'title' => 'IMCE settings',
+      'title' => t('IMCE settings'),
       'description' => t('Control how your image/file browser works.'),
       'access' => user_access('administer imce'),
       'callback' => 'imce_form_admin',
