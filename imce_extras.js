@@ -203,7 +203,7 @@ function imceShortCut(e) {
     case 45://insert(add)
       if (imceVar['targetWin']) {
         var info = imceInfo(imceVar['activeRow']);
-        imceFinitor(imceVar['fileUrl'] + '/' + info['f'], info['w'], info['h']);
+        imceFinitor(imceVar['fileUrl'] + '/' + info['f'], info['w'], info['h'], info['s']);
         imceVar['activeRow'] = null;
       }
       break;

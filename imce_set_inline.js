@@ -17,10 +17,10 @@ function imceInitiateInline() {
 }
 
 //custom callback. hook:ImceFinish
-function _imce_ImceFinish(path, w, h, imceWin) {
+function _imce_ImceFinish(path, w, h, s, imceWin) {
   var basename = path.substr(path.lastIndexOf('/')+1);
   imceActiveType = imceActiveType ? imceActiveType : (w&&h ? 'image' : 'link');
-  var html = imceActiveType=='image' ? ('<img src="'+ path +'" width="'+ w +'" height="'+ h +'" alt="'+ basename +'" />') : ('<a href="'+ path +'">'+ basename +'</a>');
+  var html = imceActiveType=='image' ? ('<img src="'+ path +'" width="'+ w +'" height="'+ h +'" alt="'+ basename +'" />') : ('<a href="'+ path +'">'+ basename +' ('+ s +')</a>');
   imceInsertAtCursor(imceActiveTextarea, html);
   imceWin.close();
   imceActiveType = null;
