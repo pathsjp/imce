@@ -21,18 +21,24 @@ function _imce_ImceFinish(path, w, h, s, imceWin) {
   var basename = path.substr(path.lastIndexOf('/')+1);
   imceActiveType = imceActiveType ? imceActiveType : (w&&h ? 'image' : 'link');
   var html = imceActiveType=='image' ? ('<img src="'+ path +'" width="'+ w +'" height="'+ h +'" alt="'+ basename +'" />') : ('<a href="'+ path +'">'+ basename +' ('+ s +')</a>');
-  imceInsertAtCursor(imceActiveTextarea, html);
+  imceInsertAtCursor(imceActiveTextarea, html, imceActiveType);
   imceWin.close();
   imceActiveType = null;
 }
 
 //insert html at cursor position
-function imceInsertAtCursor(field, txt) {
+function imceInsertAtCursor(field, txt, type) {
   field.focus();
   if ('undefined' != typeof(field.selectionStart)) {
+    if (type == 'link' && (field.selectionEnd-field.selectionStart)) {
+      txt = txt.split('">')[0] +'">'+ field.value.substring(field.selectionStart, field.selectionEnd) +'</a>';
+    }
     field.value = field.value.substring(0, field.selectionStart) + txt + field.value.substring(field.selectionEnd, field.value.length);
   }
   else if (document.selection) {
+    if (type == 'link' && document.selection.createRange().text.length) {
+      txt = txt.split('">')[0] +'">'+ document.selection.createRange().text +'</a>';
+    }
     document.selection.createRange().text = txt;
   }
   else {
