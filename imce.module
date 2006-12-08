@@ -496,7 +496,7 @@ function imce_form_template($rid) {
     );
     $form['theight'] = array('#type' => 'textfield', '#size' => 4, '#default_value' => $set->theight, '#suffix' => 'px</div><div class="description">'.t('You can enable automatic thumbnail creation from newly uploaded images. To disable leave the fields blank.').'</div></div>',
     );
-    $form['shared'] = array('#type' => 'textfield', '#title' => t('Your upload directory'), '#default_value' => $set->shared ? $set->shared : 'u1', '#description' => t('This directory must be relative to drupals file path. So if you want to use files/xyz, just enter xyz here.'),
+    $form['shared'] = array('#type' => 'textfield', '#title' => t('Your upload directory'), '#default_value' => $set->shared ? $set->shared : 'u1', '#description' => t('This directory must be relative to <strong>!filepath</strong> directory. So if you want to use <strong>!filepath/foldername</strong>, just enter <strong>foldername</strong> here. You may also enter <strong>/</strong> to use the file system root. If you leave it blank, u1 will be used.', array('!filepath' => file_directory_path())),
     );
     $form['extras'] = array('#type' => 'checkbox', '#title' => '<strong>'.t('Enable extras').'</strong>', '#default_value' => $set->extras, '#description' => t('This javascript package includes browsing enhancements like file sorting, keyboard shortcuts, file filtering, etc.'),
     );
@@ -534,7 +534,7 @@ function imce_form_template($rid) {
   $form['scale'] = array('#type' => 'checkbox',
     '#title' => '<strong>'.t('Enable scaling of newly uploaded images.').'</strong>',
     '#default_value' => $set->scale,
-    '#description' => t('If a newly uploaded image has dimensions exceeding the limit, it will be scaled down.'),
+    '#description' => t('If a newly uploaded image has dimensions exceeding the limit, it will be scaled down instead of giving an error.'),
   );
   $form['twidth'] = array('#type' => 'textfield',
     '#size' => 4,
