@@ -106,19 +106,19 @@ function imceSortRows(columnIndex) {
     newRows.reverse();
     span.innerHTML = '&uarr;';
     span.setAttribute('sortdir','up');
-    imceCreateCookie('sortdir', 'down');
+    imceCreateCookie('sortdir', 'down', 7);
   }
   else {
     span.innerHTML = '&darr;';
     span.setAttribute('sortdir','down');
-    imceCreateCookie('sortdir', 'up');
+    imceCreateCookie('sortdir', 'up', 7);
   }
   for (var i=0; row=newRows[i]; i++) {
     table.tBodies[0].appendChild(row);
   }
   $('#sortlink'+oldColumn).removeClass('sorted');
   lnk.addClass('sorted');
-  imceCreateCookie('activecolumn', imceVar['activeCol']);
+  imceCreateCookie('activecolumn', imceVar['activeCol'], 7);
 }
 function imceCompareNumeric(r1, r2) {
   var a = parseInt(r1.cells[imceVar['activeCol']].innerHTML);
@@ -179,7 +179,7 @@ function imceFilter(filter) {
     $('#bodytable').get(0).tBodies[0].removeChild(row);
   }
   imceVar['activeFilter'] = filter;
-  imceCreateCookie('activefilter', imceVar['activeFilter']);
+  imceCreateCookie('activefilter', imceVar['activeFilter'], 7);
   $('#file-num').html(' ('+(len-imceVar['hiddenRows'].length)+')');
   $('#bodytable').focus();
 }
