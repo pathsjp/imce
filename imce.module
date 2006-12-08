@@ -105,15 +105,15 @@ function imce_browse() {
   $token = drupal_get_token('imce');
 
   //file list
-  $files = imce_scan_directory($set->dir);
+  $directory = imce_scan_directory($set->dir);
   //prevent quota theft by multiple sessions.
-  if ($_SESSION['imcelatest'] && $files['size']>$set->quota*1024 && !$set->nolimit) {
-    $files['size'] -= filesize($_SESSION['imcelatest']);
+  if ($_SESSION['imcelatest'] && $directory['size']>$set->quota*1024 && !$set->nolimit) {
+    $directory['size'] -= filesize($_SESSION['imcelatest']);
     @unlink($_SESSION['imcelatest']);
-    unset($files['list'][$_SESSION['imcelatest']], $_SESSION['imcelatest']);
+    unset($directory['files'][$_SESSION['imcelatest']], $_SESSION['imcelatest']);
     drupal_set_message(t('File was deleted due to quota exceed!'), 'error');
   }
-  foreach ($files['list'] as $path=>$file) {
+  foreach ($directory['files'] as $path=>$file) {
     $rows[] = array(array('data' => $file['f'], 'class' => 'filename'),
       array('data' => format_size($file['s']), 'class' => 'size', 'id' => $file['s']),
       array('data' => $file['w'].'x'.$file['h'], 'class' => 'dimensions'),
@@ -124,7 +124,7 @@ function imce_browse() {
   if (!isset($rows)) {
     $rows = array(array('<div class="messages">'.t('Directory is empty.').'</div>'));
   }
-  $_SESSION['imcetotal'] = $files['size'];
+  $_SESSION['imcetotal'] = $directory['size'];
 
   //upload form
   if ($set->upload) {
@@ -369,19 +369,24 @@ function imce_scan_directory($dir) {
     drupal_set_message(t('Error opening directory'), 'error');
     return FALSE;
   }
-  $files = array();
-  $totalsize = 0;
+  $directory = array('size' => 0, 'files' => array(), 'folders' => array());
   while(($file = @readdir($handle)) !== FALSE) {
-    if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn') continue;
+    if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == '.htaccess') {
+      continue;
+    }
+    if (is_dir($dir.'/'.$file)) {
+      $directory['folders'][] = $file;
+      continue;
+    }
     $path = $dir.'/'.$file;
     $size = @filesize($path);
     $ext = strtolower(substr($file, strrpos($file, '.')));
     $img = in_array($ext, $GLOBALS['imce_ext']) ? @getimagesize($path) : array(0, 0);
     $date = @filemtime($path);
-    $files[$path] = array('f'=>$file, 's'=>$size, 'w'=>(int)$img[0], 'h'=>(int)$img[1], 'd'=>$date);
-    $totalsize += $size;
+    $directory['files'][$path] = array('f'=>$file, 's'=>$size, 'w'=>(int)$img[0], 'h'=>(int)$img[1], 'd'=>$date);
+    $directory['size'] += $size;
   }
-  return array('list'=>$files, 'size'=>$totalsize);
+  return $directory;
 }
 
 /**
