@@ -59,6 +59,14 @@ function imceStartBrowser() {
       imceVar["confirmDel"] ? row.cells[4].firstChild.onclick = function() {return confirm(imceVar["confirmDel"])} : 0;
     }
   }
+  if ($('#dirname').length) {
+    $('#dirop').css('display', 'none');
+    $('#dirname').change( function() {
+      if (this.value != '/') {
+        this.form.submit();
+      }
+    });
+  }
 }
 
 function imceHighlight(row, append) {

@@ -80,12 +80,19 @@ function imce_menu($may_cache) {
       elseif (arg(1)=='resize' && $set->resize && ($filename=basename($_POST['img_name']))) {
         imce_resize_image($set, $filename, $_POST['img_w'], $_POST['img_h'], $_POST['img_copy']);
       }
+      elseif (arg(1)=='dir' && $set->subnav && isset($_POST['dirname'])) {
+        $target =  $set->dir.'/'.$_POST['dirname'];
+        if (is_dir($target) && ($real = file_check_location($target, $set->root))) {
+          $_SESSION['imcedir'] = imce_relative_path($real);
+        }
+      }
     }
     elseif (arg(1)=='login' && user_access('administer imce') && is_numeric($uid=arg(2)) && $uid!=1 && $user->uid!=$uid && ($acc=user_load(array('uid' => $uid))) && array_intersect(user_roles(0, 'access imce'), $acc->roles)) {
       $_SESSION['imceuser'] = array('uid'=>$acc->uid, 'roles'=>$acc->roles, 'name'=>($acc->name ? $acc->name : t('Anonymous')), 'ownperm' =>arg(3)=='own');
+      unset($_SESSION['imcedir']);
     }
     elseif (arg(1)=='logout' && user_access('administer imce')) {
-      unset($_SESSION['imceuser']);
+      unset($_SESSION['imceuser'], $_SESSION['imcedir']);
     }
     drupal_goto('imce/browse');
   }
@@ -125,6 +132,17 @@ function imce_browse() {
     $rows = array(array('<div class="messages">'.t('Directory is empty.').'</div>'));
   }
   $_SESSION['imcetotal'] = $directory['size'];
+
+  //folder list
+  if ($set->subnav) {
+    foreach ($directory['folders'] as $folder) {
+      $foptions .= '<option value="'.$folder.'">/'.$folder.'</option>';
+    }
+    $subdir = $set->root != $set->dir;
+    if ($foptions||$subdir) {
+      $foptions = ' <form action="'.url('imce/dir').'" name="dirform" id="dirform" style="display:inline" method="post"><select name="dirname" id="dirname">'. ($subdir ? '<option value="..">'. t('Up') .'</option>' : '') .'<option value="/" selected="selected">/</option>'.$foptions.'</select><input type="submit" name="op" id="dirop" value="'.t('Go').'"><input type="hidden" name="token" value="'. $token .'"></form>';
+    }
+  }
 
   //upload form
   if ($set->upload) {
@@ -167,7 +185,10 @@ theme('table', array(), $rows, array('id'=>'bodytable')).'
 </div>
 <div id="resize-bar">
   <div id="resize-bar-in">^</div>
-  <div id="info-div">'.($private&&$set->uid!=1 ? '' : t('Directory').': '.$set->dir.'<br />'). ($_SESSION['imceuser'] ? t('User').': '.$_SESSION['imceuser']['name'].' - '.l(t('logout'), 'imce/logout') : '') .'</div>
+  <div id="info-div">'. t('Directory') .': '. ($private&&$set->uid!=1 ? imce_relative_path($set->dir, $syspath) : $set->dir).
+  ($foptions ? $foptions : '').
+  ($_SESSION['imceuser'] ? '<div>'.t('User').': '.$_SESSION['imceuser']['name'].' - '.l(t('logout'), 'imce/logout').'</div>' : '').'
+  </div>
 </div>
 <div id="imagepreview">'.theme('status_messages').'</div>
 <div class="forms">'.
@@ -176,8 +197,8 @@ $resizeform .'
 </div>
 <script type="text/javascript">
   var imceVar = [];
-  imceVar["fileUrl"] = "'. ($private ? url('system/files/').trim(substr($set->dir, strlen($syspath)), '\\/') : $basepath.$set->dir) .'";
-  imceVar["latestFile"] = "'. ($_SESSION['imcelatest'] ? ($private ? url('system/files/'). trim(substr($_SESSION['imcelatest'], strlen($syspath)), '\\/') : $basepath.$_SESSION['imcelatest']) : '') .'";
+  imceVar["fileUrl"] = "'. imce_relative_url($set->dir) .'";
+  imceVar["latestFile"] = "'. ($_SESSION['imcelatest'] ? imce_relative_url($_SESSION['imcelatest']) : '') .'";
   imceVar["confirmDel"] = "'. ($set->delete ? t('Are you sure want to delete this file?') : '') .'";
   imceVar["viewText"] = "'.t('view').'";
   imceVar["addText"] = "'.t('add').'";'.
@@ -432,7 +453,7 @@ function imce_settings_user() {
   }
   $set = $set ? $set : imce_settings_default();
   $set['uid'] = $user->uid;
-  $set['dir'] = imce_get_directory($set);
+  $set['root'] = imce_get_directory($set);
   if ($_SESSION['imceuser']) {
     $settings = variable_get('imce_settings_roles', array());
     foreach (imce_sorted_roles() as $rid=>$name) {
@@ -446,8 +467,9 @@ function imce_settings_user() {
     if ($_SESSION['imceuser']['ownperm']) {
       $set = $userset;
     }
-    $set['dir'] = imce_get_directory($userset);
+    $set['root'] = imce_get_directory($userset);
   }
+  $set['dir'] = $set['subnav'] && $_SESSION['imcedir'] && file_check_location($_SESSION['imcedir'], $set['root']) ? $_SESSION['imcedir'] : $set['root'];
   return $set;
 }
 
@@ -455,14 +477,14 @@ function imce_settings_user() {
  * get user #1 settings
  */
 function imce_settings_user1() {
-  return array_merge(imce_settings_default(), variable_get('imce_settings_user1', array()), array('resize'=>1, 'scale'=>1, 'delete'=>1, 'upload'=>1, 'nolimit'=>1));
+  return array_merge(imce_settings_default(), variable_get('imce_settings_user1', array()), array('resize' => 1, 'scale' => 1, 'delete' => 1, 'upload' => 1, 'nolimit' => 1, 'subnav' => 1));
 }
 
 /**
  * return default settings.
  */
 function imce_settings_default() {
-  return array('width' => 500, 'height' => 500, 'scale' => 0, 'twidth' => '', 'theight' => '', 'resize' => 0, 'filesize' => 100, 'quota' => 500, 'prefix' => 'u', 'shared' => '', 'extensions' => '', 'extras' => 0, 'delete' => 1, 'upload' => 1, 'nolimit' => 0);
+  return array('width' => 500, 'height' => 500, 'scale' => 0, 'twidth' => '', 'theight' => '', 'resize' => 0, 'filesize' => 100, 'quota' => 500, 'prefix' => 'u', 'shared' => '', 'extensions' => '', 'extras' => 0, 'delete' => 1, 'upload' => 1, 'nolimit' => 0, 'subnav' => 0);
 }
 
 /**
@@ -576,6 +598,11 @@ function imce_form_template($rid) {
     '#title' => t('Use a shared folder'),
     '#default_value' => $set->shared,
     '#description' => t('If you want all your users to <strong>use a common folder instead of personal folders</strong>, here you can define that folder name (ex. images). Notice that shared upload means shared quota. If you are happy with personal folders leave this field blank.'),
+  );
+  $form['subnav'] = array('#type' => 'checkbox',
+    '#title' => '<strong>'.t('Enable sub-folder navigation.').'</strong>',
+    '#default_value' => $set->subnav,
+    '#description' => t('Users will be able to browse sub-folders of their main folder. Since the quota is defined per folder basis, multiple folders means multiplied quota. Therefore, it is advised to enable this feature for only users having no upload limit. Note that, since users are not allowed to create folders, this feature affects only the ones that you create a sub-folder for.'),
   );
   $form['extensions'] = array('#type' => 'textfield',
     '#title' => t('Non-image file support'),
@@ -735,4 +762,20 @@ function imce_user_page($acc) {
   }
   drupal_set_title($acc->name);
   return $output;
+}
+
+/* 
+ * Convert absolute paths to relative paths. return new path relative to the root.
+ */
+function imce_relative_path($path, $root=NULL) {
+  $abs = str_replace('\\', '/', realpath($path));
+  $root = str_replace('\\', '/', ($root ? realpath($root) : $_SERVER['DOCUMENT_ROOT']));
+  return strpos($abs, $root)===0 ? trim(substr($abs, strlen($root)), '/') : substr($abs, strpos($abs, '/'));
+}
+
+/* 
+ * convert file path to relative url.
+ */
+function imce_relative_url($path='') {
+  return variable_get('file_downloads', '')==FILE_DOWNLOADS_PRIVATE ? url('system/files/').trim(substr($path, strlen(file_directory_path())), '\\/') : base_path().$path;
 }

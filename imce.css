@@ -84,7 +84,7 @@ div.forms {
   left: 8em;
   color: #36c;
 }
-#filterspan select {
+#filterspan select, #resize-bar select {
   font-size: 0.9em;
   padding: 0;
   margin: 0;

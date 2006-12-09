@@ -60,6 +60,7 @@ function imceExtrasInit() {
     function endDrag(e) {
       $(document).unmousemove(doDrag).unmouseup(endDrag);
     }
+    if (e.srcElement && e.srcElement.id == 'dirname') return;
     var hTotal = $('#bodydiv').height() + $('#imagepreview').height();
     var sOff = $('#bodydiv').height() - e.clientY + document.documentElement.scrollTop;
     $(document).mousemove(doDrag).mouseup(endDrag);
