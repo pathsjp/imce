@@ -48,6 +48,11 @@ function imce_menu($may_cache) {
       'access' => user_access('administer imce'),
       'callback' => 'imce_form_admin',
     );
+    $items[] = array('path' => 'admin/settings/imce/subfolder',
+      'title' => t('Sub-folder tool'),
+      'access' => user_access('administer imce'),
+      'callback' => 'imce_form_subfolder',
+    );
   }
   elseif (arg(0)=='user' && ($uid=arg(1)) && is_numeric($uid)) {
     if ($user->uid == $uid) {
@@ -602,7 +607,7 @@ function imce_form_template($rid) {
   $form['subnav'] = array('#type' => 'checkbox',
     '#title' => '<strong>'.t('Enable sub-folder navigation.').'</strong>',
     '#default_value' => $set->subnav,
-    '#description' => t('Users will be able to browse sub-folders of their main folder. Since the quota is defined per folder basis, multiple folders means multiplied quota. Therefore, it is advised to enable this feature for only users having no upload limit. Note that, since users are not allowed to create folders, this feature affects only the ones that you create a sub-folder for.'),
+    '#description' => t('This option allows users to manage multiple folders under their main folder. It affects only the users who have at least one sub-folder. Since folder creation is not allowed through IMCE interface, these extra folders must be created manually by ftp or by !subfoldertool. You should note that total user quota increases with every new sub-folder because the quotation is per folder basis.', array('!subfoldertool' => l(t('Sub-folder tool'), 'admin/settings/imce/subfolder'))),
   );
   $form['extensions'] = array('#type' => 'textfield',
     '#title' => t('Non-image file support'),
@@ -770,7 +775,7 @@ function imce_user_page($acc) {
 function imce_relative_path($path, $root=NULL) {
   $abs = str_replace('\\', '/', realpath($path));
   $root = str_replace('\\', '/', ($root ? realpath($root) : $_SERVER['DOCUMENT_ROOT']));
-  return strpos($abs, $root)===0 ? trim(substr($abs, strlen($root)), '/') : substr($abs, strpos($abs, '/'));
+  return strpos($abs, $root)===0 ? trim(substr($abs, strlen($root)), '/') : substr($abs, (($pos=strpos($abs, '/')) ? $pos : 0));
 }
 
 /* 
@@ -778,4 +783,75 @@ function imce_relative_path($path, $root=NULL) {
  */
 function imce_relative_url($path='') {
   return variable_get('file_downloads', '')==FILE_DOWNLOADS_PRIVATE ? url('system/files/').trim(substr($path, strlen(file_directory_path())), '\\/') : base_path().$path;
+}
+
+/**
+ * return sub folder creation form
+ */
+function imce_form_subfolder_form() {
+  $form['help'] = array('#value' => t('<p>Here you can create sub-folders for your users. Multiple folder creation is possible at a time with the <strong>*</strong> character. For example, specifying <strong>user*/foo</strong> will create <strong>foo</strong> named folders under each folder starting with <strong>user</strong>. */foo*/bar will create bar named folders under folders starting with foo in each folder of file system path.</p>'),);
+  $form['path'] = array('#type' => 'textfield', '#default_value' => $_POST['edit']['path'], '#maxlength' => 255, '#prefix' => '<div class="form-item"><label>'.t('Folder path').':</label><div class="container-inline">'. file_directory_path().'/', '#suffix' => '</div></div>',);
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Create'),);
+  return $form;
+}
+
+/**
+ * get sbfolder creation form
+ */
+function imce_form_subfolder() {
+  return drupal_get_form('imce_form_subfolder_form', imce_form_subfolder_form());
+}
+
+/**
+ * subfolder form submit. (Forms API -> formID_submit)
+ */
+function imce_form_subfolder_form_submit($form_id, $edit) {
+  imce_create_subfolders($edit['path'], file_directory_path());
+  return FALSE;
+}
+
+/**
+ * create folder(s) under root according to path.
+ */
+function imce_create_subfolders($path, $root) {
+  $args = explode('/', str_replace('\\', '/', $path));
+  $dirs = array($root);
+  for ($i=0; strlen($arg=$args[$i]); $i++) {
+    if (strpos($arg, '*')===FALSE) {//no asterisks. create the folder(s)
+      for ($j=0; isset($dirs[$j]); $j++) {
+        $dirs[$j] .= '/'. $arg;
+        if (!file_check_location($dirs[$j], $root) || !file_check_directory($dirs[$j], TRUE)) {
+          drupal_set_message(t('Specified path must be under file sytem path.'), 'error');
+          return FALSE;
+        }
+      }
+    }
+    else {//get matching subfolders.
+      $newdirs = array();
+      $expr = str_replace('*', '.*', $arg);
+      foreach ($dirs as $dir) {
+        $newdirs = array_merge($newdirs, imce_get_subfolders($dir, $expr));
+      }
+      if (!count($newdirs)) {
+        drupal_set_message(t('No matching sub-folders found.'), 'error');
+        return FALSE;
+      }
+      $dirs = $newdirs;
+    }
+  }
+  return TRUE;
+}
+
+/**
+ * scan directory and return folders matching expression.
+ */
+function imce_get_subfolders($dir, $expr='') {
+  $folders = array();
+  $handle = @opendir($dir);
+  while(($file = @readdir($handle)) !== FALSE) {
+    if ($file != '.' && $file != '..' && is_dir($dir.'/'.$file) && preg_match('/^'.$expr.'$/', $file)) {
+      $folders[] = $dir.'/'.$file;
+    }
+  }
+  return $folders;
 }
