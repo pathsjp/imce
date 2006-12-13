@@ -77,6 +77,10 @@ function imceExtrasInit() {
   });
   //initiate other features
   document.onkeydown = imceShortCut;
+  if (imceVar['targetWin']) {
+    $('#abs-check').get(0).checked = eval(imceReadCookie('abscheck'));
+    $('#abs-check').click( function() { imceCreateCookie('abscheck', this.checked, 7) } );
+  }
 }
 
 //Sorting Functions
