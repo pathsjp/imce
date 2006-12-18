@@ -80,7 +80,7 @@ function imceHighlight(row, append) {
   }
   if (imceVar['activeRow']==row) {
     imceVar['activeRow'] =null;
-    $('#imagepreview *:last').remove();
+    $('#imagepreview div:last').remove();
   }
   else {
     var info = imceInfo(row);
