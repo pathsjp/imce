@@ -20,12 +20,15 @@ function imceStartBrowser() {
       imceVar['targetHeight'] = imceOpener.imceTinyWin.document.forms[0].height||null;
     }
     else if (imceOpener.FCK) {//fckeditor
+      var fieldId = imceOpener.sActualBrowser && imceOpener.sActualBrowser=='Link' ? 'txtLnkUrl' : 'txtUrl';
       imceVar['targetWin'] = imceOpener;
-      imceVar['targetField'] = imceOpener.document.getElementById('txtUrl');
+      imceVar['targetField'] = imceOpener.document.getElementById(fieldId);
       imceVar['targetUrl'] = imceVar['targetField'].value;
-      imceVar['targetType'] = imceOpener.location.pathname.split('.')[0].split('_')[1];
-      imceVar['targetWidth'] = imceOpener.document.getElementById('txtWidth')||null;
-      imceVar['targetHeight'] = imceOpener.document.getElementById('txtHeight')||null;
+      imceVar['targetType'] = fieldId=='txtLnkUrl' ? 'link' : imceOpener.location.pathname.split('.')[0].split('_')[1];
+      if (imceVar['targetType'] == 'image') {
+        imceVar['targetWidth'] = imceOpener.document.getElementById('txtWidth')||null;
+        imceVar['targetHeight'] = imceOpener.document.getElementById('txtHeight')||null;
+      }
     }
   }
   if ($('#resizeform').length) {
