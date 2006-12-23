@@ -397,7 +397,7 @@ function imce_scan_directory($dir) {
     return FALSE;
   }
   $directory = array('size' => 0, 'files' => array(), 'folders' => array());
-  while(($file = @readdir($handle)) !== FALSE) {
+  while(($file = readdir($handle)) !== FALSE) {
     if ($file == '.' || $file == '..' || $file == 'CVS' || $file == '.svn' || $file == '.htaccess') {
       continue;
     }
@@ -406,13 +406,14 @@ function imce_scan_directory($dir) {
       continue;
     }
     $path = $dir.'/'.$file;
-    $size = @filesize($path);
+    $size = filesize($path);
     $ext = strtolower(substr($file, strrpos($file, '.')));
     $img = in_array($ext, $GLOBALS['imce_ext']) ? @getimagesize($path) : array(0, 0);
-    $date = @filemtime($path);
+    $date = filemtime($path);
     $directory['files'][$path] = array('f'=>$file, 's'=>$size, 'w'=>(int)$img[0], 'h'=>(int)$img[1], 'd'=>$date);
     $directory['size'] += $size;
   }
+  closedir($handle);
   return $directory;
 }
 
@@ -857,11 +858,13 @@ function imce_create_subfolders($path, $root) {
  */
 function imce_get_subfolders($dir, $expr='') {
   $folders = array();
-  $handle = @opendir($dir);
-  while(($file = @readdir($handle)) !== FALSE) {
-    if ($file != '.' && $file != '..' && is_dir($dir.'/'.$file) && preg_match('/^'.$expr.'$/', $file)) {
-      $folders[] = $dir.'/'.$file;
+  if ($handle = @opendir($dir)) {
+    while(($file = readdir($handle)) !== FALSE) {
+      if ($file != '.' && $file != '..' && is_dir($dir.'/'.$file) && preg_match('/^'.$expr.'$/', $file)) {
+        $folders[] = $dir.'/'.$file;
+      }
     }
+    closedir($handle);
   }
   return $folders;
 }
