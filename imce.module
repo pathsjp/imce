@@ -725,7 +725,7 @@ function imce_file_download($file) {
   $imcefile = FALSE;
   foreach ($roles as $rid=>$set) {
     if ($set['shared']) {
-      if (strpos($file, $set['shared'].'/') === 0) {
+      if ($set['shared'] == '/' || strpos($file, $set['shared'].'/') === 0) {
         $imcefile = TRUE;
         break;
       }
@@ -738,9 +738,7 @@ function imce_file_download($file) {
     }
   }
   if ($imcefile && ($path = file_create_path($file))) {
-    $info = @getimagesize($path);
-    $types = array(1 => 'image/gif', 2 => 'image/jpeg', 3 => 'image/png');
-    $ctype = $types[$info[2]] ? $types[$info[2]] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
+    $ctype = ($info = @getimagesize($path)) ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
     return array('Content-type: '. $ctype);
   }
 }
