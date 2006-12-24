@@ -145,29 +145,29 @@ function imce_browse() {
     }
     $subdir = $set->root != $set->dir;
     if ($foptions||$subdir) {
-      $foptions = ' <form action="'.url('imce/dir').'" name="dirform" id="dirform" method="post"><select name="dirname" id="dirname">'. ($subdir ? '<option value="..">'. t('Up') .'</option>' : '') .'<option value="/" selected="selected">/</option>'.$foptions.'</select><input type="submit" name="op" id="dirop" value="'.t('Go').'"><input type="hidden" name="token" value="'. $token .'"></form>';
+      $foptions = ' <form action="'.url('imce/dir').'" name="dirform" id="dirform" method="post"><select name="dirname" id="dirname">'. ($subdir ? '<option value="..">'. t('Up') .'</option>' : '') .'<option value="/" selected="selected">/</option>'.$foptions.'</select><input type="submit" name="op" id="dirop" value="'.t('Go').'" /><input type="hidden" name="token" value="'. $token .'" /></form>';
     }
   }
 
   //upload form
   if ($set->upload) {
     $uploadform = '<form action="'.url('imce/upload').'" method="post" id="uploadform" enctype="multipart/form-data">
-  <input type="file" name="thefile" id="thefile" size="30">
-  <input type="hidden" name="token" value="'. $token .'">
-  <input type="submit" name="submit" value="'.t('Upload File').'">'.
-  ($set->nolimit ? '<input type="checkbox" checked="checked" name="scale">'.t('Scale if necessary') : ($set->scale ? '<input type="hidden" value="1" name="scale">' : '')).
-  ($set->twidth&&$set->theight ? '<input type="checkbox" name="thumb">'.t('Create thumbnail').' ('. $set->twidth .'x'. $set->theight .')' : '').'
+  <input type="file" name="thefile" id="thefile" size="30" />
+  <input type="hidden" name="token" value="'. $token .'" />
+  <input type="submit" name="submit" value="'.t('Upload File').'" />'.
+  ($set->nolimit ? '<input type="checkbox" checked="checked" name="scale" />'.t('Scale if necessary') : ($set->scale ? '<input type="hidden" value="1" name="scale" />' : '')).
+  ($set->twidth&&$set->theight ? '<input type="checkbox" name="thumb" />'.t('Create thumbnail').' ('. $set->twidth .'x'. $set->theight .')' : '').'
 </form>
 <div class="limits">'.  ($set->nolimit ? t('Dimensions for scaling') .' = <strong>'. $set->width .'x'. $set->height .'</strong>, '. t('Quota') .' = <strong>'. format_size($_SESSION['imcetotal']).'</strong>/'.t('Unlimited') : '<strong>'. t('Limits') .'</strong>: '. t('File size') .' = <strong>'. $set->filesize .' KB</strong>, '. t('Dimensions') .' = <strong>'. $set->width .'x'. $set->height .'</strong>, '. t('Quota') .' = <strong>'. format_size($_SESSION['imcetotal']) .'</strong>/'. $set->quota .' KB').'</div>';
   }
   //resize form
   if ($set->resize) {
     $resizeform = '<form action="'.url('imce/resize').'" method="post" id="resizeform">
-  <input type="submit" name="submit" value="'.t('Resize image').'">
-  <input type="hidden" name="token" value="'. $token .'">
-  <span id="resize-file-span">'.t('filename').':<input type="text" name="img_name" id="img_name" size="12">
-  '.t('dimensions').':</span><input type="text" name="img_w" id="img_w" size="2">x<input type="text" name="img_h" id="img_h" size="2">
-  <input type="checkbox" name="img_copy">'.t('Create a copy').'
+  <input type="submit" name="submit" value="'.t('Resize image').'" />
+  <input type="hidden" name="token" value="'. $token .'" />
+  <span id="resize-file-span">'.t('filename').':<input type="text" name="img_name" id="img_name" size="12" />
+  '.t('dimensions').':</span><input type="text" name="img_w" id="img_w" size="2" />x<input type="text" name="img_h" id="img_h" size="2" />
+  <input type="checkbox" name="img_copy" />'.t('Create a copy').'
 </form>';
   }
 
