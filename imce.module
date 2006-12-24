@@ -193,7 +193,6 @@ theme('table', array(), $rows, array('id'=>'bodytable')).'
   <div id="info-div">'. t('Directory') .': '. ($private&&$set->uid!=1 ? imce_relative_path($set->dir, $syspath) : $set->dir).
   ($foptions ? $foptions : '').
   ($_SESSION['imceuser'] ? '<div>'.t('User').': '.$_SESSION['imceuser']['name'].' - '.l(t('logout'), 'imce/logout').'</div>' : '').'
-  <div id="abs-div"><input type="checkbox" id="abs-check"><label for="abs-check">'.t('Return absolute paths').'</label></div>
   </div>
 </div>
 <div id="imagepreview">'.theme('status_messages').'</div>

@@ -1,6 +1,8 @@
 // $Id$
 $(imceStartBrowser);
 
+imceVar['absURL'] = 0;//absolute URLs
+
 function imceStartBrowser() {
   var imceOpener = window.opener&&window.opener!=window.self ? window.opener : null;
   if (imceOpener) {
@@ -70,7 +72,6 @@ function imceStartBrowser() {
       }
     });
   }
-  !imceVar['targetWin'] ? $('#abs-div').css('display', 'none') : 0;
 }
 
 function imceHighlight(row, append) {
@@ -99,7 +100,7 @@ function imceHighlight(row, append) {
 }
 
 function imceFinitor(path, w, h, s) {
-  path = $('#abs-check').get(0).checked ? (location.protocol +'//'+ location.host + path) : path;
+  path = imceVar['absURL'] ? ('http://'+ location.host + path) : path;
   if (imceVar['customCall']) {// if there is a custom function, call it
     eval("imceVar['targetWin']."+imceVar['customCall']+"(path, w, h, s, window.self)");
     return;
