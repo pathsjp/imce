@@ -341,24 +341,19 @@ function imce_settings() {
  * Implementation of hook_file_download().
  */
 function imce_file_download($file) {
+  $imcefile = FALSE;
   if ($shared = variable_get('imce_shared_folder', '')) {
-    if (strpos($file, $shared) !== 0) {
-      return false;
+    if ($shared == '/' || strpos($file, $shared) === 0) {
+      $imcefile = TRUE;
     }
   }
   else {
-    if (!preg_match("/^".str_replace(array('/', '-'), array('\/', '\-'), variable_get('imce_personal_prefix', 'u'))."[0-9]+\//", $file)) {
-      return false;
+    if (preg_match("/^".str_replace(array('/', '-'), array('\/', '\-'), variable_get('imce_personal_prefix', 'u'))."[0-9]+\//", $file)) {
+      $imcefile = TRUE;
     }
   }
-  if ($path = file_create_path($file)) {
-    $info = @getimagesize($path);
-    $types = array(1 => 'image/gif', 2 => 'image/jpeg', 3 => 'image/png');
-    if ($types[$info[2]]) {
-      return array('Content-type: '. $types[$info[2]]);
-    }
-    else {
-      return array('Content-type: '. (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download'), 'Content-Disposition: attachment; filename="'. basename($file) .'"');
-    }
+  if ($imcefile && ($path = file_create_path($file))) {
+    $ctype = ($info = @getimagesize($path)) ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
+    return array('Content-type: '. $ctype);
   }
 }
