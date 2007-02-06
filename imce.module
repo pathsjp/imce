@@ -421,7 +421,7 @@ function imce_scan_directory($dir) {
  */
 function imce_get_directory($set) {
   if ($set['shared']) {//use shared folder if it is declared
-    $dir = file_directory_path().'/'.$set['shared'];
+    $dir = file_directory_path().($set['shared']=='/' ? '' : '/'.$set['shared']);
   }
   else {//use personal folders by default.
     $dir = file_directory_path().'/'.$set['prefix'].$set['uid'];
@@ -784,7 +784,7 @@ function imce_user_page($acc) {
  */
 function imce_relative_path($path, $root=NULL) {
   $abs = str_replace('\\', '/', realpath($path));
-  $root = str_replace('\\', '/', ($root ? realpath($root) : $_SERVER['DOCUMENT_ROOT']));
+  $root = str_replace('\\', '/', ($root ? realpath($root) : dirname(realpath($_SERVER['SCRIPT_FILENAME']))));
   return strpos($abs, $root)===0 ? trim(substr($abs, strlen($root)), '/') : substr($abs, (($pos=strpos($abs, '/')) ? $pos : 0));
 }
 
