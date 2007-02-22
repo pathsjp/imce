@@ -5,7 +5,7 @@ var imceSelectedRow = null;
 
 function imceStartBrowser() {
   var row, rows = $('bodytable').getElementsByTagName('tr');
-  var path = $('latest-file').value ? $('latest-file').value : (window.opener&&!$('imagepreview').innerHTML ? window.opener.imceRefererURL : null);
+  var path = $('latest-file').value ? $('latest-file').value : (window.opener&&!$('imagepreview').innerHTML ? (window.opener.imceRefererURL||window.opener[window.name+'ImceUrl']) : null);
   for (var i=0; row = rows[i]; i++) {
     if (path && path==row.getAttribute('ipath')) {
       imceHighlight(row, 1);
@@ -35,6 +35,7 @@ function imceHighlight(row, append) {
 }
 
 function imceFinitor(path, w, h) {
+  if (imceUserFin=window.opener[window.name+'ImceFinish']) imceUserFin(path, w, h, imceSelectedRow.cells[1].innerHTML, window.self);
   if (!window.opener || !window.opener.imceRefererWin || (window.opener.imceRefererType=='image' && !(w&&h) && !confirm($('confirm-msg').value))) return;
   window.opener.imceRefererField.value = path;
   if (window.opener.imceRefererWin.document.forms[0].width) {
