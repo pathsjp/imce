@@ -88,7 +88,7 @@ function imce_menu($may_cache) {
       elseif (arg(1)=='dir' && $set->subnav && isset($_POST['dirname'])) {
         $target =  $set->dir.'/'.$_POST['dirname'];
         if (is_dir($target) && ($real = file_check_location($target, $set->root))) {
-          $_SESSION['imcedir'] = imce_relative_path($real);
+          $_SESSION['imcedir'] = imce_relative_path($real, file_directory_path());
         }
       }
     }
@@ -481,7 +481,7 @@ function imce_settings_user() {
     }
     $set['root'] = imce_get_directory($userset);
   }
-  $set['dir'] = ($set['subnav'] && $_SESSION['imcedir'] && file_check_location($_SESSION['imcedir'], $set['root'])) ? $_SESSION['imcedir'] : $set['root'];
+  $set['dir'] = ($set['subnav'] && $_SESSION['imcedir'] && file_check_location(file_directory_path() .'/'. $_SESSION['imcedir'], $set['root'])) ? file_directory_path() .'/'. $_SESSION['imcedir'] : $set['root'];
   return $set;
 }
 
