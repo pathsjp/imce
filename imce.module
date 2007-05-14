@@ -48,10 +48,16 @@ function imce_menu($may_cache) {
       'access' => user_access('administer imce'),
       'callback' => 'imce_form_admin',
     );
+    $items[] = array('path' => 'admin/settings/imce/settings',
+      'title' => t('Settings'),
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+    );
     $items[] = array('path' => 'admin/settings/imce/subfolder',
       'title' => t('Sub-folder tool'),
       'access' => user_access('administer imce'),
       'callback' => 'imce_form_subfolder',
+      'type' => MENU_LOCAL_TASK,
+      'weight' => 1,
     );
   }
   elseif (arg(0)=='user' && ($uid=arg(1)) && is_numeric($uid)) {
