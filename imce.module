@@ -151,10 +151,7 @@ function imce_copy_uploaded($file, $dir) {
 
   //dont like too long filenames and files without an extension.
   $file['name'] = trim(basename($file['name']), '.');
-  if (strlen($file['name'])>32) {
-    drupal_set_message(t('Filename is too long(>32 chars).'), 'error');
-    return false;
-  }
+  $file['name'] = strlen($file['name'])>48 ? substr($file['name'], -48) : $file['name']; //max filename lenght is 48
   if (!($dot = strrpos($file['name'], '.'))) {
     drupal_set_message(t('Invalid filename.'), 'error');
     return false;
