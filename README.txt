@@ -33,3 +33,15 @@ image browser thatcan be reached byclicking the browse icon in popups.
 - scaling of big images to allowed dimensions.
 
 - highlighting of newly uploaded files or files that come from tinyMCE.
+
+How to install:
+
+1) Copy this directory to your modules directory
+2) Enable the module at: administer -> modules
+3) Configure the module settings at: administer -> settings -> imce
+4) Assign permissions to user roles at: administer -> access control
+5) Start using imce by clicking the browse icon in image or link popup of tinymce.
+
+Note: Make sure you have the closure varible in your theme file. It contains
+the html from footer hook, which activates browse icon. For phptemplate based
+themes, closure is $closure.
