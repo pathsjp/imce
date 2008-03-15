@@ -6,11 +6,11 @@ imceVar['absURL'] = 0;//absolute URLs
 function imceStartBrowser() {
   var imceOpener = window.opener&&window.opener!=window.self ? window.opener : null;
   if (imceOpener) {
-    if (eval("'undefined'!=typeof(imceOpener."+window.name+"ImceFinish)")) {//custom function for adding
+    if (imceOpener[window.name +'ImceFinish']) {//custom function for adding
       imceVar['targetWin'] = imceOpener;
-      imceVar['customCall'] = window.name+"ImceFinish";
-      if(eval("'undefined'!=typeof(imceOpener."+window.name+"ImceUrl)")) {//custom url to be highlighted.
-        imceVar['targetUrl'] = eval("imceOpener."+window.name+"ImceUrl");
+      imceVar['customCall'] = imceOpener[window.name +'ImceFinish'];
+      if(imceOpener[window.name +'ImceUrl']) {//custom url to be highlighted.
+        imceVar['targetUrl'] = imceOpener[window.name +'ImceUrl']
       }
     }
     else if (imceOpener.imceTinyWin) {//tinymce
@@ -60,7 +60,7 @@ function imceStartBrowser() {
       row.onmouseover = function() {$(this).addClass('rover')};
       row.onmouseout = function() {$(this).removeClass('rover')};
       row.onclick = function() {imceHighlight(this);};
-      row.cells[4].innerHTML += imceVar['targetWin'] ? ' &nbsp; <a href="javascript: imceFinitor(\''+fURL+'\', '+info['w']+', '+info['h']+', \''+info['s']+'\')">'+ imceVar['addText'] +'</a>' : '';
+      row.cells[4].innerHTML += imceVar['targetWin'] ? ' &nbsp; <a href="#" onclick="imceFinitor(this.parentNode.parentNode); return false;">'+ imceVar['addText'] +'</a>' : '';
       imceVar["confirmDel"] ? row.cells[4].firstChild.onclick = function() {return confirm(imceVar["confirmDel"])} : 0;
     }
   }
@@ -91,7 +91,7 @@ function imceHighlight(row, append) {
     var path = imceVar['fileUrl']+'/'+info['f'];
     $(row).addClass('rsel');
     imceVar['activeRow'] = row;
-    $('#imagepreview').html((append ? $('#imagepreview').html() : '') +'<div><a'+ (imceVar['targetWin'] ? (' href="javascript: imceFinitor(\''+ path +'\', '+ info['w'] +', '+ info['h'] +', \''+info['s']+'\')"') : '') +'>'+ (info['w']&&info['h'] ? ('<img src="'+ path +'" width="'+ info['w'] +'" height="'+ info['h'] + '" />') : info['f']) +'</a>'+ (info['w']&&info['h'] ? '' : ' (<a href="'+ path +'" target="_blank">'+ imceVar['viewText'] +'</a>)') +'</div>');
+    $('#imagepreview').html((append ? $('#imagepreview').html() : '') +'<div><a'+ (imceVar['targetWin'] ? (' href="#" onclick="imceFinitor(imceVar.activeRow); return false;"') : '') +'>'+ (info['w']&&info['h'] ? ('<img src="'+ path +'" width="'+ info['w'] +'" height="'+ info['h'] + '" />') : info['f']) +'</a>'+ (info['w']&&info['h'] ? '' : ' (<a href="'+ path +'" target="_blank">'+ imceVar['viewText'] +'</a>)') +'</div>');
     if ($('#resizeform').length && info['w'] && info['h']) {
       $('#resizeform').css('visibility', 'visible');
       $('#img_name').val(info['f']);
@@ -99,18 +99,22 @@ function imceHighlight(row, append) {
   }
 }
 
-function imceFinitor(path, w, h, s) {
-  path = imceVar['absURL'] ? ('http://'+ location.host + path) : path;
+function imceFinitor(row) {
+  var file = imceInfo(row);
+  var path = imceVar['fileUrl']+'/'+file['f'];
+  if (imceVar['absURL']) {
+    path = 'http://'+ location.host + path;
+  }
   if (imceVar['customCall']) {// if there is a custom function, call it
-    eval("imceVar['targetWin']."+imceVar['customCall']+"(path, w, h, s, window.self)");
+    imceVar['customCall'](path, file['w'], file['h'], file['s'], window.self);
     return;
   }
   imceVar['targetField'].value = path;
   if (imceVar['targetWidth']) {
-    imceVar['targetWidth'].value = w;
+    imceVar['targetWidth'].value = file['w'];
   }
   if (imceVar['targetHeight']) {
-    imceVar['targetHeight'].value = h;
+    imceVar['targetHeight'].value = file['h'];
   }
   imceVar['targetWin'].focus();
   imceVar['targetField'].focus();
