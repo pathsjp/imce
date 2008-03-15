@@ -58,7 +58,7 @@ function imceExtrasInit() {
       return false;
     }
     function endDrag(e) {
-      $(document).unmousemove(doDrag).unmouseup(endDrag);
+      $(document).unbind('mousemove', doDrag).unbind('mouseup', endDrag);
     }
     if (e.srcElement && e.srcElement.id == 'dirname') return;
     var hTotal = $('#bodydiv').height() + $('#imagepreview').height();

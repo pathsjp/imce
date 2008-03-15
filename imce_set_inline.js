@@ -7,7 +7,7 @@ var imceActiveTextarea, imceActiveType;
 function imceInitiateInline() {
   $('a.imce-insert-inline').each( function () {
     $(this.parentNode).css('display', 'block');
-    $(this).unclick().click(function() {
+    $(this).unbind('click').click(function() {
       imceActiveTextarea = $('#'+this.name.split('-IMCE-')[0]).get(0);
       imceActiveType = this.name.split('-IMCE-')[1];
       window.open(this.href, '_imce_', 'width=640, height=480, resizable=1');
