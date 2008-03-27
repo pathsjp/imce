@@ -1,24 +1,29 @@
 // $Id$
-if (Drupal.jsEnabled) {
-  $(window).load(imceInitiateFCK);
-}
-function imceInitiateFCK() {
+
+function imceInitiateFCK(cycle) {
   if ("undefined" != typeof(window.FCKeditorAPI)) {
-    $.each(FCKeditorAPI.__Instances, function(){imceSetFCK(this);});
+    $.each(FCKeditorAPI.__Instances, imceSetFCK);
   }
   else if ("undefined" != typeof(window.FCKeditor_OpenPopup)) {
     $('textarea').each(function () {
-      if (eval('"undefined" != typeof(oFCKeditor_' + this.id.replace(/\-/g, '_') +')')) {
-        imceSetFCK(eval('oFCKeditor_' + this.id.replace(/\-/g, '_')));
+      var obj = 'oFCKeditor_'+ this.id.replace(/\-/g, '_');
+      if ("undefined" != typeof(window[obj])) {
+        imceSetFCK.call(window[obj]);
       }
     });
+    return;
+  }
+
+  var cycle = (cycle || 0)+1;
+  if (cycle < 5) setTimeout('imceInitiateFCK('+ cycle +')', 2000);
+}
+
+function imceSetFCK() {
+  var types = {Image: 1, Link: 1, Flash: 1};
+  var props = {Browser: true, BrowserURL: imceBrowserURL || '/?q=imce/browse'};
+  for (var type in types) for (var prop in props){
+    this.Config[type + prop] = props[prop];
   }
 }
-function imceSetFCK(fck) {
-  var width = 640;
-  var height = 480;
-  var types = ['Image', 'Link', 'Flash'];
-  for (var t in types) {
-    eval('fck.Config.'+types[t]+'Browser = true; fck.Config.'+types[t]+'BrowserURL = imceBrowserURL; fck.Config.'+types[t]+'BrowserWindowWidth = width; fck.Config.'+types[t]+'BrowserWindowHeight = height;');
-  }
-}
+
+$(document).ready(imceInitiateFCK);
