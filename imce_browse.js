@@ -10,7 +10,7 @@ function imceStartBrowser() {
       imceVar['targetWin'] = imceOpener;
       imceVar['customCall'] = imceOpener[window.name +'ImceFinish'];
       if(imceOpener[window.name +'ImceUrl']) {//custom url to be highlighted.
-        imceVar['targetUrl'] = imceOpener[window.name +'ImceUrl']
+        imceVar['targetUrl'] = imceOpener[window.name +'ImceUrl'];
       }
     }
     else if (imceOpener.imceTinyWin) {//tinymce
@@ -116,6 +116,7 @@ function imceFinitor(row) {
   if (imceVar['targetHeight']) {
     imceVar['targetHeight'].value = file['h'];
   }
+  try{$(imceVar['targetField']).blur().change()}catch(e){}
   imceVar['targetWin'].focus();
   imceVar['targetField'].focus();
   window.close();
