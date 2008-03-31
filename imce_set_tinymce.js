@@ -10,7 +10,7 @@ function imceInitiateTinyMCE(cycle) {
     }
   }
 
-  var cycle = (cycle || 0)+1;
+  var cycle = (parseInt(cycle) || 0)+1;
   if (cycle < 5) setTimeout('imceInitiateTinyMCE('+ cycle +')', 2000);
 }
 

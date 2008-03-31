@@ -14,7 +14,7 @@ function imceInitiateFCK(cycle) {
     return;
   }
 
-  var cycle = (cycle || 0)+1;
+  var cycle = (parseInt(cycle) || 0)+1;
   if (cycle < 5) setTimeout('imceInitiateFCK('+ cycle +')', 2000);
 }
 
