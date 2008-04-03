@@ -565,7 +565,7 @@ function imce_validate_quota($file, $quota = 0, $dirsize = 0) {
  * Check if the file is an image and return info.
  */
 function imce_image_info($file) {
-  if (is_file($file) && ($info = @getimagesize($file)) && in_array($info[2], array(1, 2, 3)) ) {
+  if (is_file($file) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
     return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
   }
   return FALSE;
