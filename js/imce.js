@@ -244,7 +244,7 @@ setUploadOp: function () {
     $(this).after(this.childNodes);
   }).remove();
   form.ajaxForm(imce.uploadSettings());//set ajax
-  imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form});//add op
+  imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form.removeClass('imce-hide')});//add op
 },
 
 //convert fileop form submit buttons to ops.
@@ -640,7 +640,8 @@ hasC: function (el, name) {
 },
 //highlight a single file
 highlight: function (fid) {
-  if (imce.vars.prvfid != fid) imce.fileClick(fid);
+  if (imce.vars.prvfid) imce.fileClick(imce.vars.prvfid);
+  imce.fileClick(fid);
 },
 //process a row
 processRow: function (row) {
