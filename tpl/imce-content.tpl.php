@@ -2,9 +2,7 @@
 // $Id$
 $imce =& $imce_ref['imce'];//keep this line.
 
-//Main files required for imce to function properly.
-drupal_add_js('misc/jquery.form.js');
-drupal_add_js($directory .'/js/imce.js');
+//main css file.
 drupal_add_css($directory .'/css/content.css');
 
 //Browsing enhancements. Keyboard shortcuts, file sorting, resizebars, and inline thumbnail preview. (Safe to delete)
