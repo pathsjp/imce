@@ -1,12 +1,13 @@
 // $Id$
 
 //Global container.
-var imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, conf: {}, ops: {}, cache: {},
+var imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, ops: {}, cache: {},
 vars: {previewImages: 1, cache: 1},
 hooks: {load: typeof window['imceOnLoad'] == 'function' ? [window['imceOnLoad']] : [], list: [], navigate: [], cache: []},
 
 //initiate imce.
 initiate: function() {
+  imce.conf = Drupal.settings.imce || {};
   if (imce.conf.error != false) return;
   imce.FLW = imce.el('file-list-wrapper');
   imce.prepareMsgs();//process initial status messages
@@ -588,7 +589,7 @@ getNonImage: function (selected) {
 //validate current selection for images
 validateImage: function () {
   var nonImg = imce.getNonImage(imce.selected);
-  return nonImg ? imce.setMessage(Drupal.t('%filename is not an image.', {'%filename': nonImg}), 'error') : true;
+  return nonImg ? imce.setMessage(Drupal.t('%filename is not an image.', {'%filename': unescape(nonImg)}), 'error') : true;
 },
 //validate number of selected files
 validateSelCount: function (Min, Max) {
