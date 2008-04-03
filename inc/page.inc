@@ -33,6 +33,11 @@ function imce_content($user, $jsop = '') {
   }
   imce_process_profile($imce);//get active directory content
 
+  //Before creating the content let's add main files required for imce to function properly.
+  drupal_add_js('misc/jquery.form.js');
+  drupal_add_js(drupal_get_path('module', 'imce') .'/js/imce.js');
+
+  //process forms.
   //reference imce inside an array so it will stay referenced during argument copy of drupal_get_form
   //when php4-support drops(dr7?), use an object with no reference.
   $imce_ref = array('imce' => &$imce);
@@ -46,10 +51,12 @@ function imce_content($user, $jsop = '') {
   }
 
   $content = theme('imce_content', imce_create_tree($imce), $forms, $imce_ref);
+
   //make necessary changes for js conversion
   $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
   unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['thumbnails'], $imce['uid']);
-  drupal_add_js('imce.conf = '. drupal_to_js($imce), 'inline');
+
+  drupal_add_js($imce_ref, 'setting');
 
   return $content;
 }
@@ -558,7 +565,7 @@ function imce_validate_quota($file, $quota = 0, $dirsize = 0) {
  * Check if the file is an image and return info.
  */
 function imce_image_info($file) {
-  if (is_file($file) && ($info = @getimagesize($file)) && in_array($info[2], array(IMG_GIF, IMG_JPG, IMG_PNG)) ) {
+  if (is_file($file) && ($info = @getimagesize($file)) && in_array($info[2], array(1, 2, 3)) ) {
     return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
   }
   return FALSE;
