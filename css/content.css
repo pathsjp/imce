@@ -179,8 +179,12 @@ table.files tbody {
 
 
 /*File operations*/
-#op-items {min-height: 15px;}
-#op-contents {}
+#op-items {
+  min-height: 15px;
+}
+#op-contents {
+  text-align: center;
+}
 ul#ops-list {/*has classes .secondary and .tabs)*/
   margin: 0.4em;
   padding: 0;
@@ -189,7 +193,9 @@ ul#ops-list {/*has classes .secondary and .tabs)*/
   border: none;
 }
 .op-content {
-  margin: 0em 20%;
+  width: 50%;
+  min-width: 300px;
+  margin: 0em auto;
   text-align: left;
   padding: 0.3em;
   display: none;
