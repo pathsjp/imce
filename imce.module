@@ -6,6 +6,7 @@
  */
 function imce_menu() {
   $items = array();
+  $access = array('administer site configuration');
   $items['imce'] = array(
     'title' => 'File browser',
     'page callback' => 'imce_page',
@@ -17,6 +18,7 @@ function imce_menu() {
     'title' => 'IMCE',
     'description' => 'Control how your image/file browser works.',
     'page callback' => 'imce_admin',
+    'access arguments' => $access,
     'file' => 'inc/admin.inc',
   );
   $items['admin/settings/imce/profiles'] = array(
@@ -27,6 +29,7 @@ function imce_menu() {
     'title' => 'Directory creation tool',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('imce_form_subdirectory'),
+    'access arguments' => $access,
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
     'file' => 'inc/subdir.inc',
@@ -34,6 +37,7 @@ function imce_menu() {
   $items['admin/settings/imce/profile'] = array(
     'title' => 'Add new profile',
     'page callback' => 'imce_profile_operations',
+    'access arguments' => $access,
     'type' => MENU_CALLBACK,
     'file' => 'inc/admin.inc',
   );
