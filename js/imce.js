@@ -3,7 +3,7 @@
 //Global container.
 var imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, ops: {}, cache: {},
 vars: {previewImages: 1, cache: 1},
-hooks: {load: typeof window['imceOnLoad'] == 'function' ? [window['imceOnLoad']] : [], list: [], navigate: [], cache: []},
+hooks: {load: [], list: [], navigate: [], cache: []},
 
 //initiate imce.
 initiate: function() {
@@ -17,6 +17,7 @@ initiate: function() {
   imce.initiateOps();//prepare operation tabs
   imce.refreshOps();
   imce.invoke('load', window);//run functions set by external applications.
+  if (window['imceOnLoad']) imceOnLoad(window);
 },
 
 /**************** DIRECTORIES ********************/
