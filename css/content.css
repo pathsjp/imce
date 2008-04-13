@@ -250,6 +250,7 @@ a#log-clearer {
   position: absolute;
   text-decoration: none !important;
   color: #f36;
+  overflow: hidden;
 }
 #help-box-content {
   display: none;
@@ -258,11 +259,11 @@ a#log-clearer {
   border: 1px dashed #000;
   padding: 5px;
 }
+#help-box:hover {
+  overflow: visible;
+}
 #help-box:hover #help-box-content {
   display: block;
-}
-#help-box:hover {/*IE6*/
-  overflow: visible;
 }
 
 #file-preview {
@@ -270,4 +271,14 @@ a#log-clearer {
 }
 .imce-hide, .js #forms-wrapper {
   display: none;
+}
+
+/*Standalone page*/
+body.imce {
+  padding: 0.1em 0.4em;
+  background-image: none;
+}
+body.imce, body.imce #imce-content {
+  color: #333;
+  background-color: #fff;
 }
