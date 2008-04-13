@@ -56,7 +56,7 @@ function imce_admin_form($form_state) {
     '#title' => t('Enable inline image/file insertion into plain textareas'),
     '#default_value' => variable_get('imce_settings_textarea', ''),
     '#maxlength' => NULL,
-    '#description' => t('This feature allows you to add your images or files as <strong>html code into any plain textarea</strong>. Enter <strong>comma separated textarea IDs</strong> if you want to enable this feature. Otherwise, leave it blank. Hint: ID of Body fields in most node types is edit-body.'),
+    '#description' => t('If you don\'t use any WYSIWYG editor, this feature will allow you to add your images or files as <strong>html code into any plain textarea</strong>. Enter <strong>comma separated textarea IDs</strong> under which you want to enable a link to IMCE. Hint: ID of Body fields in most node types is edit-body.'),
   );
   $form['common']['absurls'] = array(
     '#type' => 'checkbox',
@@ -159,18 +159,18 @@ function imce_profile_form($form_state, $pid = 0) {
 
   $form = array('#tree' => TRUE);
   $form['name'] = array(
-    '#type' => 'textfield', 
+    '#type' => 'textfield',
     '#title' => t('Profile name'),
     '#default_value' => $profile['name'],
     '#description' => t('Give a name to this profile.'),
     '#required' => TRUE,
   );
   $form['import'] = array(
-    '#type' => 'markup', 
+    '#type' => 'markup',
     '#value' => imce_profile_import_html($pid),
   );
   $form['filesize'] = array(
-    '#type' => 'textfield', 
+    '#type' => 'textfield',
     '#title' => t('Maximum file size per upload'),
     '#default_value' => $profile['filesize'],
     '#description' => t('Set to 0 to use the maximum value avaliable.') .' '. t('Your PHP settings limit the maximum file size per upload to %size.', array('%size' => format_size(file_upload_max_size()))),
@@ -178,9 +178,16 @@ function imce_profile_form($form_state, $pid = 0) {
   );
   $form['quota'] = array(
     '#type' => 'textfield',
-    '#title' => t('Upload quota'), 
+    '#title' => t('Directory quota'),
     '#default_value' => $profile['quota'],
     '#description' => t('Define the upload quota per directory. Total user quota is proportional to the number of directories that the user has upload access to.') .' '. t('Set to 0 to use the maximum value avaliable.'),
+    '#field_suffix' => t('MB'),
+  );
+  $form['tuquota'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Total user quota'),
+    '#default_value' => $profile['tuquota'],
+    '#description' => t('You can force total user quota to be a value independent of directory quota. <strong>This quota is calculated using the files table in the database, so that it will not include the files uploaded via FTP or by previous versions of IMCE(4.7.x and 5.x)</strong>. You can either use both quotations together or safely ignore this by setting the value to 0.'),
     '#field_suffix' => t('MB'),
   );
   $form['extensions'] = array(
@@ -201,7 +208,7 @@ function imce_profile_form($form_state, $pid = 0) {
     '#type' => 'textfield',
     '#title' => t('Maximum number of files per operation'),
     '#default_value' => $profile['filenum'],
-    '#description' => t('You can allow users to select multiple files for operations such as delete, resize, etc. Entire batch file operation is executed in a single drupal load, which may be good. However there will be an increase in script execution time, cpu load and memory consumption wich may exceed the limits of your server, which is really bad. For unlimited number of file handling, set this to 0.'),
+    '#description' => t('You can allow users to select multiple files for operations such as delete, resize, etc. Entire batch file operation is executed in a single drupal load, which may be good. However there will be an increase in script execution time, cpu load and memory consumption possibly exceeding the limits of your server, which is really bad. For unlimited number of file handling, set this to 0.'),
   );
 
   //Directories

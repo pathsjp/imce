@@ -251,7 +251,10 @@ function imce_upload_submit($form, &$form_state) {
   //save uploaded file.
   if ($file = file_save_upload('imce', $validators, $dirpath, FILE_EXISTS_REPLACE)) {
     @chmod($file->filepath, 0664);//make it readable by everyone. core misses this.
-    file_set_status($file, FILE_STATUS_PERMANENT);
+    file_set_status($file, FILE_STATUS_PERMANENT);//set status
+    if ($file->uid != $imce['uid']) {//global user is not the owner
+      db_query('UPDATE {files} SET uid = %d WHERE fid = %d', $imce['uid'], $file->fid);
+    }
     drupal_set_message(t('%filename is uploaded.', array('%filename' => $file->filename)));
 
     //update file list
@@ -435,8 +438,11 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   //validate quota
   $file->filesize = filesize($temp);
   $overwrite = $file->filename == $filename;
-  $dirsize = $imce['dirsize'] - ($overwrite ? $imce['files'][$filename]['size'] : 0);
-  $errors = imce_validate_quota($file, $imce['quota'], $dirsize);
+  $subs = $overwrite ? $imce['files'][$filename]['size'] : 0;
+  $errors = imce_validate_quota($file, $imce['quota'], $imce['dirsize'] - $subs);
+  if (empty($errors) && $imce['tuquota']) {
+    $errors = imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']) - $subs, 'total user');
+  }
   if (!empty($errors)) {
     drupal_set_message($errors[0], 'error');
     return FALSE;
@@ -525,16 +531,18 @@ function imce_validate_all(&$file, $imce) {
   //validate image resolution only if filesize validation passes.
   //because user might have uploaded a very big image
   //and scaling it may exploit system memory.
-  $size_err = imce_validate_filesize($file, $imce['filesize']);
-  $errors = array_merge($errors, $size_err);
-  if (empty($size_err)) {//image resolution validation
+  $errors = imce_validate_filesize($file, $imce['filesize']);
+  if (empty($errors)) {//image resolution validation
     $errors = array_merge($errors, file_validate_image_resolution($file, $imce['dimensions']));
   }
-  if ($imce['quota']) {//quota validation
+  if ($imce['quota']) {//directory quota validation
     $errors = array_merge($errors, imce_validate_quota($file, $imce['quota'], $imce['dirsize']));
   }
   if ($imce['extensions'] != '*' && !preg_match('/\.('. str_replace(' ', '|', $imce['extensions']) .')$/i', $file->filename)) {
     $errors[] = t('Only files with the following extensions are allowed: %files-allowed.', array('%files-allowed' => $imce['extensions']));
+  }
+  if (empty($errors) && $imce['tuquota']) {//total user quota validation. check everything before hitting the DB
+    $errors = array_merge($errors, imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']), 'total user'));
   }
   return $errors;
 }
@@ -551,12 +559,12 @@ function imce_validate_filesize($file, $maxsize = 0) {
 }
 
 /**
- * Validate filesize for quota. (cant use file_validate_size becouse it uses DB quota)
+ * Validate filesize for directory and total user quota.
  */
-function imce_validate_quota($file, $quota = 0, $dirsize = 0) {
+function imce_validate_quota($file, $quota = 0, $current = 0, $type = 'directory') {
   $errors = array();
-  if ($quota && ($dirsize + $file->filesize) > $quota) {
-    $errors[] = t('The file is %filesize which would exceed your disk quota of %quota.', array('%filesize' => format_size($file->filesize), '%quota' => format_size($quota)));
+  if ($quota && ($current + $file->filesize) > $quota) {
+    $errors[] = t('%filename is %filesize which would exceed your <em>'. $type .'</em> quota. You are currently using %size of %quota.', array('%size' => format_size($current), '%quota' => format_size($quota), '%filesize' => format_size($file->filesize), '%filename' => utf8_encode($file->filename)));
   }
   return $errors;
 }
@@ -601,6 +609,7 @@ function imce_initiate_profile($user) {
       }
       $imce['filesize'] *= 1048576;//convert from Mb to byte
       $imce['quota'] *= 1048576;
+      $imce['tuquota'] *= 1048576;
       $imce['filenum'] = (int) $imce['filenum'];
       //check and set the active directory
       if ($info = imce_working_directory($imce)) {
