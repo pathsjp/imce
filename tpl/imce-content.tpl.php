@@ -1,6 +1,7 @@
 <?php
 // $Id$
 $imce =& $imce_ref['imce'];//keep this line.
+$directory = drupal_get_path('module', 'imce');
 
 //main css file.
 drupal_add_css($directory .'/css/content.css');
@@ -17,9 +18,6 @@ drupal_add_js('
 //For inline thumnails: images that are smaller than (tMaxW x tMaxH) are previewed inside the rows as (prvW x prvH).
 //This does not affect the main previewing feature, which can be disabled by uncommenting the line below.
 //drupal_add_js('$.extend(imce.vars, {previewImages: 0});', 'inline');
-
-//make sure the script paths are correct when you move this tpl file to another $directory.
-//orginal files reside in drupal_get_path('module', 'imce').
 ?>
 <!--[if IE]><style type="text/css">#file-list-wrapper{padding-right: 2em}#file-list{margin-right: -2em}</style><![endif]-->
 <!--[if IE 6]><style type="text/css">.y-resizer{font-size: 0.2em;}#sub-browse-wrapper{float: left; clear: right;}#preview-wrapper{overflow: visible;}#file-preview{width: 99%; height: 99%; overflow: auto;}</style><![endif]-->
@@ -86,7 +84,7 @@ drupal_add_js('
     <div id="dir-stat"><?php print t('!num files using !dirsize of !quota', array(
         '!num' => '<span id="file-count">'. count($imce['files']) .'</span>',
         '!dirsize' => '<span id="dir-size">'. format_size($imce['dirsize']) .'</span>',
-        '!quota' => '<span id="dir-quota">'. ($imce['quota'] ? format_size($imce['quota']) : t('unlimited quota')) .'</span>'
+        '!quota' => '<span id="dir-quota">'. ($imce['quota'] ? format_size($imce['quota']) : ($imce['tuquota'] ? format_size($imce['tuquota']) : t('unlimited quota'))) .'</span>'
       )); ?>
     </div>
 
