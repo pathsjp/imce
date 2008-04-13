@@ -26,3 +26,15 @@ function imce_update_6000() {
   imce_install();
   return array();
 }
+
+/**
+ * New option: total user quota.
+ */
+function imce_update_6001() {
+  $profiles = variable_get('imce_profiles', array());
+  foreach ($profiles as $id => $profile) {
+    $profiles[$id]['tuquota'] = 0;
+  }
+  variable_set('imce_profiles', $profiles);
+  return array();
+}

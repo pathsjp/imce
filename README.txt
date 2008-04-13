@@ -28,6 +28,7 @@ New in 6.x:
 - Improved configuration profiles.
 - Multiple personal or shared directory assignments for users.
 - Permissions per directory.
+- Option to use total user quota together with the directory quota.
 - Multiple thumbnail definitions.
 - New integration API for wysiwyg editors.
 
