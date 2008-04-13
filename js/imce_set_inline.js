@@ -3,7 +3,7 @@
 var imceInline = {};
 
 imceInline.initiate = function() {
-  $('#imce-inline-wrapper').show().find('a').click(function() {
+  $('div.imce-inline-wrapper').show().find('a').click(function() {
     var i = this.name.indexOf('-IMCE-');
     imceInline.activeTextarea = $('#'+ this.name.substr(0, i)).get(0);
     imceInline.activeType = this.name.substr(i+6);
