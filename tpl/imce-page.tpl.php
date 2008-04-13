@@ -8,17 +8,13 @@
   <?php print drupal_get_html_head(); ?>
   <?php print drupal_get_css(); ?>
   <?php print drupal_get_js(); ?>
-  <?php print isset($_GET['app']) ? '<script type="text/javascript" src="'. base_path() . $directory .'/js/imce_set_app.js"></script>' : ''; /*WYSIWYG integration*/ ?>
-  <style media="all" type="text/css">/*Override css*/
-  body {
-    margin: 0.1em 0.4em;
-    background-color: #fff;
-  }
-  </style>
+  <?php print isset($_GET['app']) ? '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/js/imce_set_app.js"></script>' : ''; /*WYSIWYG integration*/ ?>
+  <style media="all" type="text/css">/*Quick-override*/</style>
 </head>
 
-<body>
+<body class="imce">
 <div id="imce-messages"><?php print theme('status_messages'); ?></div>
 <?php print $content; ?>
 </body>
+
 </html>
