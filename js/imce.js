@@ -26,7 +26,7 @@ initiate: function() {
 initiateTree: function() {
   $('#navigation-tree li').each(function(i) {
     var a = this.firstChild;
-    a.firstChild.data = unescape(a.firstChild.data);
+    a.firstChild.data = imce.decode(a.firstChild.data);
     var branch = imce.tree[a.title] = {'a': a, li: this, ul: this.lastChild.tagName == 'UL' ? this.lastChild : null};
     if (a.href) imce.dirClickable(branch);
     imce.dirCollapsible(branch);
@@ -38,7 +38,7 @@ dirAdd: function(dir, parent, clickable) {
   if (imce.tree[dir]) return clickable ? imce.dirClickable(imce.tree[dir]) : imce.tree[dir];
   var parent = parent || imce.tree['.'];
   parent.ul = parent.ul ? parent.ul : parent.li.appendChild(document.createElement('ul'));
-  var branch = imce.dirCreate(dir, unescape(dir.substr(dir.lastIndexOf('/')+1)), clickable);
+  var branch = imce.dirCreate(dir, imce.decode(dir.substr(dir.lastIndexOf('/')+1)), clickable);
   parent.ul.appendChild(branch.li);
   return branch;
 },
@@ -108,7 +108,7 @@ dirSubdirs: function(dir, subdirs) {
 
 //process file list
 initiateList: function(cached) {
-  var L = imce.hooks.list, dir = imce.conf.dir, token = {'%dir':  dir == '.' ? $(imce.tree['.'].a).text() : unescape(dir)}
+  var L = imce.hooks.list, dir = imce.conf.dir, token = {'%dir':  dir == '.' ? $(imce.tree['.'].a).text() : imce.decode(dir)}
   imce.findex = [], imce.fids = {}, imce.selected = {}, imce.selcount = 0, imce.vars.lastfid = null;
   imce.tbody = imce.el('file-list').tBodies[0];
   if (imce.tbody.rows.length) {
@@ -161,7 +161,7 @@ fileRemove: function(fid) {
 fileGet: function (fid) {
   var row = imce.fids[fid];
   return row ? {
-    name: unescape(fid),
+    name: imce.decode(fid),
     url: imce.getURL(fid),
     size: row.cells[1].innerHTML,
     bytes: row.cells[1].id * 1,
@@ -473,7 +473,7 @@ setPreview: function (fid) {
   imce.vars.prvfid = fid;
   if (fid && (row = imce.fids[fid])) {
     var width = row.cells[2].innerHTML * 1;
-    html = imce.vars.previewImages && width ? imce.imgHtml(fid, width, row.cells[3].innerHTML) : unescape(fid);
+    html = imce.vars.previewImages && width ? imce.imgHtml(fid, width, row.cells[3].innerHTML) : imce.decode(fid);
     html = '<a href="#" onclick="imce.send(\''+ fid +'\'); return false;" title="'+ (imce.vars.prvtitle||'') +'">'+ html +'</a>';
   }
   imce.el('file-preview').innerHTML = html;
@@ -574,7 +574,7 @@ resMsgs: function (msgs) {
 
 //return img markup
 imgHtml: function (fid, width, height) {
-  return '<img src="'+ imce.getURL(fid) +'" width="'+ width +'" height="'+ height +'" alt="'+ unescape(fid) +'">';
+  return '<img src="'+ imce.getURL(fid) +'" width="'+ width +'" height="'+ height +'" alt="'+ imce.decode(fid) +'">';
 },
 //check if the file is an image
 isImage: function (fid) {
@@ -590,7 +590,7 @@ getNonImage: function (selected) {
 //validate current selection for images
 validateImage: function () {
   var nonImg = imce.getNonImage(imce.selected);
-  return nonImg ? imce.setMessage(Drupal.t('%filename is not an image.', {'%filename': unescape(nonImg)}), 'error') : true;
+  return nonImg ? imce.setMessage(Drupal.t('%filename is not an image.', {'%filename': imce.decode(nonImg)}), 'error') : true;
 },
 //validate number of selected files
 validateSelCount: function (Min, Max) {
@@ -646,8 +646,12 @@ highlight: function (fid) {
 },
 //process a row
 processRow: function (row) {
-  row.cells[0].innerHTML = unescape(row.id);
+  row.cells[0].innerHTML = imce.decode(row.id);
   row.onmousedown = function(e) {var e = e||window.event; imce.fileClick(this, e.ctrlKey, e.shiftKey);};
+},
+//decode urls. uses unescape. can be overridden to use decodeURIComponent
+decode: function (str) {
+  return unescape(str);
 },
 //global ajax error function
 ajaxError: function (e, response, settings, thrown) {
