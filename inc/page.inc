@@ -50,11 +50,18 @@ function imce_content($user, $jsop = '') {
     $forms .= drupal_get_form('imce_fileop_form', $imce_ref);
   }
 
+  //run custom content functions. possible to insert extra forms. content is invisible when js is enabled.
+  foreach (variable_get('imce_custom_content', array()) as $func => $state) {
+    if ($state && function_exists($func) && $output = $func($imce)) {
+      $forms .= $output;
+    }
+  }
+
   $content = theme('imce_content', imce_create_tree($imce), $forms, $imce_ref);
 
   //make necessary changes for js conversion
   $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
-  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['thumbnails'], $imce['uid']);
+  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid']);
 
   drupal_add_js($imce_ref, 'setting');
 
@@ -187,11 +194,13 @@ function imce_resize_form(&$imce) {
     '#type' => 'textfield',
     '#title' => t('Width x Height'),
     '#size' => 5,
+    '#maxlength' => 4,
     '#prefix' => '<div class="container-inline">',
   );
   $form['height'] = array(
     '#type' => 'textfield',
     '#size' => 5,
+    '#maxlength' => 4,
     '#prefix' => 'x',
   );
   $form['resize'] = array(
@@ -306,8 +315,8 @@ function imce_resize_submit($form, &$form_state) {
   $imce =& $form['#parameters'][2]['imce'];
 
   //check dimensions
-  $width = (int)$form_state['values']['width'];
-  $height = (int)$form_state['values']['height'];
+  $width = (int) $form_state['values']['width'];
+  $height = (int) $form_state['values']['height'];
   list($maxw, $maxh) = explode('x', $imce['dimensions']);
   if ($width < 1 || $height < 1 || ($maxw && ($width > $maxw || $height > $maxh))) {
     drupal_set_message(t('Please specify dimensions within the allowed range that is from 1x1 to @dimensions.', array('@dimensions' => $imce['dimensions'] ? $imce['dimensions'] : t('unlimited'))), 'error');
@@ -635,14 +644,23 @@ function imce_initiate_profile($user) {
 }
 
 /**
- * Get files and folders of the actve directory.
+ * Get files and folders of the actve directory. Do custom processing.
  */
 function imce_process_profile(&$imce) {
-  //get directory content
-  $imce += imce_scan_directory($imce['dir']);
+  //get directory content. do a custom scan if it is set
+  $scan = ($scan = variable_get('imce_custom_scan', '')) && function_exists($scan) ? $scan : 'imce_scan_directory';
+  $imce += $scan($imce['dir'], $imce);
+
   //set subdirectories
   if (!$imce['error'] && !imce_subdirectories_accessible($imce)) {
     $imce['subdirectories'] = array();
+  }
+
+  //run custom process functions
+  foreach (variable_get('imce_custom_process', array()) as $func => $state) {
+    if ($state && function_exists($func)) {
+      $func($imce);
+    }
   }
 }
 
