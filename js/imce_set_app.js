@@ -6,8 +6,8 @@ var appFields = {};
 
 //execute when imce loads.
 imce.hooks.load.push(function(win) {
-  var data = location.href.substr(location.href.lastIndexOf('app=')+4).split('|');
-  var appname = decodeURIComponent(data.shift());
+  var data = decodeURIComponent(location.href.substr(location.href.lastIndexOf('app=')+4)).split('|');
+  var appname = data.shift();
   for (var i in data) {
     var arr = data[i].split('@');
     appFields[arr[0]] = arr[1];
