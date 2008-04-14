@@ -33,7 +33,7 @@ function imce_admin() {
 /**
  * Admin form.
  */
-function imce_admin_form($form_state) {
+function imce_admin_form(&$form_state) {
   //roles profiles
   $form['roles'] = array('#tree' => TRUE);
   $roles = imce_sorted_roles();
@@ -137,7 +137,7 @@ function imce_profile_operations($op = 'add', $pid = 0) {
 /**
  * Profile form.
  */
-function imce_profile_form($form_state, $pid = 0) {
+function imce_profile_form(&$form_state, $pid = 0) {
 
   if ($pid && $profile = imce_load_profile($pid)) {
     drupal_set_title($profile['name']);
@@ -156,6 +156,8 @@ function imce_profile_form($form_state, $pid = 0) {
     $imported['name'] = $profile['name']; //preserve the original name.
     $profile = $imported;
   }
+
+  $form_state['profile'] = $profile;//store the original profile just in case.
 
   $form = array('#tree' => TRUE);
   $form['name'] = array(
@@ -432,7 +434,7 @@ function imce_role_form($role, $weight = TRUE, $core = TRUE) {
 /**
  * Profile delete form
  */
-function imce_profile_delete_form($form_state, $pid) {
+function imce_profile_delete_form(&$form_state, $pid) {
   if ($pid > 1 && $profile = imce_load_profile($pid)) {
     $form['#submit'][] = 'imce_profile_delete_submit';
     $form['pid'] = array('#type' => 'hidden', '#value' => $pid);
