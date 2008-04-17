@@ -429,6 +429,9 @@ fopValidate: function(fop) {
       }
       return imce.validateImage();
   }
+
+  var func = fop +'OpValidate';
+  if (imce[func]) return imce[func](fop);
   return true;
 },
 
@@ -438,7 +441,7 @@ fopSubmit: function(fop) {
     case 'thumb': case 'delete': case 'resize':  return imce.commonSubmit(fop);
   }
   var func = fop +'OpSubmit';
-  if (imce[func]) imce[func]();
+  if (imce[func]) return imce[func](fop);
 },
 
 //common submit function shared by default ops
