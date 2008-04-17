@@ -258,12 +258,30 @@ function imce_upload_submit($form, &$form_state) {
   $dirpath = file_directory_path() . ($imce['dir'] == '.' ? '' : '/'. $imce['dir']);
 
   //save uploaded file.
-  if ($file = file_save_upload('imce', $validators, $dirpath, FILE_EXISTS_REPLACE)) {
-    @chmod($file->filepath, 0664);//make it readable by everyone. core misses this.
-    file_set_status($file, FILE_STATUS_PERMANENT);//set status
-    if ($file->uid != $imce['uid']) {//global user is not the owner
-      db_query('UPDATE {files} SET uid = %d WHERE fid = %d', $imce['uid'], $file->fid);
+  $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+  if ($file = file_save_upload('imce', $validators, $dirpath, $replace)) {
+
+    //core bug #203204.
+    @chmod($file->filepath, 0664);
+
+    //core bug #54223.
+    if ($replace == FILE_EXISTS_RENAME) {
+      $name = basename($file->filepath);
+      if ($name != $file->filename) {
+        $file->filename = $name;
+        drupal_set_message(t('The file is renamed to %filename.', array('%filename' => $file->filename)));
+      }
     }
+    else if ($replace == FILE_EXISTS_REPLACE) {//check duplicates
+      if ($_file = db_fetch_object(db_query("SELECT fid FROM {files} WHERE filepath = '%s' AND fid <> %d", $file->filepath, $file->fid))) {
+        db_query("DELETE FROM {files} WHERE fid = %d", $file->fid);
+        $file->fid = $_file->fid;
+      }
+    }
+
+    $file->uid = $imce['uid'];//global user may not be the owner.
+    $file->status = FILE_STATUS_PERMANENT;//make permanent
+    drupal_write_record('files', $file, array('fid'));//update
     drupal_set_message(t('%filename is uploaded.', array('%filename' => $file->filename)));
 
     //update file list
@@ -447,13 +465,7 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   //validate quota
   $file->filesize = filesize($temp);
   $overwrite = $file->filename == $filename;
-  $subs = $overwrite ? $imce['files'][$filename]['size'] : 0;
-  $errors = imce_validate_quota($file, $imce['quota'], $imce['dirsize'] - $subs);
-  if (empty($errors) && $imce['tuquota']) {
-    $errors = imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']) - $subs, 'total user');
-  }
-  if (!empty($errors)) {
-    drupal_set_message($errors[0], 'error');
+  if (!imce_validate_quotas($file, $imce, $overwrite ? -$imce['files'][$filename]['size'] : 0)) {
     return FALSE;
   }
 
@@ -536,7 +548,12 @@ function imce_remove_file($filename, &$imce) {
  * Validate uploaded file.
  */
 function imce_validate_all(&$file, $imce) {
-  $errors = array();
+
+  //fix FILE_EXISTS_ERROR bug. core bug #54223.
+  if (variable_get('imce_settings_replace', FILE_EXISTS_RENAME) == FILE_EXISTS_ERROR) {
+    return array(t('File browser is set to reject the upload of existing files.'));
+  }
+
   //validate image resolution only if filesize validation passes.
   //because user might have uploaded a very big image
   //and scaling it may exploit system memory.
@@ -576,6 +593,21 @@ function imce_validate_quota($file, $quota = 0, $current = 0, $type = 'directory
     $errors[] = t('%filename is %filesize which would exceed your <em>'. $type .'</em> quota. You are currently using %size of %quota.', array('%size' => format_size($current), '%quota' => format_size($quota), '%filesize' => format_size($file->filesize), '%filename' => utf8_encode($file->filename)));
   }
   return $errors;
+}
+
+/**
+ * Validate both directory and total user quota. Returns true/false not errors.
+ */
+function imce_validate_quotas($file, &$imce, $add = 0) {
+  $errors = imce_validate_quota($file, $imce['quota'], $imce['dirsize'] + $add);
+  if (empty($errors) && $imce['tuquota']) {
+    $errors = imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']) + $add, 'total user');
+  }
+  if (!empty($errors)) {
+    drupal_set_message($errors[0], 'error');
+    return FALSE;
+  }
+  return TRUE;
 }
 
 /**
@@ -622,6 +654,7 @@ function imce_initiate_profile($user) {
       $imce['filenum'] = (int) $imce['filenum'];
       //check and set the active directory
       if ($info = imce_working_directory($imce)) {
+        $imce['direct'] = isset($imce['directories'][$info['name']]);
         $imce['directories'][$info['name']] = $info;
         $imce['dir'] = $info['name'];
         $imce['perm'] = $info;//copy permissions of the active directory.
@@ -651,16 +684,16 @@ function imce_process_profile(&$imce) {
   $scan = ($scan = variable_get('imce_custom_scan', '')) && function_exists($scan) ? $scan : 'imce_scan_directory';
   $imce += $scan($imce['dir'], $imce);
 
-  //set subdirectories
-  if (!$imce['error'] && !imce_subdirectories_accessible($imce)) {
-    $imce['subdirectories'] = array();
-  }
-
   //run custom process functions
   foreach (variable_get('imce_custom_process', array()) as $func => $state) {
     if ($state && function_exists($func)) {
       $func($imce);
     }
+  }
+
+  //set subdirectories
+  if (!$imce['error'] && !imce_subdirectories_accessible($imce)) {
+    $imce['subdirectories'] = array();
   }
 }
 
