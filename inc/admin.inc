@@ -64,6 +64,16 @@ function imce_admin_form(&$form_state) {
     '#default_value' => variable_get('imce_settings_absurls', 0),
     '#description' => t('Check if you want IMCE to return absolute file URLs.'),
   );
+  $form['common']['replace'] = array(
+    '#type' => 'radios',
+    '#title' => t('Default behaviour for existing files during file uploads'),
+    '#default_value' => variable_get('imce_settings_replace', FILE_EXISTS_RENAME),
+    '#options' => array(
+      FILE_EXISTS_RENAME => 'Keep the existing file renaming the new one',
+      FILE_EXISTS_ERROR => 'Keep the existing file rejecting the new one',
+      FILE_EXISTS_REPLACE => 'Replace the existing file with the new one'
+    ),
+  );
 
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save configuration'));
   $form['#theme'] = 'imce_admin';
@@ -115,6 +125,7 @@ function imce_admin_submit($form, &$form_state) {
   variable_set('imce_roles_profiles', $roles);
   variable_set('imce_settings_textarea', $form_state['values']['textarea']);
   variable_set('imce_settings_absurls', $form_state['values']['absurls']);
+  variable_set('imce_settings_replace', $form_state['values']['replace']);
   drupal_set_message(t('Changes have been saved.'));
 }
 
@@ -215,6 +226,7 @@ function imce_profile_form(&$form_state, $pid = 0) {
 
   //Directories
   $form['directories']['#theme'] = 'imce_directories';
+  $form['directories']['#weight'] = 1;
   for ($i = 0; $i < count($profile['directories']); $i++) {
     $form['directories'][$i] = imce_directory_form($profile['directories'][$i]);
   }
@@ -223,6 +235,7 @@ function imce_profile_form(&$form_state, $pid = 0) {
 
   //Thumbnails
   $form['thumbnails']['#theme'] = 'imce_thumbnails';
+  $form['thumbnails']['#weight'] = 2;
   for ($i = 0; $i < count($profile['thumbnails']); $i++) {
     $form['thumbnails'][$i] = imce_thumbnail_form($profile['thumbnails'][$i]);
   }
@@ -393,7 +406,7 @@ function imce_thumbnails_theme($form = array()) {
 
   $output = '<h3 class="title">'. t('Thumbnails') .'</h3>';
   $output .= theme('table', $header, $rows);
-  $output .= '<div class="form-item"><div class="description">'. t('You may create a list of thumbnail options that users can choose from. 
+  $output .= '<div class="form-item"><div class="description">'. t('You may create a list of thumbnail options that users can choose from.
 <ul>
   <li>Use alphanumeric characters as thumbnail names.</li>
   <li>Specify dimensions as <strong>WidthxHeight</strong>.</li>
