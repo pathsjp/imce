@@ -69,9 +69,9 @@ function imce_admin_form(&$form_state) {
     '#title' => t('Default behaviour for existing files during file uploads'),
     '#default_value' => variable_get('imce_settings_replace', FILE_EXISTS_RENAME),
     '#options' => array(
-      FILE_EXISTS_RENAME => 'Keep the existing file renaming the new one',
-      FILE_EXISTS_ERROR => 'Keep the existing file rejecting the new one',
-      FILE_EXISTS_REPLACE => 'Replace the existing file with the new one'
+      FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
+      FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
+      FILE_EXISTS_REPLACE => t('Replace the existing file with the new one')
     ),
   );
 
@@ -256,7 +256,7 @@ function imce_profile_form(&$form_state, $pid = 0) {
 function imce_profile_submit($form, &$form_state) {
   $profile = $form_state['values']['profile'];
   $pid = $form_state['values']['pid'];
-  $message = $pid > 0 ? 'The changes have been saved.' : 'Profile has been added.';
+  $message = $pid > 0 ? t('The changes have been saved.') : t('Profile has been added.');
 
   //unset empty fields of directories and thumbnails.
   imce_clean_profile_fields($profile);
@@ -264,7 +264,7 @@ function imce_profile_submit($form, &$form_state) {
   //save profile.
   $pid = imce_update_profiles($pid, $profile);
 
-  drupal_set_message(t($message));
+  drupal_set_message($message);
   $form_state['redirect'] = 'admin/settings/imce/profile/edit/'. $pid;
 }
 
@@ -468,7 +468,7 @@ function imce_profile_delete_form(&$form_state, $pid) {
  */
 function imce_profile_delete_submit($form, &$form_state) {
   imce_update_profiles($form_state['values']['pid'], NULL);
-  drupal_set_message('Profile has been deleted.');
+  drupal_set_message(t('Profile has been deleted.'));
   $form_state['redirect'] = 'admin/settings/imce';
 }
 
