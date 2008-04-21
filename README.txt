@@ -29,6 +29,7 @@ New in 6.x:
 - Multiple personal or shared directory assignments for users.
 - Permissions per directory.
 - Option to use total user quota together with the directory quota.
+- Replace method options for existing files.
 - Multiple thumbnail definitions.
 - New integration API for wysiwyg editors.
 
@@ -172,13 +173,40 @@ initiateMyApp = function (win) {
 }
 
 - Allright, but what do we add/romeve/change in IMCE ?
-- Depends on our goal. Here are some handy methods that can help us to achieve it:
+- Depends on our goal. Here are some properties and methods that can help us to achieve it:
 
-TO BE CONTINUED...
+Hooks
+imce.hooks.load: an array of functions that run after imce loads. they are called with the window parameter.
+imce.hooks.list: an array of functions that run while processing the file list. each row of the file list is sent to these functions.
+imce.hooks.navigate: an array of functions that run after a directory is loaded. parameters sent are data(from ajax or cache), old_directory, cached(boolean that states the data is from the cache or not).
+imce.hooks.cache: an array of functions that run just before a new directory is loaded. parameters are cached_data and new_directory.
 
+Directory related properties
+imce.tree: stores the directory list where imce.tree['.'] is the root element.
 
+Directory related methods
+imce.dirAdd(directory_name, parent_element, clickable): adds directory_name under parent_element. ex: imce.dirAdd('foo', imce.dir['.'], true)
+imce.dirSubdirs(directory_name, subdirectories): adds each subdirectory in subdirectories array under directory_name. ex: imce.dirSubdirs('foo', ['bar', 'baz'])
+
+File related properties
+imce.findex: indexed array of files(table rows that contain file properties.)
+imce.fids: object containing file_id(file name)-file(row) pairs.
+imce.selected: object containing currently selected file_id(file name)-file(row) pairs.
+
+File related methods
+imce.fileAdd(file): adds the file object to the list. file object has the properties; name, size(bytes), width, height, date(timestamp), fsize(formatted), fdate(formatted)
+imce.fileRemove(fiile_id): removes the file having the file_id from the list.
+imce.fileGet(file_id). returns the file object having the file_id. file object contains name, url, size, bytes, width, height, date, timestamp
+
+File operations
+imce.opAdd(op): adds an operation tab to the interface. op contains name, title, content(optional), func(optional onclick function)
+imce.opEnable(name), imce.opDisable(name): enable/disable operation tabs.
+
+Miscellaneous
+imce.setMessage(msg, type): logs a message of the type(status, warning, error)
 
 NOTE:
-All URL strings in the examples start with "/" considering the base path is "/".
+- All URL strings in the examples start with "/" considering the base path is "/".
 In case your drupal is running on a sub directory e.g, http://localhost/drupal, these URLs should start with "/drupal/".
 There is a safer solution that does not require manual URL fixing: If the Drupal javascript object is avaliable in your page you can use Drupal.settings.basePath at the beginning of URLs (Drupal.settings.basePath+'?q=imce....')
+- file and directory ids(names) used in imce.js are url encoded forms of original names. They are decoded using imce.decode and displayed in the lists.
