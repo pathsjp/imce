@@ -5,16 +5,17 @@
 
 <head>
   <title><?php print t('File Browser'); ?></title>
+  <?php if (isset($_GET['app'])): drupal_add_js(drupal_get_path('module', 'imce') .'/js/imce_set_app.js'); endif;?>
   <?php print drupal_get_html_head(); ?>
   <?php print drupal_get_css(); ?>
-  <?php print drupal_get_js(); ?>
-  <?php print isset($_GET['app']) ? '<script type="text/javascript" src="'. base_path() . drupal_get_path('module', 'imce') .'/js/imce_set_app.js"></script>' : ''; /*WYSIWYG integration*/ ?>
+  <?php print drupal_get_js('header'); ?>
   <style media="all" type="text/css">/*Quick-override*/</style>
 </head>
 
 <body class="imce">
 <div id="imce-messages"><?php print theme('status_messages'); ?></div>
 <?php print $content; ?>
+<?php print drupal_get_js('footer'); ?>
 </body>
 
 </html>
