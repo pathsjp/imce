@@ -232,7 +232,18 @@ imce.cookie = function (name, value) {
 imce.thumbRow = function (row) {
   var h, w = row.cells[2].innerHTML*1;
   if (!w || imce.vars.tMaxW < w || imce.vars.tMaxH < (h = row.cells[3].innerHTML*1)) return;
-  var img = new Image(Math.min(w, imce.vars.prvW), Math.min(h, imce.vars.prvH));
+  var prvH = h, prvW = w;
+  if (imce.vars.prvW < w || imce.vars.prvH < h) {
+    if (h < w) {
+      prvW = imce.vars.prvW;
+      prvH = prvW*h/w;
+    }
+    else {
+      prvH = imce.vars.prvH;
+      prvW = prvH*w/h;
+    }
+  }
+  var img = new Image(prvW, prvH);
   img.src = imce.getURL(row.id);
   var cell = row.cells[0];
   cell.insertBefore(img, cell.firstChild);
