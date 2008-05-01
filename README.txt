@@ -41,7 +41,10 @@ New in 6.x:
 3) Create configuration profiles and assign them to user roles at: /admin/settings/imce
 4) Test it at: /user/USER-ID/imce or /imce.
 5) See INTEGRATION METHODS to make IMCE collaborate with your application if it's not already integrated.
-Note: When you configure IMCE for inline image/file insertion into textareas there should appear an IMCE link under each textarea you specified.
+Notes:
+ - When you configure IMCE for inline image/file insertion into textareas there should appear an IMCE link under each textarea you specified.
+ - If you are uploading files containing unicode characters, it is strongly recommended to use the transliteration module that sanitizes filenames by converting characters from unicode to us-ascii. http://drupal.org/project/transliteration
+ - If you are using CCK, you may want to check the Imce CCK Image module at http://drupal.org/project/imceimage
 
 
 ~~~~~~FREQUENTLY FACED ISSUES~~~~~~
@@ -65,7 +68,6 @@ Here are the applications whose users are lucky that they don't have to read the
 BUEditor: Obviously, the author knows how to integrate IMCE to his application:). Users need nothing to do.
 
 FCKeditor: Another module from another blessed author, which makes IMCE integration as simple as a single click. Fckeditor profile->File browser settings->IMCE integration
-
 Note: One can also override the settings at advanced settings->custom javascript configuration.
 Here are the lines that force imce integration (don't force unless you need to):
 LinkBrowser= true;
@@ -74,6 +76,8 @@ FlashBrowser= true;
 LinkBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl';//might be txtLnkUrl for older versions
 ImageBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl|width@txtWidth|height@txtHeight';
 FlashBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl';
+
+TinyMCE: See http://drupal.org/node/241753#comment-792305
 
 There may be other applications that integrated IMCE already. If your application is not one of them, please keep reading.
 
@@ -114,7 +118,7 @@ Clicking the files in preview do the same thing as well.
 A more flexible method that gives a finer control over IMCE.
 Note: This could be extended to alter the content or the interface of IMCE by using its javascript methods.
 
-var imcePopup;// this is our global variable referencing to IMCE window. We use it for tracking its open/closed state
+var imcePopup;// this is our global variable referring to IMCE window. We use it for tracking its open/closed state
 
 function openFileBrowser() {
 
@@ -125,7 +129,7 @@ function openFileBrowser() {
     imcePopup = window.open('/?q=imce', '', 'width=760,height=560,resizable=1');
     
     //we create a function that runs when IMCE loads, by setting the imceOnLoad property of the window
-    //It is automatically called by IMCE with a single parameter(win) referencing to IMCE window.
+    //It is automatically called by IMCE with a single parameter(win) referring to IMCE window.
     //We can access all methods of IMCE using win.imce
     imcePopup['imceOnLoad'] = function (win) {
       //we use IMCE's setSendTo method to make a selected file sent to our imceFinish function
