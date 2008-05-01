@@ -5,7 +5,8 @@
  * q = imce.
  */
 function imce_page() {
-  print theme('imce_page', imce_content($GLOBALS['user'], $_GET['jsop']));
+  $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
+  print theme('imce_page', imce_content($GLOBALS['user'], $jsop));
   exit();
 }
 
@@ -14,7 +15,8 @@ function imce_page() {
  */
 function imce_user_page($account) {
   drupal_set_title($account->name);
-  return imce_content($account, $_GET['jsop']);
+  $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
+  return imce_content($account, $jsop);
 }
 
 /**
@@ -442,9 +444,11 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   $file->filename = basename($file->filepath);
 
   //check if a file having the same properties exists already.
-  if (($f = $imce['files'][$file->filename]) && $f['width'] == $width && $f['height'] == $height) {
-    drupal_set_message(t('%filename(%dimensions) already exists.', array('%filename' => utf8_encode($file->filename), '%dimensions' => $width .'x'. $height)), 'error');
-    return FALSE;
+  if (isset($imce['files'][$file->filename])) {
+    if (($f = $imce['files'][$file->filename]) && $f['width'] == $width && $f['height'] == $height) {
+      drupal_set_message(t('%filename(%dimensions) already exists.', array('%filename' => utf8_encode($file->filename), '%dimensions' => $width .'x'. $height)), 'error');
+      return FALSE;
+    }
   }
 
   //validate file name
@@ -944,13 +948,13 @@ function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
     $earg = rawurlencode($arg);
     $epath = $eprefix . $earg;
     if ($children[':access:'] || imce_directory_info($path, $imce)) {
-      $a = '<a href="'. $imce['url'] . $q .'dir='. $epath .'" title="'. $epath .'" class="folder'. ($children[':active:'] ? ' active' : '') .'">'. $earg .'</a>';
+      $a = '<a href="'. $imce['url'] . $q .'dir='. $epath .'" title="'. $epath .'" class="folder'. (isset($children[':active:']) ? ' active' : '') .'">'. $earg .'</a>';
     }
     else {
       $a = '<a title="'. $epath .'" class="folder disabled">'. $earg .'</a>';
     }
     $ul = imce_tree_html($imce, $children, $q, $path .'/', $epath .'/');
-    $html .= '<li class="'. ($ul ? 'expanded' : ($children[':active:'] ? 'leaf' : '')) .'">'. $a . $ul .'</li>';
+    $html .= '<li class="'. ($ul ? 'expanded' : (isset($children[':active:']) ? 'leaf' : '')) .'">'. $a . $ul .'</li>';
   }
   if ($html) {
     $html = '<ul>'. $html .'</ul>';
