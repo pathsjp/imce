@@ -284,7 +284,7 @@ opAdd: function (op) {
   Op.li = document.createElement('li');
   $(Op.a).attr({href: '#', 'name': name}).html(op.title).click(function() {imce.opClick(this.name); return false;});
   $(Op.li).attr('id', 'op-item-'+ op.name).append(Op.a).appendTo(imce.el('ops-list'));
-  Op.func = op.func || null;
+  Op.func = op.func || function(){};
   return Op;
 },
 
@@ -293,8 +293,10 @@ opClick: function(name) {
   if (!(Op = imce.ops[name]) || Op.disabled) return imce.setMessage(Drupal.t('You can\'t perform this operation.'), 'error');
   if (Op.div) {
     if (imce.vars.op) {
-      $(imce.ops[imce.vars.op].div).slideUp();
-      $(imce.ops[imce.vars.op].li).removeClass('active');
+      var oldOp = imce.ops[imce.vars.op];
+      $(oldOp.div).slideUp();
+      $(oldOp.li).removeClass('active');
+      oldOp.func(false);
       if (imce.vars.op == name) {
         imce.vars.op = null;
         return false;
@@ -304,7 +306,7 @@ opClick: function(name) {
     $(Op.li).addClass('active');
     imce.vars.op = name;
   }
-  if (Op.func) Op.func();
+  Op.func(true);
   return true;
 },
 
