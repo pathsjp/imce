@@ -16,8 +16,8 @@ initiate: function() {
   imce.initiateList();//process file list
   imce.initiateOps();//prepare operation tabs
   imce.refreshOps();
-  imce.invoke('load', window);//run functions set by external applications.
   if (window['imceOnLoad']) imceOnLoad(window);
+  imce.invoke('load', window);//run functions set by external applications.
 },
 
 /**************** DIRECTORIES ********************/
