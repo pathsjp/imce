@@ -3,23 +3,23 @@
 # Japanese translation of Drupal (imce)
 # Copyright 2008 0829 <hixarg+0829@gmail.com>
 # Generated from files:
-#  imce-content.tpl.php,v 1.8.2.2 2008/04/13 21:28:29 ufku Exp
-#  imce-page.tpl.php,v 1.8.2.2 2008/04/21 18:36:22 ufku Exp
-#  imce.js,v 1.15.2.5 2008/04/17 23:41:19 ufku Exp
-#  imce_set_app.js,v 1.3.2.1 2008/04/14 19:18:54 ufku Exp
-#  imce_set_inline.js,v 1.3.2.1 2008/04/13 21:24:17 ufku Exp
-#  admin.inc,v 1.5.2.4 2008/04/18 21:49:01 ufku Exp
+#  imce-content.tpl.php,v 1.8.2.1 2008/04/03 02:40:11 ufku Exp
+#  imce-page.tpl.php,v 1.8 2008/03/24 07:32:28 ufku Exp
+#  imce.js,v 1.15.2.2 2008/04/03 06:13:38 ufku Exp
+#  imce_set_app.js,v 1.3 2008/03/24 07:32:28 ufku Exp
+#  imce_set_inline.js,v 1.3 2008/03/24 07:32:28 ufku Exp
+#  admin.inc,v 1.5 2008/03/14 02:36:54 ufku Exp
 #  js.inc,v 1.6 2008/03/24 07:32:27 ufku Exp
-#  page.inc,v 1.10.2.5 2008/04/17 23:46:45 ufku Exp
+#  page.inc,v 1.10.2.1 2008/04/03 02:43:44 ufku Exp
 #  subdir.inc,v 1.3 2008/02/29 16:57:12 ufku Exp
 #  imce.info,v 1.6 2008/02/27 18:03:46 ufku Exp
-#  imce.module,v 1.23.2.2 2008/04/13 21:24:17 ufku Exp
+#  imce.module,v 1.23 2008/03/14 02:29:00 ufku Exp
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Drupal 6.x\n"
-"POT-Creation-Date: 2008-05-01 15:04+0900\n"
-"PO-Revision-Date: 2008-05-01 15:59+0900\n"
+"POT-Creation-Date: 2008-04-02 12:00+0900\n"
+"PO-Revision-Date: 2008-04-04 16:23+0900\n"
 "Last-Translator: 0829 <hixarg+0829@gmail.com>\n"
 "Language-Team: DRUPAL*DRUPAL <hixarg+0829@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -27,117 +27,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
-#: modules/imce/tpl/imce-content.tpl.php:24
+#: modules/imce/tpl/imce-content.tpl.php:26
 msgid "You should use a javascript-enabled browser in order to experince a much more user-friendly interface."
-msgstr "よりユーザフレンドリーなインターフェイスで操作するためには JavaScript が有効なブラウザを使用する必要があります。"
+msgstr "よりユーザフレンドリーなインタフェースで操作するためには JavaScript が有効なブラウザを使用する必要があります。"
 
-#: modules/imce/tpl/imce-content.tpl.php:29
+#: modules/imce/tpl/imce-content.tpl.php:31
 msgid "Help"
 msgstr "ヘルプ"
 
-#: modules/imce/tpl/imce-content.tpl.php:31
+#: modules/imce/tpl/imce-content.tpl.php:33
 msgid "Tips"
 msgstr "Tips"
 
-#: modules/imce/tpl/imce-content.tpl.php:33
+#: modules/imce/tpl/imce-content.tpl.php:35
 msgid "Select a file by clicking the corresponding row in the file list."
 msgstr "ファイルリストの対応する行をクリックすることでファイルを選択できます。"
 
-#: modules/imce/tpl/imce-content.tpl.php:34
+#: modules/imce/tpl/imce-content.tpl.php:36
 msgid "Ctrl+click to add files to the selection or to remove files from the selection."
 msgstr "Ctrl＋クリックで複数のファイルを選択または選択から除外できます。"
 
-#: modules/imce/tpl/imce-content.tpl.php:35
+#: modules/imce/tpl/imce-content.tpl.php:37
 msgid "Shift+click to create a range selection. Click to start the range and shift+click to end it."
 msgstr "Shift＋クリックで連続する範囲を選択できます。 選択範囲の開始位置をクリックした後、終了位置を Shift＋クリックしてください。"
 
-#: modules/imce/tpl/imce-content.tpl.php:36
+#: modules/imce/tpl/imce-content.tpl.php:38
 msgid "Sort the files by clicking a column header of the file list."
 msgstr "ファイルリストの列見出しをクリックすることでファイルを並べ替えできます。"
 
-#: modules/imce/tpl/imce-content.tpl.php:37
+#: modules/imce/tpl/imce-content.tpl.php:39
 msgid "Resize the work-spaces by dragging the horizontal or vertical resize-bars."
 msgstr "水平または垂直のリサイズバーをドラッグすることで作業スペースの大きさをリサイズできます。"
 
-#: modules/imce/tpl/imce-content.tpl.php:38
+#: modules/imce/tpl/imce-content.tpl.php:40
 msgid "Keyboard shortcuts for file list: up, down, left, home, end, ctrl+A."
 msgstr "ファイルリストのためのキーボードショートカット： Up, Down, Left, Right, Home, End, Ctrl+A"
 
-#: modules/imce/tpl/imce-content.tpl.php:39
+#: modules/imce/tpl/imce-content.tpl.php:41
 msgid "Keyboard shortcuts for selected files: enter/insert, delete, R(esize), T(humbnails), U(pload)."
 msgstr "ファイル選択のためのキーボードショートカット： Enter/Insert, Delete, R(esize), T(humbnails), U(pload)."
 
-#: modules/imce/tpl/imce-content.tpl.php:40
+#: modules/imce/tpl/imce-content.tpl.php:42
 msgid "Keyboard shortcuts for directory list: up, down, left, right, home, end."
 msgstr "ディレクトリリストのためのキーボードショートカット： Up, Down, Left, Right, Home, End"
 
-#: modules/imce/tpl/imce-content.tpl.php:42
+#: modules/imce/tpl/imce-content.tpl.php:44
 msgid "Limitations"
 msgstr "制限"
 
-#: modules/imce/tpl/imce-content.tpl.php:44
-#: modules/imce/inc/admin.inc:187
+#: modules/imce/tpl/imce-content.tpl.php:46
+#: modules/imce/inc/admin.inc:174
 msgid "Maximum file size per upload"
 msgstr "アップロード単位の最大ファイルサイズ"
 
-#: modules/imce/tpl/imce-content.tpl.php:44;46;47
+#: modules/imce/tpl/imce-content.tpl.php:46;48;49
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:340
+#: modules/imce/inc/page.inc:310
 msgid "unlimited"
 msgstr "無制限"
 
-#: modules/imce/tpl/imce-content.tpl.php:45
-#: modules/imce/inc/admin.inc:208
+#: modules/imce/tpl/imce-content.tpl.php:47
+#: modules/imce/inc/admin.inc:188
 msgid "Permitted file extensions"
 msgstr "許可されるファイルの拡張子"
 
-#: modules/imce/tpl/imce-content.tpl.php:45
+#: modules/imce/tpl/imce-content.tpl.php:47
 msgid "all"
 msgstr "すべて"
 
-#: modules/imce/tpl/imce-content.tpl.php:46
-#: modules/imce/inc/admin.inc:215
+#: modules/imce/tpl/imce-content.tpl.php:48
+#: modules/imce/inc/admin.inc:195
 msgid "Maximum image resolution"
 msgstr "画像の最大解像度"
 
-#: modules/imce/tpl/imce-content.tpl.php:47
-#: modules/imce/inc/admin.inc:222
+#: modules/imce/tpl/imce-content.tpl.php:49
+#: modules/imce/inc/admin.inc:202
 msgid "Maximum number of files per operation"
 msgstr "1操作あたりの最大ファイル数"
 
-#: modules/imce/tpl/imce-content.tpl.php:62
+#: modules/imce/tpl/imce-content.tpl.php:64
 msgid "Navigation"
 msgstr "ナビゲーション"
 
-#: modules/imce/tpl/imce-content.tpl.php:72
+#: modules/imce/tpl/imce-content.tpl.php:74
 msgid "File name"
 msgstr "ファイル名"
 
-#: modules/imce/tpl/imce-content.tpl.php:73
+#: modules/imce/tpl/imce-content.tpl.php:75
 msgid "Size"
 msgstr "サイズ"
 
-#: modules/imce/tpl/imce-content.tpl.php:74
+#: modules/imce/tpl/imce-content.tpl.php:76
 msgid "Width"
 msgstr "幅"
 
-#: modules/imce/tpl/imce-content.tpl.php:75
+#: modules/imce/tpl/imce-content.tpl.php:77
 msgid "Height"
 msgstr "高さ"
 
-#: modules/imce/tpl/imce-content.tpl.php:76
+#: modules/imce/tpl/imce-content.tpl.php:78
 msgid "Date"
 msgstr "日付"
 
-#: modules/imce/tpl/imce-content.tpl.php:84
+#: modules/imce/tpl/imce-content.tpl.php:86
 msgid "!num files using !dirsize of !quota"
 msgstr "!num 個のファイルが !quota の内 !dirsize を使用"
 
-#: modules/imce/tpl/imce-content.tpl.php:87
+#: modules/imce/tpl/imce-content.tpl.php:89
 msgid "unlimited quota"
 msgstr "無制限の割り当て"
 
-#: modules/imce/tpl/imce-content.tpl.php:105
+#: modules/imce/tpl/imce-content.tpl.php:107
 msgid "Clear log"
 msgstr "ログのクリア"
 
@@ -158,14 +158,14 @@ msgid "File browsing is disabled in directory %dir."
 msgstr "ディレクトリ %dir でのファイルブラウジングは無効です。"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/admin.inc:296
+#: modules/imce/inc/admin.inc:274
 #: modules/imce/inc/js.inc:21
-#: modules/imce/inc/page.inc:107
+#: modules/imce/inc/page.inc:100
 msgid "Upload"
 msgstr "アップロード"
 
 #: modules/imce/js/imce.js:0
-msgid "You can't perform this operation."
+msgid "You can\\'t perform this operation."
 msgstr "この操作を実行することはできません。"
 
 #: modules/imce/js/imce.js:0
@@ -173,7 +173,7 @@ msgid "Do you want to refresh the current directory?"
 msgstr "カレントディレクトリをリフレッシュしますか？"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:568
+#: modules/imce/inc/page.inc:537
 msgid "Only files with the following extensions are allowed: %files-allowed."
 msgstr "次の拡張子のファイルのみが許可されます： %files-allowed"
 
@@ -190,7 +190,7 @@ msgid "Please select a thumbnail."
 msgstr "サムネイルを選択してください。"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:340
+#: modules/imce/inc/page.inc:310
 msgid "Please specify dimensions within the allowed range that is from 1x1 to @dimensions."
 msgstr "画像サイズは 1x1 から @dimensions の範囲内で指定してください。"
 
@@ -199,12 +199,12 @@ msgid "Please select a single file."
 msgstr "1つのファイルを選択してください。"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:427
+#: modules/imce/inc/page.inc:397
 msgid "%filename is not an image."
 msgstr "%filename は画像ではありません。"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:228
+#: modules/imce/inc/page.inc:219
 msgid "Please select a file."
 msgstr "ファイルを選択してください。"
 
@@ -213,7 +213,7 @@ msgid "You must select at least %num files."
 msgstr "少なくとも %num 個のファイルを選択する必要があります。"
 
 #: modules/imce/js/imce.js:0
-#: modules/imce/inc/page.inc:236
+#: modules/imce/inc/page.inc:227
 msgid "You are not allowed to operate on more than %num files."
 msgstr "%num 個以上のファイルの操作は許可されていません。"
 
@@ -226,7 +226,7 @@ msgstr "@app へ送る"
 msgid "textarea"
 msgstr "テキストエリア"
 
-#: modules/imce/inc/admin.inc:14;176
+#: modules/imce/inc/admin.inc:14;163
 msgid "Profile name"
 msgstr "プロファイル名"
 
@@ -238,14 +238,14 @@ msgstr "操作"
 msgid "Edit"
 msgstr "編集"
 
-#: modules/imce/inc/admin.inc:20;306;459
+#: modules/imce/inc/admin.inc:20;284;437
 #: modules/imce/inc/js.inc:42
-#: modules/imce/inc/page.inc:146;183
+#: modules/imce/inc/page.inc:139;176
 msgid "Delete"
 msgstr "削除"
 
 #: modules/imce/inc/admin.inc:24
-#: modules/imce/imce.module:38
+#: modules/imce/imce.module:35
 msgid "Add new profile"
 msgstr "新しいプロファイルの追加"
 
@@ -262,8 +262,8 @@ msgid "Enable inline image/file insertion into plain textareas"
 msgstr "テキストエリアに画像とファイルのインライン挿入機能を追加"
 
 #: modules/imce/inc/admin.inc:59
-msgid "If you don't use any WYSIWYG editor, this feature will allow you to add your images or files as <strong>html code into any plain textarea</strong>. Enter <strong>comma separated textarea IDs</strong> under which you want to enable a link to IMCE. Hint: ID of Body fields in most node types is edit-body."
-msgstr "WYSIWYG エディタなどを使用していない場合、この機能を使用することで<strong>通常のテキストエリアであればどこへでも HTML コードとして</strong>画像やファイルを追加することが可能になります。 IMCE へのリンクを有効にしたい<strong>テキストエリア ID をコンマ（,）で区切って</strong>入力してください。 ヒント： 多くのコンテンツで本文の入力エリアを示すテキストエリア ID は edit-body となっています。"
+msgid "This feature allows you to add your images or files as <strong>html code into any plain textarea</strong>. Enter <strong>comma separated textarea IDs</strong> if you want to enable this feature. Otherwise, leave it blank. Hint: ID of Body fields in most node types is edit-body."
+msgstr "この設定では<strong>通常のテキストエリアであればどこへでも HTML コードとして</strong>画像やファイルを追加可能にします。 この機能を利用したい<strong>テキストエリア ID をコンマ（,）で区切って</strong>入力します。 利用しない場合は空欄のままにしておきます。 ヒント： 多くのコンテンツで本文の入力エリアを示すテキストエリア ID は edit-body となっています。"
 
 #: modules/imce/inc/admin.inc:63
 msgid "Absolute URLs"
@@ -273,155 +273,123 @@ msgstr "完全な URL"
 msgid "Check if you want IMCE to return absolute file URLs."
 msgstr "IMCE で完全な URL（絶対パス）を返したい場合、チェックしてください。"
 
-#: modules/imce/inc/admin.inc:69
-msgid "Default behaviour for existing files during file uploads"
-msgstr "ファイルアップロード時の既存のファイルに対するデフォルト動作"
-
-#: modules/imce/inc/admin.inc:72
-msgid "Keep the existing file renaming the new one"
-msgstr "既存のファイルを残し、新しいファイルをリネームする"
-
-#: modules/imce/inc/admin.inc:73
-msgid "Keep the existing file rejecting the new one"
-msgstr "既存のファイルを残し、新しいファイルを拒否する"
-
-#: modules/imce/inc/admin.inc:74
-msgid "Replace the existing file with the new one"
-msgstr "既存のファイルを新しいものに置き換える"
-
-#: modules/imce/inc/admin.inc:78;247
+#: modules/imce/inc/admin.inc:68;225
 msgid "Save configuration"
 msgstr "設定の保存"
 
-#: modules/imce/inc/admin.inc:89
+#: modules/imce/inc/admin.inc:79
 msgid "User role"
 msgstr "ユーザロール"
 
-#: modules/imce/inc/admin.inc:89
+#: modules/imce/inc/admin.inc:79
 msgid "Assigned profile"
 msgstr "割り当てられたプロファイル"
 
-#: modules/imce/inc/admin.inc:91
+#: modules/imce/inc/admin.inc:81
 msgid "user #1"
 msgstr "ユーザ #1"
 
-#: modules/imce/inc/admin.inc:95
+#: modules/imce/inc/admin.inc:85
 msgid "Weight"
 msgstr "ウェイト"
 
-#: modules/imce/inc/admin.inc:97
+#: modules/imce/inc/admin.inc:87
 msgid "n/a"
 msgstr "N/A"
 
-#: modules/imce/inc/admin.inc:98
+#: modules/imce/inc/admin.inc:88
 msgid "For users who have <strong>multiple roles</strong>, <strong>weight</strong> property will determine the assigned profile. Lighter roles that are placed upper will take the precedence. So, an administrator role should be placed over other roles by having a smaller weight, ie. -10."
 msgstr "<strong>複数のロール</strong>を持つユーザに割り当てるプロファイルを決定するために、<strong>ウェイト</strong>を指定してください。 ウェイトの値が小さいものほど優先順位が高くなります。 管理者ロールなど優先順位を他のロールより高くしたいロールには、-10 のようなより小さい値を持たせる必要があります。"
 
-#: modules/imce/inc/admin.inc:109
+#: modules/imce/inc/admin.inc:99
 msgid "Role-profile assignments"
 msgstr "ロールへのプロファイルの割り当て"
 
-#: modules/imce/inc/admin.inc:111
+#: modules/imce/inc/admin.inc:101
 msgid "Assign profiles to user roles."
 msgstr "プロファイルをユーザロールに割り当てます。"
 
-#: modules/imce/inc/admin.inc:129
+#: modules/imce/inc/admin.inc:118
 msgid "Changes have been saved."
 msgstr "変更が保存されました。"
 
-#: modules/imce/inc/admin.inc:165
+#: modules/imce/inc/admin.inc:154
 msgid "Settings were imported from the profile %name"
 msgstr "プロファイル %name から設定をインポートしました。"
 
-#: modules/imce/inc/admin.inc:178
+#: modules/imce/inc/admin.inc:165
 msgid "Give a name to this profile."
 msgstr "このプロファイルの名前です。"
 
-#: modules/imce/inc/admin.inc:189;196
+#: modules/imce/inc/admin.inc:176;183
 msgid "Set to 0 to use the maximum value avaliable."
 msgstr "最大値を使用したい場合は 0 を入力してください。 "
 
-#: modules/imce/inc/admin.inc:189
+#: modules/imce/inc/admin.inc:176
 msgid "Your PHP settings limit the maximum file size per upload to %size."
 msgstr "このサーバの PHP の設定により、アップロード単位の最大ファイルサイズが %size に制限されます。"
 
-#: modules/imce/inc/admin.inc:190;197;204
+#: modules/imce/inc/admin.inc:177;184
 msgid "MB"
 msgstr "MB"
 
-#: modules/imce/inc/admin.inc:194
-msgid "Directory quota"
-msgstr "ディレクトリ割り当て"
+#: modules/imce/inc/admin.inc:181
+msgid "Upload quota"
+msgstr "アップロード領域の割り当て"
 
-#: modules/imce/inc/admin.inc:196
+#: modules/imce/inc/admin.inc:183
 msgid "Define the upload quota per directory. Total user quota is proportional to the number of directories that the user has upload access to."
 msgstr "各ディレクトリに割り当てるアップロードファイルのサイズ（KB）を指定します。 ユーザに割り当てられる総サイズはユーザがアップロードのためにアクセスできるディレクトリの数に比例します。"
 
-#: modules/imce/inc/admin.inc:201
-msgid "Total user quota"
-msgstr "総ユーザ割り当て"
-
-#: modules/imce/inc/admin.inc:203
-msgid "You can force total user quota to be a value independent of directory quota. <strong>This quota is calculated using the files table in the database, so that it will not include the files uploaded via FTP or by previous versions of IMCE(4.7.x and 5.x)</strong>. You can either use both quotations together or safely ignore this by setting the value to 0."
-msgstr "総ユーザ割り当てには、ディレクトリ割り当てより優先して使用する別の値を定義することができます。 <strong>この割り当ては files データベーステーブルを使用して計算されます。 そのため、FTP や以前のバージョン（4.7.x または 5.x）の IMCE でアップロードされたファイルは含まれません。</strong> 両方の割り当てを合わせて利用するか、もしくは、値 0 を設定することでこの割り当てを無視することができます。"
-
-#: modules/imce/inc/admin.inc:211
+#: modules/imce/inc/admin.inc:191
 msgid "Extensions that users in this role can upload. Separate extensions with a space and do not include the leading dot."
 msgstr "ユーザがアップロードすることのできる、ファイル拡張子を入力してください。 拡張子には先頭のドットを含めず、空白文字で区切って指定してください。 例： jpg png gif pdf doc zip"
 
-#: modules/imce/inc/admin.inc:211
+#: modules/imce/inc/admin.inc:191
 msgid "Set to * to remove the restriction."
 msgstr "無制限にしたい場合は * を入力してください。"
 
-#: modules/imce/inc/admin.inc:217
+#: modules/imce/inc/admin.inc:197
 msgid "The maximum allowed image size (e.g. 640x480). Set to 0 for no restriction. If an <a href=\"!image-toolkit-link\">image toolkit</a> is installed, files exceeding this value will be scaled down to fit."
 msgstr "許可する最大画像サイズを <strong>幅x高さ</strong> で入力してください。 例えば、640*480 の画像であれば <strong>640x480</strong> と入力します。 無制限にしたい場合は <strong>0</strong> を入力してください。 <a href=\"!image-toolkit-link\">画像ツールキット</a>がインストールされている場合、この値を超えるファイルは指定範囲内に縮小されます。"
 
-#: modules/imce/inc/admin.inc:218
+#: modules/imce/inc/admin.inc:198
 msgid "WIDTHxHEIGHT"
 msgstr "幅x高さ"
 
-#: modules/imce/inc/admin.inc:224
-msgid "You can allow users to select multiple files for operations such as delete, resize, etc. Entire batch file operation is executed in a single drupal load, which may be good. However there will be an increase in script execution time, cpu load and memory consumption possibly exceeding the limits of your server, which is really bad. For unlimited number of file handling, set this to 0."
-msgstr "ユーザが複数のファイルに対して、削除やリサイズなどの操作を行うことを許可できます。 全体のバッチファイル操作は一つの Drupal へのデータ転送として実行されますので、よい方法であるかもしれません。 しかし、それはスクリプト実行時間、CPU 負荷、メモリ消費を増すことになり、サーバの上限を上回るなどの問題を招くなど、本当に悪い方法であるとも考えられます。 ファイルの処理数を無制限にしたい場合は 0 を入力してください。"
+#: modules/imce/inc/admin.inc:204
+msgid "You can allow users to select multiple files for operations such as delete, resize, etc. Entire batch file operation is executed in a single drupal load, which may be good. However there will be an increase in script execution time, cpu load and memory consumption wich may exceed the limits of your server, which is really bad. For unlimited number of file handling, set this to 0."
+msgstr "ユーザが複数のファイルに対して、削除やリサイズなどの操作を行うことを許可できます。 全体のバッチファイル操作は一つの Drupal へのデータ転送として実行されますので、よい方法であるかもしれません。 しかし、それはスクリプト実行時間の増加につながりますので CPU 負荷やメモリ消費がサーバの上限を上回り、本当に悪い方法となる場合があります。 ファイルの処理数を無制限にしたい場合は 0 を入力してください。"
 
-#: modules/imce/inc/admin.inc:259
-msgid "The changes have been saved."
-msgstr "変更内容が保存されました。"
-
-#: modules/imce/inc/admin.inc:259
-msgid "Profile has been added."
-msgstr "プロファイルが追加されました。"
-
-#: modules/imce/inc/admin.inc:286
+#: modules/imce/inc/admin.inc:264
 msgid "Including subdirectories"
 msgstr "サブディレクトリを含む"
 
-#: modules/imce/inc/admin.inc:291
+#: modules/imce/inc/admin.inc:269
 msgid "Browse"
 msgstr "ブラウズ"
 
-#: modules/imce/inc/admin.inc:301;407
-#: modules/imce/inc/page.inc:139;166
+#: modules/imce/inc/admin.inc:279;385
+#: modules/imce/inc/page.inc:132;159
 msgid "Thumbnails"
 msgstr "サムネイル"
 
-#: modules/imce/inc/admin.inc:311
+#: modules/imce/inc/admin.inc:289
 #: modules/imce/inc/js.inc:52
-#: modules/imce/inc/page.inc:152;208
+#: modules/imce/inc/page.inc:145;199
 msgid "Resize"
 msgstr "リサイズ"
 
-#: modules/imce/inc/admin.inc:340
+#: modules/imce/inc/admin.inc:318
 #: modules/imce/inc/subdir.inc:13
 msgid "Directory path"
 msgstr "ディレクトリパス"
 
-#: modules/imce/inc/admin.inc:342
+#: modules/imce/inc/admin.inc:320
 msgid "Directories"
 msgstr "ディレクトリ"
 
-#: modules/imce/inc/admin.inc:344
+#: modules/imce/inc/admin.inc:322
 msgid ""
 "Define directories that users of this profile can access.\n"
 "<ul>\n"
@@ -452,25 +420,25 @@ msgstr ""
 "<p>サムネイルのパーミッション設定がアップロード時のサムネイルの作成に影響を及ぼさないことに注意が必要です。 詳細は、以下のサムネイルの説明で確認してください。</p>\n"
 "<p>フィールド数が不足する場合は、一旦すべてのフィールドに入力した後、保存を実行してください。 そうすることで 2つの新しいフィールドが追加されます。</p>"
 
-#: modules/imce/inc/admin.inc:395
+#: modules/imce/inc/admin.inc:373
 msgid "Name"
 msgstr "名前"
 
-#: modules/imce/inc/admin.inc:395
+#: modules/imce/inc/admin.inc:373
 msgid "Dimensions"
 msgstr "画像サイズ"
 
-#: modules/imce/inc/admin.inc:395
+#: modules/imce/inc/admin.inc:373
 msgid "Prefix"
 msgstr "接頭語"
 
-#: modules/imce/inc/admin.inc:395
+#: modules/imce/inc/admin.inc:373
 msgid "Suffix"
 msgstr "接尾語"
 
-#: modules/imce/inc/admin.inc:409
+#: modules/imce/inc/admin.inc:387
 msgid ""
-"You may create a list of thumbnail options that users can choose from.\n"
+"You may create a list of thumbnail options that users can choose from. \n"
 "<ul>\n"
 "  <li>Use alphanumeric characters as thumbnail names.</li>\n"
 "  <li>Specify dimensions as <strong>WidthxHeight</strong>.</li>\n"
@@ -490,137 +458,129 @@ msgstr ""
 "<p>サムネイルのパーミッション設定に係わらず、ユーザは常にファイルのアップロード時にサムネイルを作成できるということに注意が必要です。 ファイルアップロード時のサムネイル作成を無効にしたい場合は、ここでいかなるサムネイル設定も行うべきではありません。</p>\n"
 "<p>フィールド数が不足する場合は、一旦すべてのフィールドに入力した後、保存を実行してください。 そうすることで 2つの新しいフィールドが追加されます。</p>"
 
-#: modules/imce/inc/admin.inc:455
+#: modules/imce/inc/admin.inc:433
 msgid "Are you sure you want to delete the profile %name?"
 msgstr "本当にプロファイル %name を削除してもよろしいですか？"
 
-#: modules/imce/inc/admin.inc:460
+#: modules/imce/inc/admin.inc:438
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: modules/imce/inc/admin.inc:471
-msgid "Profile has been deleted."
-msgstr "プロファイルが削除されました。"
-
-#: modules/imce/inc/admin.inc:479
+#: modules/imce/inc/admin.inc:457
 msgid "none"
 msgstr "なし"
 
-#: modules/imce/inc/admin.inc:500
+#: modules/imce/inc/admin.inc:478
 msgid "Import settings from other profiles"
 msgstr "他のプロファイルの設定をインポート"
 
-#: modules/imce/inc/admin.inc:569
+#: modules/imce/inc/admin.inc:547
 msgid "Duplicate directory paths are not allowed."
 msgstr "重複するディレクトリパスは許可されません。"
 
-#: modules/imce/inc/admin.inc:573
+#: modules/imce/inc/admin.inc:551
 msgid "%dirname is not accepted as a proper directory name."
 msgstr "%dirname は適切なディレクトリ名ではありません。"
 
 #: modules/imce/inc/js.inc:32
-#: modules/imce/inc/page.inc:114;171
+#: modules/imce/inc/page.inc:107;164
 msgid "Create thumbnails"
 msgstr "サムネイルの作成"
 
-#: modules/imce/inc/page.inc:101
+#: modules/imce/inc/page.inc:94
 msgid "File"
 msgstr "ファイル"
 
-#: modules/imce/inc/page.inc:118
+#: modules/imce/inc/page.inc:111
 msgid "Upload file"
 msgstr "ファイルのアップロード"
 
-#: modules/imce/inc/page.inc:132
+#: modules/imce/inc/page.inc:125
 msgid "Selected files"
 msgstr "選択したファイル"
 
-#: modules/imce/inc/page.inc:195
+#: modules/imce/inc/page.inc:188
 msgid "Width x Height"
 msgstr "幅 x 高さ"
 
-#: modules/imce/inc/page.inc:214
+#: modules/imce/inc/page.inc:205
 msgid "Create a new image"
 msgstr "新しい画像の作成"
 
-#: modules/imce/inc/page.inc:243
+#: modules/imce/inc/page.inc:234
 msgid "directory (%dir)"
 msgstr "ディレクトリ（%dir）"
 
-#: modules/imce/inc/page.inc:244
+#: modules/imce/inc/page.inc:235
 msgid "An illegal choice has been detected. Please contact the site administrator."
 msgstr "不正な選択肢が検出されました。 お手数ですが、サイト管理者までご連絡ください。"
 
-#: modules/imce/inc/page.inc:272
-msgid "The file is renamed to %filename."
-msgstr "ファイルを %filename にリネームしました。"
-
-#: modules/imce/inc/page.inc:285
+#: modules/imce/inc/page.inc:255
 msgid "%filename is uploaded."
 msgstr "%filename をアップロードしました。"
 
-#: modules/imce/inc/page.inc:299
+#: modules/imce/inc/page.inc:269
 msgid "Upload failed."
 msgstr "アップロードに失敗しました。"
 
-#: modules/imce/inc/page.inc:323
+#: modules/imce/inc/page.inc:293
 msgid "File deletion successful: %files."
 msgstr "ファイルの削除が成功しました。： %files"
 
-#: modules/imce/inc/page.inc:347
+#: modules/imce/inc/page.inc:317
 msgid "File resizing successful: %files."
 msgstr "ファイルのリサイズが成功しました。： %files"
 
-#: modules/imce/inc/page.inc:394
+#: modules/imce/inc/page.inc:364
 msgid "Thumbnail creation (%thumbnames) successful for %filename."
 msgstr "%filename のサムネイル（%thumbnames）作成が成功しました。"
 
-#: modules/imce/inc/page.inc:432
+#: modules/imce/inc/page.inc:402
 msgid "Scaling up is not allowed."
 msgstr "サイズの拡大は許可されていません。"
 
-#: modules/imce/inc/page.inc:446
+#: modules/imce/inc/page.inc:416
 msgid "%filename(%dimensions) already exists."
 msgstr "%filename （%dimensions） は既に存在しています。"
 
-#: modules/imce/inc/page.inc:461
+#: modules/imce/inc/page.inc:431
 msgid "%filename cannot be resized to %dimensions"
 msgstr "%filename を %dimensions にリサイズできません。"
 
-#: modules/imce/inc/page.inc:474
+#: modules/imce/inc/page.inc:447
 msgid "The selected file %file could not be copied."
 msgstr "選択されたファイル %file をコピーできませんでした。"
 
-#: modules/imce/inc/page.inc:554
-msgid "File browser is set to reject the upload of existing files."
-msgstr "ファイルブラウザは既存のファイルのアップロードを拒否するように設定されています。"
-
-#: modules/imce/inc/page.inc:582
+#: modules/imce/inc/page.inc:548
 msgid "The file is %filesize exceeding the maximum file size of %maxsize."
 msgstr "ファイル (%filesize) は、ファイルサイズの上限である %maxsize を超過しています。"
 
-#: modules/imce/inc/page.inc:664
+#: modules/imce/inc/page.inc:559
+msgid "The file is %filesize which would exceed your disk quota of %quota."
+msgstr "ファイル (%filesize) は、割り当てディスク容量の %quota を超過しています。"
+
+#: modules/imce/inc/page.inc:613
 msgid "Unable to get a working directory for the file browser!"
 msgstr "ファイルブラウザのための作業ディレクトリを取得できません！"
 
-#: modules/imce/inc/page.inc:670
+#: modules/imce/inc/page.inc:619
 msgid "There is no valid directory specified for the file browser!"
 msgstr "ファイルブラウザのために指定されたディレクトリが有効ではありません！"
 
-#: modules/imce/inc/page.inc:673
+#: modules/imce/inc/page.inc:622
 msgid "You don't have access to any configuration profile to use the file browser!"
 msgstr "ファイルブラウザを使用するためのプロファイル構成へアクセスできません！"
 
-#: modules/imce/inc/page.inc:923
+#: modules/imce/inc/page.inc:863
 msgid "Directory root"
 msgstr "ディレクトリルート"
 
-#: modules/imce/inc/page.inc:243
+#: modules/imce/inc/page.inc:234
 #: modules/imce/imce.module:0
 msgid "imce"
 msgstr "IMCE"
 
-#: modules/imce/inc/page.inc:243
+#: modules/imce/inc/page.inc:234
 msgid "Illegal choice %choice in !name element."
 msgstr "!name 要素で不正な選択肢 %choice が見つかりました。"
 
@@ -641,7 +601,7 @@ msgid "No matching subdirectories found."
 msgstr "マッチするサブディレクトリが見つかりませんでした。"
 
 #: modules/imce/imce.info:0
-#: modules/imce/imce.module:18
+#: modules/imce/imce.module:17
 msgid "IMCE"
 msgstr "IMCE"
 
@@ -649,31 +609,31 @@ msgstr "IMCE"
 msgid "An image/file uploader and browser supporting personal directories and user quota."
 msgstr "ユーザ専用のフォルダやディスク使用量の割り当てをサポートする画像とファイルのアップローダおよびブラウザです。"
 
-#: modules/imce/imce.module:117
+#: modules/imce/imce.module:113
 msgid "Insert !image or !link."
 msgstr "!image または !link の挿入"
 
-#: modules/imce/imce.module:117
+#: modules/imce/imce.module:113
 msgid "image"
 msgstr "画像"
 
-#: modules/imce/imce.module:117
+#: modules/imce/imce.module:113
 msgid "link"
 msgstr "リンク"
 
-#: modules/imce/imce.module:11;45
+#: modules/imce/imce.module:10;41
 msgid "File browser"
 msgstr "ファイルブラウザ"
 
-#: modules/imce/imce.module:19
+#: modules/imce/imce.module:18
 msgid "Control how your image/file browser works."
 msgstr "画像とファイルのブラウザをどのように機能させるか設定します。"
 
-#: modules/imce/imce.module:25
+#: modules/imce/imce.module:23
 msgid "Settings"
 msgstr "環境設定"
 
-#: modules/imce/imce.module:29
+#: modules/imce/imce.module:27
 msgid "Directory creation tool"
 msgstr "ディレクトリ作成ツール"
 
