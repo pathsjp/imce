@@ -554,7 +554,7 @@ function imce_remove_file($filename, &$imce) {
 function imce_validate_all(&$file, $imce) {
 
   //fix FILE_EXISTS_ERROR bug. core bug #54223.
-  if (variable_get('imce_settings_replace', FILE_EXISTS_RENAME) == FILE_EXISTS_ERROR) {
+  if (!$file->destination && variable_get('imce_settings_replace', FILE_EXISTS_RENAME) == FILE_EXISTS_ERROR) {
     return array(t('File browser is set to reject the upload of existing files.'));
   }
 
