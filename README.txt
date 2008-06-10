@@ -73,7 +73,7 @@ Here are the lines that force imce integration (don't force unless you need to):
 LinkBrowser= true;
 ImageBrowser= true;
 FlashBrowser= true;
-LinkBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl';//might be txtLnkUrl for older versions
+LinkBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl';
 ImageBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl|width@txtWidth|height@txtHeight';
 FlashBrowserURL= '/?q=imce&app=FCKEditor|url@txtUrl';
 
