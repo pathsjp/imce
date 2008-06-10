@@ -253,6 +253,7 @@ setFileOps: function () {
   $(imce.el('edit-filenames-wrapper')).remove();
   $('#imce-fileop-form fieldset').each(function() {//remove fieldsets
     var sbmt = $('input:submit', this);
+    if (!sbmt.size()) return;
     var Op = {name: sbmt.attr('id').substr(5)};
     var func = function() {imce.fopSubmit(Op.name); return false;};
     sbmt.click(func);
