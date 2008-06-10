@@ -29,6 +29,7 @@ var appFinish = function(file, win) {
   }
   if (appFields['url']) {
     try{doc.find('#'+ appFields['url']).blur().change().focus()}catch(e){};
+    try{doc.find('#'+ appFields['url']).trigger('onblur').trigger('onchange').trigger('onfocus')}catch(e){};//inline events
   }
   win.opener.focus();
   win.close();
