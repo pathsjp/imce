@@ -85,9 +85,19 @@ function imce_theme() {
  */
 function imce_file_download($file) {
   if ($path = file_create_path($file)) {
-    $info = @getimagesize($path);
-    $ctype = $info ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
-    return array('Content-type: '. $ctype);
+    if ($info = @getimagesize($path)) {
+      $type = $info['mime'];
+    }
+    else if (function_exists('mime_content_type')) {
+      $type = mime_content_type($path);
+    }
+    else if ($result = db_result(db_query("SELECT filemime FROM {files} WHERE filepath = '%s'", $path))) {
+      $type = $result;
+    }
+    else {
+      $type = 'application/x-download';
+    }
+    return array('Content-type: '. $type, 'Content-Length: '. filesize($path));
   }
 }
 
