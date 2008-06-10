@@ -429,8 +429,9 @@ function imce_role_form($role, $weight = TRUE, $core = TRUE) {
   );
   if ($weight) {
     $form['weight'] = $core ? array(
-      '#type' => 'markup',
+      '#type' => 'textfield',
       '#value' => $role['weight'],
+      '#attributes' => array('readonly' => 'readonly', 'style' => 'border: none; width: 2em; background-color: transparent;'),
     ) : array(
       '#type' => 'weight',
       '#default_value' => $role['weight'],
