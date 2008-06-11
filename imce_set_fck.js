@@ -1,29 +1,15 @@
 // $Id$
 
-function imceInitiateFCK(cycle) {
-  if ("undefined" != typeof(window.FCKeditorAPI)) {
-    $.each(FCKeditorAPI.__Instances, imceSetFCK);
-  }
-  else if ("undefined" != typeof(window.FCKeditor_OpenPopup)) {
-    $('textarea').each(function () {
-      var obj = 'oFCKeditor_'+ this.id.replace(/\-/g, '_');
-      if ("undefined" != typeof(window[obj])) {
-        imceSetFCK.call(window[obj]);
-      }
-    });
-    return;
-  }
-
-  var cycle = (parseInt(cycle) || 0)+1;
-  if (cycle < 5) setTimeout('imceInitiateFCK('+ cycle +')', 2000);
-}
-
-function imceSetFCK() {
+function imceSetFCK(fck) {
   var types = {Image: 1, Link: 1, Flash: 1};
   var props = {Browser: true, BrowserURL: imceBrowserURL || '/?q=imce/browse'};
   for (var type in types) for (var prop in props){
-    this.Config[type + prop] = props[prop];
+    fck.Config[type + prop] = props[prop];
   }
 }
 
-$(document).ready(imceInitiateFCK);
+$(document).ready(function() {
+  for (var fck, i = 1; fck = window['oFCK_'+ i]; i++) {
+    imceSetFCK(fck);
+  }
+});
