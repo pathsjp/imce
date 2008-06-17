@@ -12,6 +12,9 @@ imceInline.initiate = function() {
       imceInline.pop = window.open(this.href, '', 'width='+ 760 +',height='+ 560 +',resizable=1');
       imceInline.pop['imceOnLoad'] = function (win) {//set a function to be executed when imce loads.
         win.imce.setSendTo(Drupal.t('Send to @app', {'@app': Drupal.t('textarea')}), imceInline.insert);
+        $(window).unload(function() {
+          if (imceInline.pop && !imceInline.pop.closed) imceInline.pop.close();
+        });
       }
     }
 
