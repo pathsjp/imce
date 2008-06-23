@@ -4,7 +4,7 @@ $imce =& $imce_ref['imce'];//keep this line.
 $directory = drupal_get_path('module', 'imce');
 
 //main css file.
-drupal_add_css($directory .'/css/content.css');
+drupal_add_css($directory .'/css/imce-content.css');
 
 //Browsing enhancements. Keyboard shortcuts, file sorting, resizebars, and inline thumbnail preview. (Safe to delete)
 drupal_add_js($directory .'/js/imce_extras.js');
