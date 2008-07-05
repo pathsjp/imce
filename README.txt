@@ -60,6 +60,8 @@ Having nothing to do with IMCE, it appeared many times in issue queues. This is 
 - No browse button in IE/FF/at all:
 Probably talking about tinyMCE or FCKeditor. See INTEGRATION METHODS to learn to integrate it by yourself.
 
+- Upload does not work in Opera
+Jquery form plugin before version 2.09 has problems with Opera 9.2+. Replace Drupal's misc/jquery.form.js with http://jqueryjs.googlecode.com/svn/trunk/plugins/form/jquery.form.js
 
 ~~~~~~~INTEGRATION METHODS~~~~~~~
 
