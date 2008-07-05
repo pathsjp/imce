@@ -947,7 +947,7 @@ function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
     $path = $prefix . $arg;
     $earg = rawurlencode($arg);
     $epath = $eprefix . $earg;
-    if ($children[':access:'] || imce_directory_info($path, $imce)) {
+    if (isset($children[':access:']) || imce_directory_info($path, $imce)) {
       $a = '<a href="'. $imce['url'] . $q .'dir='. $epath .'" title="'. $epath .'" class="folder'. (isset($children[':active:']) ? ' active' : '') .'">'. $earg .'</a>';
     }
     else {
