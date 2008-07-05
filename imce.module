@@ -161,7 +161,7 @@ function imce_access($user = FALSE) {
 
   $roles_profiles = variable_get('imce_roles_profiles', array());
   foreach ($user->roles as $rid => $name) {
-    if ($roles_profiles[$rid]['pid']) {
+    if (isset($roles_profiles[$rid]['pid']) && $roles_profiles[$rid]['pid']) {
       return TRUE;
     }
   }
