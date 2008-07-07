@@ -526,7 +526,7 @@ function imce_add_file($file, &$imce) {
     'height' => $file->height,
     'date' => $file->timestamp
   );
-  if ($_GET['jsop']) {
+  if (isset($_GET['jsop'])) {
     $add = $imce['files'][$file->filename];
     $add['name'] = rawurlencode($file->filename);
     $add['fsize'] = format_size($file->filesize);
@@ -542,7 +542,7 @@ function imce_remove_file($filename, &$imce) {
   if (isset($imce['files'][$filename])) {
     $imce['dirsize'] -= $imce['files'][$filename]['size'];
     unset($imce['files'][$filename]);
-    if ($_GET['jsop']) {
+    if (isset($_GET['jsop'])) {
       $imce['removed'][] = rawurlencode($filename);
     }
   }
@@ -572,7 +572,7 @@ function imce_validate_all(&$file, $imce) {
     $errors[] = t('Only files with the following extensions are allowed: %files-allowed.', array('%files-allowed' => $imce['extensions']));
   }
   if (empty($errors) && $imce['tuquota']) {//total user quota validation. check everything before hitting the DB
-    $errors = array_merge($errors, imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']), 'total user'));
+    $errors = array_merge($errors, imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']), 1));
   }
   return $errors;
 }
@@ -591,10 +591,11 @@ function imce_validate_filesize($file, $maxsize = 0) {
 /**
  * Validate filesize for directory and total user quota.
  */
-function imce_validate_quota($file, $quota = 0, $current = 0, $type = 'directory') {
+function imce_validate_quota($file, $quota = 0, $current = 0, $type = 0) {
   $errors = array();
   if ($quota && ($current + $file->filesize) > $quota) {
-    $errors[] = t('%filename is %filesize which would exceed your <em>'. $type .'</em> quota. You are currently using %size of %quota.', array('%size' => format_size($current), '%quota' => format_size($quota), '%filesize' => format_size($file->filesize), '%filename' => utf8_encode($file->filename)));
+    $qtypes = array('Directory quota', 'Total user quota');
+    $errors[] = t('%filename is %filesize which would exceed your %quota_type. You are currently using %size of %quota.', array('%size' => format_size($current), '%quota' => format_size($quota), '%filesize' => format_size($file->filesize), '%filename' => utf8_encode($file->filename), '%quota_type' => t(isset($qtypes[$type]) ? $qtypes[$type] : 'quota')));
   }
   return $errors;
 }
@@ -605,7 +606,7 @@ function imce_validate_quota($file, $quota = 0, $current = 0, $type = 'directory
 function imce_validate_quotas($file, &$imce, $add = 0) {
   $errors = imce_validate_quota($file, $imce['quota'], $imce['dirsize'] + $add);
   if (empty($errors) && $imce['tuquota']) {
-    $errors = imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']) + $add, 'total user');
+    $errors = imce_validate_quota($file, $imce['tuquota'], file_space_used($imce['uid']) + $add, 1);
   }
   if (!empty($errors)) {
     drupal_set_message($errors[0], 'error');
