@@ -6,14 +6,14 @@ imce.hooks.load.unshift(function () {
   imce.NW = imce.el('navigation-wrapper'), imce.BW = imce.el('browse-wrapper');
   imce.LPW = imce.el('log-prv-wrapper'), imce.LW = imce.el('log-wrapper');
   //add scale calculator for resizing.
-  imce.el('edit-width').onfocus = imce.el('edit-height').onfocus = function () {
+  $('#edit-width, #edit-height').focus(function () {
     var fid, r, w, isW, val;
     if (fid = imce.vars.prvfid) {
       isW = this.id == 'edit-width', val =  imce.el(isW ? 'edit-height' : 'edit-width').value*1;
       if (val && (w = imce.isImage(fid)) && (r = imce.fids[fid].cells[3].innerHTML*1 / w))
         this.value = Math.round(isW ? val/r : val*r);
     }
-  };
+  });
   //$(imce.tree[imce.conf.dir].a).focus();//focus on the active directory branch
 });
 
@@ -91,7 +91,7 @@ imce.fileKeys.k45 = imce.fileKeys.k13;
 //add default operation keys. delete, R(esize), T(humbnails), U(pload)
 $.each({k46: 'delete', k82: 'resize', k84: 'thumb', k85: 'upload'}, function (k, op) {
   imce.fileKeys[k] = function (e) {
-    if (!imce.ops[op].disabled) imce.opClick(op);
+    if (imce.ops[op] && !imce.ops[op].disabled) imce.opClick(op);
   };
 });
 
