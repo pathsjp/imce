@@ -238,6 +238,7 @@ function imce_copy_uploaded($set, $file) {
     drupal_set_message(t('File upload error. Could not move uploaded file.'));
     return FALSE;
   }
+  register_shutdown_function('file_delete', realpath($temp));
   $file['tmp_name'] = $temp;
 
   //dont like too long filenames and files without an extension.
