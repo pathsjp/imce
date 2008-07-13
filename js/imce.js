@@ -221,7 +221,7 @@ fileToggleSelect: function (fid) {
 
 //process file operation form and create operation tabs.
 initiateOps: function() {
-  imce.setHtmlOps();//help
+  imce.setHtmlOps();
   imce.setUploadOp();//upload
   imce.setFileOps();//thumb, delete, resize
 },
@@ -239,13 +239,14 @@ setHtmlOps: function () {
 
 //convert upload form to an op.
 setUploadOp: function () {
+  if (!imce.el('imce-upload-form')) return;
   var form = $(imce.el('imce-upload-form'));
   form.find('fieldset').each(function() {//clean up fieldsets
     this.removeChild(this.firstChild);
     $(this).after(this.childNodes);
   }).remove();
   form.ajaxForm(imce.uploadSettings());//set ajax
-  imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form.removeClass('imce-hide')});//add op
+  imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form});//add op
 },
 
 //convert fileop form submit buttons to ops.
