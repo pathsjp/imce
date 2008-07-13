@@ -47,8 +47,10 @@ function imce_content($user, $jsop = '') {
 
   if (!$imce['error']) {
     //process file upload.
-    $forms .= drupal_get_form('imce_upload_form', $imce_ref);
-    //process file operations
+    if (imce_perm_exists($imce, 'upload')) {
+      $forms .= drupal_get_form('imce_upload_form', $imce_ref);
+    }
+    //process file operations.
     $forms .= drupal_get_form('imce_fileop_form', $imce_ref);
   }
 
@@ -119,7 +121,6 @@ function imce_upload_form(&$form_state, $ref) {
   }
   $form = array('fset_upload' => array('#type' => 'fieldset', '#title' => t('Upload file')) + $form);
   $form['#attributes']['enctype'] = 'multipart/form-data';
-  $form['#attributes']['class'] = $imce['perm']['upload'] ? '' : 'imce-hide';
   $form['#action'] = $imce['url'];
   return $form;
 }
@@ -134,27 +135,31 @@ function imce_fileop_form(&$form_state, $ref) {
     '#title' => t('Selected files'),
     '#maxlength' => $imce['filenum'] ? $imce['filenum']*255 : NULL,
   );
+
   //thumbnail
-  if (!empty($imce['thumbnails'])) {
+  if (!empty($imce['thumbnails']) && imce_perm_exists($imce, 'thumb')) {
     $form['fset_thumb'] = array(
       '#type' => 'fieldset',
       '#title' => t('Thumbnails'),
-      '#attributes' => array('class' => $imce['perm']['thumb'] ? '' : 'imce-hide'),
     ) + imce_thumb_form($imce);
   }
-  //delete
-  $form['fset_delete'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Delete'),
-    '#attributes' => array('class' => $imce['perm']['delete'] ? '' : 'imce-hide'),
-  ) + imce_delete_form($imce);
-  //resize
-  $form['fset_resize'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Resize'),
-    '#attributes' => array('class' => $imce['perm']['resize'] ? '' : 'imce-hide'),
-  ) + imce_resize_form($imce);
 
+  //delete
+  if (imce_perm_exists($imce, 'delete')) {
+    $form['fset_delete'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Delete'),
+    ) + imce_delete_form($imce);
+  }
+
+  //resize
+  if (imce_perm_exists($imce, 'resize')) {
+    $form['fset_resize'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Resize'),
+    ) + imce_resize_form($imce);
+  }
+ 
   $form['#action'] = $imce['url'];
   return $form;
 }
@@ -833,22 +838,46 @@ function imce_directory_info($dirname, $imce) {
 /**
  * Detect if the subdirectories are accessible through any directory(not just the current one) in the list.
  */
-function imce_subdirectories_accessible($imce) {
+function imce_subdirectories_accessible(&$imce) {
 
   if (!empty($imce['subdirectories'])) {
     $root = file_directory_path() .'/';
     //checking only the first one is sufficient.
-    $dirpath = $root . $imce['dir'] .'/'. $imce['subdirectories'][0];
+    $dirname = ($imce['dir'] == '.' ? '' : $imce['dir'] .'/') . $imce['subdirectories'][0];
+    $dirpath = $root . $dirname;
 
     //check if any setting is applicable for this subdirectory through any directory in the list.
     foreach ($imce['directories'] as $name => $info) {
-      if ($info['subnav'] && file_check_location($dirpath, $root . $name)) {
+      if ($info['subnav'] && $dirname != $name && file_check_location($dirpath, $root . $name)) {
         return TRUE;
       }
     }
   }
 
   return FALSE;
+}
+
+/**
+ * Check if a permission is given to at least one directory in the list.
+ */
+function imce_perm_exists(&$imce, $perm) {
+  static $perms = array();
+
+  if (isset($perms[$perm])) {
+    return $perms[$perm];
+  }
+
+  if (isset($imce['perm'][$perm]) && $imce['perm'][$perm]) {
+    return $perms[$perm] = TRUE;
+  }
+
+  foreach ($imce['directories'] as $name => $info) {
+    if (isset($info[$perm]) && $info[$perm]) {
+      return $perms[$perm] = TRUE;
+    }
+  }
+
+  return $perms[$perm] = FALSE;
 }
 
 /**
@@ -859,7 +888,7 @@ function imce_scan_directory($dirname) {
   $directory = array('dirsize' => 0, 'files' => array(), 'subdirectories' => array(), 'error' => FALSE);
   $dirpath = file_directory_path() .'/'. $dirname;
 
-  if (!$dirname || !$handle = opendir($dirpath)) {
+  if (!is_string($dirname) || $dirname == '' || !$handle = opendir($dirpath)) {
     imce_inaccessible_directory($dirname);
     $directory['error'] = TRUE;
     return $directory;
