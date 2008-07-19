@@ -465,6 +465,7 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
 
   //resize image to a temp file
   $temp = tempnam(realpath(file_directory_temp()), 'imc');
+  register_shutdown_function('file_delete', $temp);
   $function = 'image_'. $op;
   if (!$function($filepath, $temp, $width, $height)) {
     drupal_set_message(t('%filename cannot be resized to %dimensions', array('%filename' => utf8_encode($filename), '%dimensions' => $width .'x'. $height)), 'error', FALSE);
