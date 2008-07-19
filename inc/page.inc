@@ -946,7 +946,7 @@ function imce_create_tree(&$imce) {
       }
       $tmp[':access:'] = TRUE;
     }
-    if ($path == $imce['dir']) {
+    if ($path === $imce['dir']) {
       $tmp[':active:'] = TRUE;
       foreach ($imce['subdirectories'] as $arg) {
         $tmp[$arg][':access:'] = TRUE;
