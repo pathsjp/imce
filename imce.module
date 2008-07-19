@@ -88,11 +88,15 @@ function imce_file_download($file) {
     if ($info = @getimagesize($path)) {
       $type = $info['mime'];
     }
-    else if (function_exists('mime_content_type')) {
-      $type = mime_content_type($path);
+    else if (function_exists('finfo_file') && $finfo = @finfo_open(FILEINFO_MIME)) {
+      $type = finfo_file($finfo, $path);
+      finfo_close($finfo);
     }
     else if ($result = db_result(db_query("SELECT filemime FROM {files} WHERE filepath = '%s'", $path))) {
       $type = $result;
+    }
+    else if (function_exists('mime_content_type')) {
+      $type = mime_content_type($path);
     }
     else {
       $type = 'application/x-download';
