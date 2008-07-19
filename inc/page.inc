@@ -656,7 +656,7 @@ function imce_initiate_profile($user) {
       $imce['prvt'] = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE;
       $imce['furl'] = $imce['prvt'] ? url('system/files') : base_path() . file_directory_path();
       if (variable_get('imce_settings_absurls', 0)) {
-        $imce['furl'] = $GLOBALS['base_url'] . $imce['furl'];
+        $imce['furl'] = $GLOBALS['base_root'] . $imce['furl'];
       }
       $imce['filesize'] *= 1048576;//convert from Mb to byte
       $imce['quota'] *= 1048576;
