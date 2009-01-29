@@ -91,7 +91,7 @@ function imce_js($user, $jsop = '') {
   //messages
   $response['messages'] = drupal_get_messages();
 
-  print drupal_to_js($response);
+  drupal_json($response);
   exit();
 }
 
