@@ -117,7 +117,7 @@ imce.initiateSorting = function() {
 
 //sort the list for the first time
 imce.firstSort = function() {
-  imce.vars.cid || imce.vars.dsc ? imce.columnSort(imce.vars.cid, imce.vars.dsc) : $(imce.cols[0]).addClass('asc');
+  imce.columnSort(imce.vars.cid, imce.vars.dsc);
 };
 
 //sort file list according to column index.
