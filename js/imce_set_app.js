@@ -16,7 +16,17 @@ imce.hooks.load.push(function(win) {
   imce.setSendTo(Drupal.t('Send to @app', {'@app': appname}), appFinish);
   //highlight file
   if (appFields['url']) {
-    var filename = $('#'+ appFields['url'], (top.appiFrm||win).opener.document).val();
+    var doc = (top.appiFrm||win).opener.document;
+    if (appFields['url'].indexOf(',')) {
+      var arr = appFields['url'].split(',');
+      for (var i in arr) {
+        if ($('#'+ arr[i], doc).size()) {
+          appFields['url'] = arr[i];
+          break;
+        }
+      }
+    }
+    var filename = $('#'+ appFields['url'], doc).val();
     imce.highlight(filename.substr(filename.lastIndexOf('/')+1));
   }
 });
