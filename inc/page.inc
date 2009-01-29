@@ -91,7 +91,9 @@ function imce_js($user, $jsop = '') {
   //messages
   $response['messages'] = drupal_get_messages();
 
-  drupal_json($response);
+  //for upload we must return plain text header.
+  drupal_set_header('Content-Type: text/'. ($jsop == 'upload' ? 'plain' : 'javascript') .'; charset=utf-8');
+  print drupal_to_js($response);
   exit();
 }
 
