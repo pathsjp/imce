@@ -722,6 +722,13 @@ function imce_process_directories($directories, $user) {
     if (substr($directory['name'], 0, 4) == 'php:') {
       //not using drupal_eval since we need $user to be accessible as it may be different from $GLOBALS['user']
       $directory['name'] = eval(substr($directory['name'], 4));
+     //php may return an array of directories
+      if (is_array($directory['name'])) {
+        foreach ($directory['name'] as $name) {
+          $paths[$name] = array('name' => $name) + $directory;
+        }
+        continue;
+      }
     }
     else {
       $directory['name'] = strtr($directory['name'], $translate);
