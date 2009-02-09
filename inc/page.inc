@@ -421,7 +421,7 @@ function imce_create_thumbnail($filename, &$imce, $thumbnail) {
   }
   //scale the image
   list($width, $height) = explode('x', $thumbnail['dimensions']);
-  return imce_resize_image($filename, $imce, $width, $height, TRUE, $name, 'scale_and_crop');
+  return imce_resize_image($filename, $imce, $width, $height, TRUE, $name, variable_get('imce_settings_thumb_method', 'scale_and_crop'));
 }
 
 /**
