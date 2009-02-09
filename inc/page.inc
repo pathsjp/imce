@@ -928,6 +928,7 @@ function imce_scan_directory($dirname) {
   }
 
   closedir($handle);
+  sort($directory['subdirectories']);
   return $directory;
 }
 
