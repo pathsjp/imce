@@ -9,9 +9,7 @@ imceInline.initiate = function() {
     imceInline.activeType = this.name.substr(i+6);
  
     if (typeof imceInline.pop == 'undefined' || imceInline.pop.closed) {
-      imceInline.pop = window.open(this.href, '', 'width='+ 760 +',height='+ 560 +',resizable=1');
-      imceInline.pop['imceOnLoad'] = imceInline.onLoad;
-      imceInline.interval = setInterval("imceInline.pop['imceOnLoad'] = imceInline.onLoad;", 200);//opera not allowing to set window variables initially.
+      imceInline.pop = window.open(this.href + (this.href.indexOf('?') < 0 ? '?' : '&') +'app=nomatter|onload@imceInlineImceLoad', '', 'width='+ 760 +',height='+ 560 +',resizable=1');
     }
 
     imceInline.pop.focus();
@@ -20,8 +18,7 @@ imceInline.initiate = function() {
 };
 
 //function to be executed when imce loads.
-imceInline.onLoad = function (win) {
-  clearInterval(imceInline.interval);
+function imceInlineImceLoad(win) {
   win.imce.setSendTo(Drupal.t('Send to @app', {'@app': Drupal.t('textarea')}), imceInline.insert);
   $(window).unload(function() {
     if (imceInline.pop && !imceInline.pop.closed) imceInline.pop.close();
