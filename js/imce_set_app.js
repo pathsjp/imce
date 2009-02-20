@@ -8,20 +8,30 @@ var appFields = {}, appWindow = (top.appiFrm||window).opener;
 imce.hooks.load.push(function(win) {
   var data = decodeURIComponent(location.href.substr(location.href.lastIndexOf('app=')+4)).split('|');
   var appName = data.shift();
-  //run custom onload function if avaliable.
-  if (data[0].indexOf('@') < 0 && $.isFunction(appWindow[data[0]])) {
-    return appWindow[data[0]](win);
-  }
-  //set send to
-  imce.setSendTo(Drupal.t('Send to @app', {'@app': appName}), appFinish);
   //extract fields
   for (var i in data) {
     var arr = data[i].split('@');
     appFields[arr[0]] = arr[1];
   }
+  //run custom onload function if available.
+  if (appFields['onload'] && $.isFunction(appWindow[appFields['onload']])) {
+    appWindow[appFields['onload']](win);
+    delete appFields['onload'];
+  }
+  //set custom sendto function. appFinish is the default.
+  var sendtoFunc = appFields['url'] ? appFinish : false;
+  //check sendto@funcName syntax in URL
+  if (appFields['sendto'] && $.isFunction(appWindow[appFields['sendto']])) {
+    sendtoFunc = appWindow[appFields['sendto']];
+    delete appFields['sendto'];
+  }
+  //check windowname+ImceFinish. old method
+  else if (win.name && $.isFunction(appWindow[win.name +'ImceFinish'])) {
+    sendtoFunc = appWindow[win.name +'ImceFinish'];
+  }
   //highlight file
   if (appFields['url']) {
-    if (appFields['url'].indexOf(',') > -1) {
+    if (appFields['url'].indexOf(',') > -1) {//support multiple url fields url@field1,field2..
       var arr = appFields['url'].split(',');
       for (var i in arr) {
         if ($('#'+ arr[i], appWindow.document).size()) {
@@ -32,6 +42,10 @@ imce.hooks.load.push(function(win) {
     }
     var filename = $('#'+ appFields['url'], appWindow.document).val();
     imce.highlight(filename.substr(filename.lastIndexOf('/')+1));
+  }
+  //set send to
+  if (sendtoFunc) {
+    imce.setSendTo(Drupal.t('Send to @app', {'@app': appName}), sendtoFunc);
   }
 });
 
