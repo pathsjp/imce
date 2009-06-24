@@ -148,7 +148,7 @@ imce.updateSortState = function(cid, dsc) {
 };
 
 //sorters
-imce.sortStrAsc = function(a, b) {return a.charAt(0).toLowerCase() < b.charAt(0).toLowerCase() ? -1 : b < a;};
+imce.sortStrAsc = function(a, b) {return a.toLowerCase() < b.toLowerCase() ? -1 : 1;};
 imce.sortStrDsc = function(a, b) {return imce.sortStrAsc(b, a);};
 imce.sortNumAsc = function(a, b) {return a-b;};
 imce.sortNumDsc = function(a, b) {return b-a};
