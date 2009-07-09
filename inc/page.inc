@@ -539,6 +539,7 @@ function imce_add_file($file, &$imce) {
     $add['name'] = rawurlencode($file->filename);
     $add['fsize'] = format_size($file->filesize);
     $add['fdate'] = format_date($file->timestamp, 'small');
+    $add['id'] = $file->fid;
     $imce['added'][] = $add;
   }
 }
