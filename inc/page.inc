@@ -5,6 +5,7 @@
  * q = imce.
  */
 function imce_page() {
+  module_invoke('admin_menu', 'suppress');//suppress admin_menu
   $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
   print theme('imce_page', imce_content($GLOBALS['user'], $jsop));
   exit();
