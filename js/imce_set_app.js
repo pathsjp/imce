@@ -2,7 +2,7 @@
 //When imce url contains &app=appName|fileProperty1@correspondingFieldId1|fileProperty2@correspondingFieldId2|...
 //the specified fields are filled with the specified properties of the selected file.
 
-var appFields = {}, appWindow = (top.appiFrm||window).opener;
+var appFields = {}, appWindow = (top.appiFrm||window).opener || parent;
 
 //execute when imce loads.
 imce.hooks.load.push(function(win) {
