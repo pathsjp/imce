@@ -50,7 +50,7 @@ drupal_add_js('
 </a>
 
 <div id="ops-wrapper">
-  <div id="op-items"><ul class="tabs secondary" id="ops-list"></ul></div>
+  <div id="op-items" class="clear-block"><ul class="tabs secondary" id="ops-list"></ul></div>
   <div id="op-contents"></div>
 </div>
 
