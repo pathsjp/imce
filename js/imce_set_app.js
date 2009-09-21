@@ -18,6 +18,11 @@ imce.hooks.load.push(function(win) {
     appWindow[appFields['onload']](win);
     delete appFields['onload'];
   }
+  //alternative sytax for some servers that ban URLs containing onload keyword.
+  else if (appFields['imceload'] && $.isFunction(appWindow[appFields['imceload']])) {
+    appWindow[appFields['imceload']](win);
+    delete appFields['imceload'];
+  }
   //set custom sendto function. appFinish is the default.
   var sendtoFunc = appFields['url'] ? appFinish : false;
   //check sendto@funcName syntax in URL

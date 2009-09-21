@@ -9,7 +9,7 @@ imceInline.initiate = function() {
     imceInline.activeType = this.name.substr(i+6);
  
     if (typeof imceInline.pop == 'undefined' || imceInline.pop.closed) {
-      imceInline.pop = window.open(this.href + (this.href.indexOf('?') < 0 ? '?' : '&') +'app=nomatter|onload@imceInlineImceLoad', '', 'width='+ 760 +',height='+ 560 +',resizable=1');
+      imceInline.pop = window.open(this.href + (this.href.indexOf('?') < 0 ? '?' : '&') +'app=nomatter|imceload@imceInlineImceLoad', '', 'width='+ 760 +',height='+ 560 +',resizable=1');
     }
 
     imceInline.pop.focus();
