@@ -61,7 +61,7 @@ Having nothing to do with IMCE, it appeared many times in issue queues. This is 
 Probably talking about tinyMCE or FCKeditor. See INTEGRATION METHODS to learn to integrate it by yourself.
 
 - Upload does not work in Opera
-Jquery form plugin before version 2.09 has problems with Opera 9.2+. Replace Drupal's misc/jquery.form.js with http://jqueryjs.googlecode.com/svn/trunk/plugins/form/jquery.form.js
+Jquery form plugin before version 2.09 has problems with Opera 9.2+. Replace Drupal's misc/jquery.form.js with the one at http://jquery.malsup.com/form/#download
 
 - IMCE may have problem working with Google Analytics and Secure pages modules. Just make sure to add imce* path to the exceptions list of these modules.
 
