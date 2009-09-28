@@ -21,7 +21,7 @@ drupal_add_js('
 ?>
 <!--[if IE]><style type="text/css">#file-list-wrapper{padding-right: 2em}#file-list{margin-right: -2em}</style><![endif]-->
 <!--[if IE 6]><style type="text/css">.y-resizer{font-size: 0.2em;}#sub-browse-wrapper{float: left; clear: right;}#preview-wrapper{overflow: visible;}#file-preview{width: 99%; height: 99%; overflow: auto;}</style><![endif]-->
-<noscript><?php print t('You should use a javascript-enabled browser in order to experince a much more user-friendly interface.'); ?></noscript>
+<noscript><?php print t('You should use a javascript-enabled browser in order to experience a much more user-friendly interface.'); ?></noscript>
 
 <div id="imce-content">
 
