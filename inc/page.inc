@@ -4,10 +4,10 @@
 /**
  * q = imce.
  */
-function imce_page() {
+function imce_page($user = FALSE) {
   module_invoke('admin_menu', 'suppress');//suppress admin_menu
   $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
-  print theme('imce_page', imce_content($GLOBALS['user'], $jsop));
+  print theme('imce_page', imce_content($user === FALSE ? $GLOBALS['user'] : $user, $jsop));
   exit();
 }
 
@@ -15,9 +15,7 @@ function imce_page() {
  * q = user/x/imce.
  */
 function imce_user_page($account) {
-  drupal_set_title($account->name);
-  $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
-  return imce_content($account, $jsop);
+  return imce_page($account);
 }
 
 /**
@@ -66,7 +64,7 @@ function imce_content($user, $jsop = '') {
 
   //make necessary changes for js conversion
   $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
-  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid']);
+  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid'], $imce['usertab']);
 
   drupal_add_js($imce_ref, 'setting');
 
