@@ -11,9 +11,9 @@ imce.hooks.load.push(function(win) {
   //extract fields
   for (var i in data) {
     var arr = data[i].split('@');
-    appFields[arr[0]] = arr[1];
+    arr.length > 1 && (appFields[arr[0]] = arr[1]);
   }
-  //run custom onload function if available.
+  //run custom onload function if available. DEPRECATED!
   if (appFields['onload'] && $.isFunction(appWindow[appFields['onload']])) {
     appWindow[appFields['onload']](win);
     delete appFields['onload'];
