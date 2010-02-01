@@ -6,7 +6,7 @@
  */
 function imce_menu() {
   $items = array();
-  $access = array('administer site configuration');
+  $access = array('administer imce');
   $items['imce'] = array(
     'title' => 'File browser',
     'page callback' => 'imce_page',
@@ -52,6 +52,13 @@ function imce_menu() {
     'weight' => 10,
   );
   return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function imce_perm() {
+  return array('administer imce');
 }
 
 /**

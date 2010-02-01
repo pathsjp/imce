@@ -965,7 +965,7 @@ function imce_create_tree(&$imce) {
     }
   }
   //set root branch
-  $root = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !user_access('administer site configuration') ? t('Directory root') : file_directory_path();
+  $root = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !user_access('administer imce') ? t('Directory root') : file_directory_path();
   $q = $imce['clean'] ? '?' : '&';
   if (isset($imce['directories']['.'])) {
     $root = '<a href="'. $imce['url'] . $q .'dir=." title="." class="folder'. ($imce['dir'] == '.' ? ' active' : '') .'">'. $root .'</a>';
