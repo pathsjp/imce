@@ -6,7 +6,7 @@
  */
 function imce_menu() {
   $items = array();
-  $access = array('administer imce');
+  $access = array('administer imce(execute PHP)');
   $items['imce'] = array(
     'title' => 'File browser',
     'page callback' => 'imce_page',
@@ -58,7 +58,7 @@ function imce_menu() {
  * Implementation of hook_perm().
  */
 function imce_perm() {
-  return array('administer imce');
+  return array('administer imce(execute PHP)');
 }
 
 /**
