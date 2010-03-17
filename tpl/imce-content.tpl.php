@@ -35,7 +35,7 @@ $imce =& $imce_ref['imce'];//keep this line.
       <li><?php print t('Select a file by clicking the corresponding row in the file list.'); ?></li>
       <li><?php print t('Ctrl+click to add files to the selection or to remove files from the selection.'); ?></li>
       <li><?php print t('Shift+click to create a range selection. Click to start the range and shift+click to end it.'); ?></li>
-      <li><?php print t('In order to send a file to an external application, doubleclick on the file row.'); ?></li>
+      <li><?php print t('In order to send a file to an external application, double click on the file row.'); ?></li>
       <li><?php print t('Sort the files by clicking a column header of the file list.'); ?></li>
       <li><?php print t('Resize the work-spaces by dragging the horizontal or vertical resize-bars.'); ?></li>
       <li><?php print t('Keyboard shortcuts for file list: up, down, left, home, end, ctrl+A.'); ?></li>
