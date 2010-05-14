@@ -50,6 +50,18 @@ function imce_update_6001() {
   return array();
 }
 
+/**
+ * Make file browser tab optional in user profiles.
+ */
+function imce_update_6002() {
+  $profiles = variable_get('imce_profiles', array());
+  foreach ($profiles as $id => $profile) {
+    $profiles[$id]['usertab'] = isset($profiles[$id]['usertab']) ? $profiles[$id]['usertab'] : 1;
+  }
+  variable_set('imce_profiles', $profiles);
+  return array(array('success' => TRUE, 'query' => 'File browser tab in user profiles was made optional.'));
+}
+
 
 /**
  * Convert 6.x-1.x to 6.x-2.x

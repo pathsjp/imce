@@ -17,6 +17,13 @@ function imce() {
 }
 
 /**
+ * q = user/x/imce.
+ */
+function imce_user_page($account) {
+  return theme('imce_user_page', $account);
+}
+
+/**
  * Returns the imce page for the specified user.
  */
 function imce_page($user, $jsop = NULL) {
@@ -71,7 +78,7 @@ function imce_content($user, $jsop = NULL) {
 
   //make necessary changes for js conversion
   $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
-  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid']);
+  unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid'], $imce['usertab']);
 
   drupal_add_js($imce_ref, 'setting');
 
@@ -1054,4 +1061,19 @@ function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
     $html = '<ul>'. $html .'</ul>';
   }
   return $html;
+}
+
+/**
+ * Returns the text for the root directory in a directory tree.
+ */
+function theme_imce_root_text($imce_ref) {
+  //$imce = &$imce_ref['imce'];
+  return '&lt;' . t('root') . '&gt;';
+}
+
+/**
+ * Returns the html for user's file browser tab.
+ */
+function theme_imce_user_page($account) {
+  return '<iframe src="' . url('imce') . '" frameborder="0" style="border: 1px solid #eee; width: 99%; height: 520px" class="imce-frame"></iframe>';
 }
