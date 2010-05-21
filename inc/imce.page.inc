@@ -104,6 +104,8 @@ function imce_js($user, $jsop = '') {
   //messages
   $response['messages'] = drupal_get_messages();
 
+  //disable devel log.
+  $GLOBALS['devel_shutdown'] = FALSE;
   //for upload we must return plain text header.
   drupal_set_header('Content-Type: text/'. ($jsop == 'upload' ? 'html' : 'javascript') .'; charset=utf-8');
   print drupal_to_js($response);
