@@ -117,11 +117,7 @@ function imce_elements() {
  * Inline image/link insertion to textareas.
  */
 function imce_textarea($element) {
-  static $ids, $done = array();
-  if (isset($done[$element['#id']])) {
-    return $element;
-  }
-  $done[$element['#id']] = TRUE;
+  static $ids;
   if (!isset($ids)) {
     $ids = FALSE;
     if (imce_access() && $setting = str_replace(' ', '', variable_get('imce_settings_textarea', ''))) {
