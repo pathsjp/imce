@@ -660,6 +660,14 @@ function imce_form_admin_form() {
     '#default_value' => variable_get('imce_settings_fck', 0),
     '#description' => t('Replace the built-in file browser of FCKeditor with IMCE.'),
   ) : NULL;
+  if (variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE) {
+    $form['common']['disable_private'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Disable serving of private files'),
+      '#default_value' => variable_get('imce_settings_disable_private', 0),
+      '#description' => t('By default IMCE serves all files under private files directory without applying any access restrictions. This allows anonymous access to any file(/system/files/filename) unless there is a module restricting access to the files. Here you can disable this default behavior.'),
+    );
+  }
   $form['common']['textarea'] = array('#type' => 'textfield',//plain textarea support
     '#title' => t('Enable inline image/file insertion into plain textareas'),
     '#default_value' => variable_get('imce_settings_textarea', ''),
@@ -711,6 +719,9 @@ function imce_form_admin_form_submit($form_id, $edit) {
   if (isset($edit['common']['textarea'])) {
     variable_set('imce_settings_textarea', $edit['common']['textarea']);
   }
+  if (isset($edit['common']['disable_private'])) {
+    variable_set('imce_settings_disable_private', $edit['common']['disable_private']);
+  }
   if (isset($edit['common']['rank'])) {
     variable_set('imce_settings_rank', explode('>', str_replace(' ', '', $edit['common']['rank'])));
   }
@@ -727,6 +738,10 @@ function imce_form_admin_form_submit($form_id, $edit) {
  * Implementation of hook_file_download(). support for private downloads.
  */
 function imce_file_download($file) {
+  $serve = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !variable_get('imce_settings_disable_private', 0) && ($path = file_create_path($file)) && file_exists($path);
+  if (!$serve) {
+    return;
+  }
   $roles = variable_get('imce_settings_roles', array());
   $roles += array('user1' => variable_get('imce_settings_user1', array()));
   $roles += array('default' => imce_settings_default());
@@ -745,7 +760,7 @@ function imce_file_download($file) {
       }
     }
   }
-  if ($imcefile && ($path = file_create_path($file))) {
+  if ($imcefile) {
     $ctype = ($info = @getimagesize($path)) ? $info['mime'] : (function_exists('mime_content_type') ? mime_content_type($path) : 'application/x-download');
     return array('Content-type: '. $ctype);
   }
