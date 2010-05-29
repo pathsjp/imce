@@ -18,6 +18,7 @@ function imce_uninstall() {
   variable_del('imce_settings_textarea');
   variable_del('imce_settings_absurl');
   variable_del('imce_settings_replace');
+  variable_del('imce_settings_disable_private');
   variable_del('imce_custom_content');
   variable_del('imce_custom_process');
   variable_del('imce_custom_scan');
