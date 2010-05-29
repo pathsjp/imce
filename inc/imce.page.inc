@@ -304,6 +304,7 @@ function imce_upload_submit($form, &$form_state) {
     $file->uid = $imce['uid'];//global user may not be the owner.
     $file->status = FILE_STATUS_PERMANENT;//make permanent
     drupal_write_record('files', $file, array('fid'));//update
+    imce_file_register($file);
     drupal_set_message(t('%filename has been uploaded.', array('%filename' => $file->filename)));
 
     //update file list
@@ -394,30 +395,25 @@ function imce_process_files($filenames, &$imce, $function, $args = array()) {
  */
 function imce_delete_file($filename, &$imce) {
   $filepath = file_directory_path() . ($imce['dir'] == '.' ? '' : '/'. $imce['dir']) .'/'. $filename;
-  $file = db_fetch_object(db_query("SELECT f.* FROM {files} f WHERE f.filepath = '%s'", $filepath));
+  $file = db_fetch_object(db_query("SELECT * FROM {files} WHERE filepath = '%s'", $filepath));
 
   //file exists in database
   if ($file) {
-    //let filefield handle the deletion
-    if (function_exists('field_file_delete')) {
-      $result = field_file_delete($file);
-      //deletion blocked by an other module.
-      if (is_array($result)) {
-        drupal_set_message(t('%filename is in use by another application.', array('%filename' => $file->filename)), 'error');
-        return FALSE;
-      }
-      //general failure
-      if (!$result) {
-        return FALSE;
-      }
+    //prevent imce returning ref count
+    $file->imce_noref = TRUE;
+    //check references
+    $refs = array_filter(module_invoke_all('file_references', $file));
+    //file is in use
+    if (!empty($refs)) {
+      drupal_set_message(t('%filename is in use by another application.', array('%filename' => $file->filename)), 'error');
+      return FALSE;
     }
-    //delete manually
-    else {
-      if (!file_delete($file->filepath)) {
-        return FALSE;
-      }
-      db_query('DELETE FROM {files} WHERE fid = %d', $file->fid);
+    //prepare deletion
+    module_invoke_all('file_delete', $file);
+    if (!file_delete($file->filepath)) {
+      return FALSE;
     }
+    db_query('DELETE FROM {files} WHERE fid = %d', $file->fid);
   }
   //not in db. probably loaded via ftp.
   elseif (!file_delete($filepath)) {
@@ -543,6 +539,7 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
 
   //save the file
   drupal_write_record('files', $file, $update);
+  imce_file_register($file);
 
   //update file list
   //if the file was scaled get the new dimensions
@@ -1078,4 +1075,11 @@ function theme_imce_root_text($imce_ref) {
  */
 function theme_imce_user_page($account) {
   return '<iframe src="' . url('imce') . '" frameborder="0" style="border: 1px solid #eee; width: 99%; height: 520px" class="imce-frame"></iframe>';
+}
+
+/**
+ * Registers the file as an IMCE file.
+ */
+function imce_file_register($file) {
+  return $file->fid && @db_query('INSERT INTO {imce_files} (fid) VALUES(%d)', $file->fid);
 }
