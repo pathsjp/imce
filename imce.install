@@ -100,7 +100,19 @@ function imce_update_6200() {
  */
 function imce_update_6201() {
   $ret = array();
-  $schema = imce_schema();
-  db_create_table($ret, 'imce_files', $schema['imce_files']);
+  $table = array(
+    'description' => t('Stores files created by IMCE.'),
+    'fields' => array(
+      'fid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => t('The {files}.fid that belongs to IMCE.'),
+      ),
+    ),
+    'primary key' => array('fid'),
+  );
+  db_create_table($ret, 'imce_files', $table);
   return $ret;
 }
