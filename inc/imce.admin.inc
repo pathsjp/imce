@@ -68,6 +68,12 @@ function imce_admin_form(&$form_state) {
     '#maxlength' => NULL,
     '#description' => t('If you don\'t use any WYSIWYG editor, this feature will allow you to add your images or files as <strong>html code into any plain textarea</strong>. Enter <strong>comma separated textarea IDs</strong> under which you want to enable a link to IMCE. Hint: ID of Body fields in most node types is edit-body.'),
   );
+  $form['common']['absurls'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Absolute URLs'),
+    '#default_value' => variable_get('imce_settings_absurls', 0),
+    '#description' => t('Check if you want IMCE to return absolute file URLs.'),
+  );
   $form['common']['replace'] = array(
     '#type' => 'radios',
     '#title' => t('Default behaviour for existing files during file uploads'),
@@ -137,6 +143,7 @@ function imce_admin_submit($form, &$form_state) {
   }
   variable_set('imce_roles_profiles', $roles);
   variable_set('imce_settings_textarea', $form_state['values']['textarea']);
+  variable_set('imce_settings_absurls', $form_state['values']['absurls']);
   variable_set('imce_settings_replace', $form_state['values']['replace']);
   variable_set('imce_settings_thumb_method', $form_state['values']['thumb_method']);
   if (isset($form_state['values']['disable_private'])) {

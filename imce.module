@@ -89,7 +89,7 @@ function imce_theme() {
  * Implementation of hook_file_download().
  */
 function imce_file_download($file) {
-  $serve = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !variable_get('imce_settings_disable_private', 0) && ($path = file_create_path($file)) && file_exists($path);
+  $serve = variable_get('file_downloads', '') == FILE_DOWNLOADS_PRIVATE && !variable_get('imce_settings_disable_private', 0) && ($path = file_create_path($file)) && file_exists($path) && strpos(basename($path), '.');
   if ($serve) {
     if ($result = db_result(db_query("SELECT filemime FROM {files} WHERE filepath = '%s'", $path))) {
       $type = $result;
