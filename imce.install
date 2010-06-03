@@ -90,8 +90,7 @@ function imce_update_6002() {
  * Convert 6.x-1.x to 6.x-2.x
  */
 function imce_update_6200() {
-  //delete deprecated variables
-  variable_del('imce_settings_absurls');
+  //delete deprecated variables.cancelled!
   return array();
 }
 
