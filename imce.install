@@ -37,14 +37,14 @@ function imce_uninstall() {
  */
 function imce_schema() {
   $schema['imce_files'] = array(
-    'description' => t('Stores files created by IMCE.'),
+    'description' => 'Stores files created by IMCE.',
     'fields' => array(
       'fid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-        'description' => t('The {files}.fid that belongs to IMCE.'),
+        'description' => 'The {files}.fid that belongs to IMCE.',
       ),
     ),
     'primary key' => array('fid'),
@@ -100,14 +100,14 @@ function imce_update_6200() {
 function imce_update_6201() {
   $ret = array();
   $table = array(
-    'description' => t('Stores files created by IMCE.'),
+    'description' => 'Stores files created by IMCE.',
     'fields' => array(
       'fid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
-        'description' => t('The {files}.fid that belongs to IMCE.'),
+        'description' => 'The {files}.fid that belongs to IMCE.',
       ),
     ),
     'primary key' => array('fid'),
