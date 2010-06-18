@@ -395,6 +395,17 @@ function imce_process_files($filenames, &$imce, $function, $args = array()) {
  */
 function imce_delete_file($filename, &$imce) {
   $filepath = file_directory_path() . ($imce['dir'] == '.' ? '' : '/'. $imce['dir']) .'/'. $filename;
+  if (!imce_delete_filepath($filepath)) {
+    return FALSE;
+  }
+  imce_remove_file($filename, $imce);
+  return TRUE;
+}
+
+/**
+ * Delete a file by path.
+ */
+function imce_delete_filepath($filepath) {
   $file = db_fetch_object(db_query("SELECT * FROM {files} WHERE filepath = '%s'", $filepath));
 
   //file exists in database
@@ -420,7 +431,6 @@ function imce_delete_file($filename, &$imce) {
     return FALSE;
   }
 
-  imce_remove_file($filename, $imce);
   return TRUE;
 }
 
