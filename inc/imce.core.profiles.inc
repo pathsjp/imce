@@ -70,7 +70,7 @@ function imce_install_profiles() {
 
       //create profile
       $profile_name = $user_roles[$rid];
-      $profiles[$index] = imce_construct_profile($profile_name, $fsize, $quota, 0, $ext, $set['width'] .'x'. $set['height'], 1, $dirs, $thumbs);
+      $profiles[$index] = imce_construct_profile($profile_name, 1, $fsize, $quota, 0, $ext, $set['width'] .'x'. $set['height'], 1, $dirs, $thumbs);
 
       //assign the profile to the role.
       $role_profile[$rid] = array('pid' => $index, 'weight' => $weights[$rid]);
