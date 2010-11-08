@@ -570,7 +570,7 @@ function imce_validate_all(&$file, $imce) {
   //because user might have uploaded a very big image
   //and scaling it may exploit system memory.
   $errors = imce_validate_filesize($file, $imce['filesize']);
-  if (empty($errors)) {//image resolution validation
+  if (empty($errors) && imce_image_info($file->filepath)) {//image resolution validation
     $errors = array_merge($errors, file_validate_image_resolution($file, $imce['dimensions']));
   }
   if ($imce['quota']) {//directory quota validation
