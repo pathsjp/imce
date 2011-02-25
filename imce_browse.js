@@ -1,4 +1,3 @@
-// $Id$
 $(imceStartBrowser);
 
 imceVar['absURL'] = 0;//absolute URLs

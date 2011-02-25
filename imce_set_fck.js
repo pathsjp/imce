@@ -1,4 +1,3 @@
-// $Id$
 
 function imceSetFCK(fck) {
   var types = {Image: 1, Link: 1, Flash: 1};

@@ -1,4 +1,3 @@
-// $Id$
 $(imceExtrasInit);
 
 function imceExtrasInit() {

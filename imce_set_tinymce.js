@@ -1,4 +1,3 @@
-// $Id$
 
 function imceInitiateTinyMCE(cycle) {
   if ("undefined" != typeof(window.tinyMCE)) {
