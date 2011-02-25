@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Ajax operation: navigate

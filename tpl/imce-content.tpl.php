@@ -1,5 +1,4 @@
 <?php
-// $Id$
 $imce =& $imce_ref['imce'];//keep this line.
 $directory = drupal_get_path('module', 'imce');
 

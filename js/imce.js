@@ -1,4 +1,3 @@
-// $Id$
 
 //Global container.
 var imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, ops: {}, cache: {}, urlId: {},

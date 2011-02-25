@@ -1,5 +1,4 @@
 # translation of pt-br.po to Brazilian Portuguese
-# $Id$
 #
 # LANGUAGE translation of Drupal (general)
 # Copyright YEAR NAME <EMAIL@ADDRESS>

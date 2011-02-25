@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Create core profiles and import settings from 5.x

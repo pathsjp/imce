@@ -1,5 +1,4 @@
 <?php
-// $Id$
 $imce =& $imce_ref['imce'];//keep this line.
 
 //Although the file list table here is avaliable for theming, it is not recommended to change the table structure, because

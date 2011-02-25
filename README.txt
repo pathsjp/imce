@@ -1,4 +1,3 @@
-// $Id$
 
 IMCE is an image/file uploader and browser that supports personal directories and quota.
 IMCE can easily be integrated into any WYSIWYG editor or any web application that needs a file browser.

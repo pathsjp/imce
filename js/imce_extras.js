@@ -1,4 +1,3 @@
-// $Id$
 //This pack implemets: keyboard shortcuts, file sorting, resize bars, and inline thumbnail preview.
 
 //add onload hook. unshift to make sure it runs first after imce loads.

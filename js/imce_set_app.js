@@ -1,4 +1,3 @@
-// $Id$
 //When imce url contains &app=appName|fileProperty1@correspondingFieldId1|fileProperty2@correspondingFieldId2|...
 //the specified fields are filled with the specified properties of the selected file.
 

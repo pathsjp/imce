@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Subdirectory creation form.
