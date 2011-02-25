@@ -1,4 +1,3 @@
-//$Id$
 /*
  * jQuery Form Plugin
  * version: 2.36 (07-NOV-2009)
