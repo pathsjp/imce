@@ -1,4 +1,3 @@
-// $Id$
 
 /* SORTTABLE
   based on http://webfx.eae.net/dhtml/sortabletable/sortabletable.html

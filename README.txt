@@ -1,4 +1,3 @@
-// $Id$
 
 IMCE is mainly designed for uploading and adding images to tinyMCE editor.
 It also supports non-image file uploading and browsing.
