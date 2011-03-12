@@ -98,6 +98,9 @@ function imce_update_6200() {
  */
 function imce_update_6201() {
   $ret = array();
+  if (db_table_exists('imce_files')) {
+    return $ret;
+  }
   $table = array(
     'description' => 'Stores files created by IMCE.',
     'fields' => array(
