@@ -1,10 +1,10 @@
-
 (function($) {
 
 var ii = window.imceInline = {};
 
-ii.initiate = function() {
-  $('div.imce-inline-wrapper').show().find('a').click(function() {
+// Drupal behavior
+Drupal.behaviors.imceInline = function(context) {
+  $('div.imce-inline-wrapper', context).not('.processed').addClass('processed').show().find('a').click(function() {
     var i = this.name.indexOf('-IMCE-');
     ii.activeTextarea = $('#'+ this.name.substr(0, i)).get(0);
     ii.activeType = this.name.substr(i+6);
@@ -54,7 +54,5 @@ ii.insert = function (file, win) {
   win.blur();
   ii.insertAtCursor(ii.activeTextarea, html, type);
 };
-
-$(document).ready(ii.initiate);
 
 })(jQuery);
