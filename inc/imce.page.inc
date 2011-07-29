@@ -927,6 +927,7 @@ function imce_subdirectories_accessible(&$imce) {
 
     //check if any setting is applicable for this subdirectory through any directory in the list.
     foreach ($imce['directories'] as $name => $info) {
+      $name = (string) $name;
       if ($info['subnav'] && $dirname != $name && file_check_location($dirpath, $root . $name)) {
         return TRUE;
       }
