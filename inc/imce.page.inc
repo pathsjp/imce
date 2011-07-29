@@ -711,6 +711,12 @@ function imce_initiate_profile($user) {
 
   //check user profile and translate tokens in directory paths and evaluate php paths.
   if ($imce = imce_user_profile($user)) {
+    // Allow alteration of raw profile
+    foreach (variable_get('imce_custom_init', array()) as $func => $state) {
+      if ($state && function_exists($func)) {
+        $func($imce, $user);
+      }
+    }
     imce_process_directories($imce, $user);
     if (!empty($imce['directories'])) {
       $imce['uid'] = (int) $user->uid;
