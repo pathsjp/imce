@@ -7,6 +7,7 @@ hooks: {load: [], list: [], navigate: [], cache: []},
 //initiate imce.
 initiate: function() {
   imce.conf = Drupal.settings.imce || {};
+  imce.ie = (navigator.userAgent.match(/msie (\d+)/i) || ['', 0])[1] * 1;
   if (imce.conf.error != false) return;
   imce.FLW = imce.el('file-list-wrapper'), imce.SBW = imce.el('sub-browse-wrapper');
   imce.NW = imce.el('navigation-wrapper'), imce.BW = imce.el('browse-wrapper');
@@ -78,7 +79,7 @@ dirCollapsible: function (branch) {
     if (branch.ul) {
       $(branch.ul).toggle();
       $(branch.li).toggleClass('expanded');
-      $.browser.msie && $('#navigation-header').css('top', imce.NW.scrollTop);
+      imce.ie && $('#navigation-header').css('top', imce.NW.scrollTop);
     }
     else if (branch.clkbl){
       $(branch.a).click();
@@ -256,7 +257,7 @@ setFileOps: function () {
   $(form.elements.filenames).parent().remove();
   $(form).find('fieldset').each(function() {//remove fieldsets
     var $sbmt = $('input:submit', this);
-    if (!$sbmt.size()) return;
+    if (!$sbmt.length) return;
     var Op = {name: $sbmt.attr('id').substr(5)};
     var func = function() {imce.fopSubmit(Op.name); return false;};
     $sbmt.click(func);
@@ -278,7 +279,7 @@ refreshOps: function() {
 //add a new file operation
 opAdd: function (op) {
   var oplist = imce.el('ops-list'), opcons = imce.el('op-contents');
-  var name = op.name || ('op-'+ $(oplist).children('li').size());
+  var name = op.name || ('op-'+ $(oplist).children('li').length);
   var title = op.title || 'Untitled';
   var Op = imce.ops[name] = {title: title};
   if (op.content) {
@@ -449,7 +450,7 @@ fopValidate: function(fop) {
     case 'delete':
       return confirm(Drupal.t('Delete selected files?'));
     case 'thumb':
-      if (!$('input:checked', imce.ops['thumb'].div).size()) {
+      if (!$('input:checked', imce.ops['thumb'].div).length) {
         return imce.setMessage(Drupal.t('Please select a thumbnail.'), 'error');
       }
       return imce.validateImage();
@@ -536,7 +537,7 @@ prepareMsgs: function () {
     $('>div', msgs).each(function (){
       var type = this.className.split(' ')[1];
       var li = $('>ul li', this);
-      if (li.size()) li.each(function () {imce.setMessage(this.innerHTML, type);});
+      if (li.length) li.each(function () {imce.setMessage(this.innerHTML, type);});
       else imce.setMessage(this.innerHTML, type);
     });
     $(msgs).remove();
@@ -771,7 +772,7 @@ updateUI: function() {
     return false;
   }).appendTo('#op-contents')[0];
   //navigation-header
-  if (!$('#navigation-header').size()) {
+  if (!$('#navigation-header').length) {
     $(imce.NW).children('.navigation-text').attr('id', 'navigation-header').wrapInner('<span></span>');
   }
   //log
@@ -788,7 +789,7 @@ updateUI: function() {
     imce.opAdd({name: 'help', title: $('#help-box-title').remove().text(), content: $('#help-box').show()});
   });
   //add ie classes
-  $.browser.msie && $('html').addClass('ie') && parseFloat($.browser.version) < 8 && $('html').addClass('ie-7');
+  imce.ie && $('html').addClass('ie') && imce.ie < 8 && $('html').addClass('ie-7');
   // enable box view for file list
   imce.vars.boxW && imce.boxView();
   //scrolling file list
