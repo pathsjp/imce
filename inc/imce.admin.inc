@@ -28,6 +28,17 @@ function imce_admin() {
   $output .= theme('table', $header, $rows);
   $output .= drupal_get_form('imce_admin_form');
 
+  // Display security warnings
+  if (empty($_POST)) {
+    $roles = variable_get('imce_roles_profiles', array());
+    if (!empty($roles[DRUPAL_ANONYMOUS_RID]['pid'])) {
+      drupal_set_message(t('Anonymous user role has access to IMCE.') . ' ' . t('Make sure this is not a misconfiguration.'), 'warning');
+    }
+    if (imce_admin_check_wildcard_upload(DRUPAL_AUTHENTICATED_RID, $roles)) {
+      drupal_set_message(t('Authenticated user role is assigned a configuration profile with unrestricted file extensions.') . ' ' . t('Make sure this is not a misconfiguration.'), 'warning');
+    }
+  }
+
   return $output;
 }
 
@@ -130,6 +141,17 @@ function imce_admin_theme($form = array()) {
   $output .= drupal_render($form['common']);
   $output .= drupal_render($form);
   return $output;
+}
+
+/**
+ * Validate admin form.
+ */
+function imce_admin_form_validate($form, &$form_state) {
+  $roles = $form_state['values']['roles'];
+  // Check anonymous profile. Do not allow wildcard upload.
+  if (imce_admin_check_wildcard_upload(DRUPAL_ANONYMOUS_RID, $roles)) {
+    form_error($form['roles'][DRUPAL_ANONYMOUS_RID]['pid'], t('Anonymous user role can not have a configuration profile with unrestricted file extensions.'));
+  }
 }
 
 /**
@@ -663,6 +685,27 @@ function imce_sorted_roles() {
  */
 function imce_rolesort($r1, $r2) {
   return $r1['weight']-$r2['weight'];
+}
+
+/**
+ * Checks if the given role can upload all extensions.
+ */
+function imce_admin_check_wildcard_upload($rid, $conf = NULL) {
+  if (!isset($conf)) {
+    $conf = variable_get('imce_roles_profiles', array());
+  }
+  if (isset($conf[$rid]['pid']) && $pid = $conf[$rid]['pid']) {
+    if ($profile = imce_load_profile($pid)) {
+      if ($profile['extensions'] === '*' && !empty($profile['directories'])) {
+        foreach ($profile['directories'] as $dirconf) {
+          if (!empty($dirconf['upload'])) {
+            return $pid;
+          }
+        }
+      }
+    }
+  }
+  return FALSE;
 }
 
 //Include core profile functions.
