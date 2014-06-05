@@ -949,10 +949,11 @@ function imce_subdirectories_accessible(&$imce) {
     if (!empty($imce['perm']['subnav'])) {
       return TRUE;
     }
-    $root = file_directory_path() .'/';
     //checking only the first one is sufficient.
-    $dirname = ($imce['dir'] == '.' ? '' : $imce['dir'] .'/') . $imce['subdirectories'][0];
-    $dirpath = $root . $dirname;
+    $dirname = reset($imce['subdirectories']);
+    if ($imce['dir'] !== '.') {
+      $dirname = $imce['dir'] . '/' . $dirname;
+    }
 
     //check if any setting is applicable for this subdirectory through any directory in the list.
     foreach ($imce['directories'] as $name => $info) {
