@@ -23,8 +23,8 @@ class Imce {
   /**
    * Checks if a user has an imce profile assigned for a file scheme.
    */
-  public function access(AccountProxyInterface $user = NULL, $scheme = NULL) {
-    return (bool) Imce::userProfile($user, $scheme);
+  public static function access(AccountProxyInterface $user = NULL, $scheme = NULL) {
+    return (bool) static::userProfile($user, $scheme);
   }
 
   /**
