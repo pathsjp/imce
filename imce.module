@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Defines Drupal hooks for imce module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function imce_theme() {
+  return array(
+    'imce_page' => array(
+      'render element' => 'page',
+      'function' => 'imce_page_render',
+    ),
+  );
+}
+
+/**
+ * Renders imce page.
+ */
+function imce_page_render($variables) {
+  return \Drupal::service('renderer')->render($variables['page']);
+}

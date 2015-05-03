@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\imce\ImceItem.
+ */
+
+namespace Drupal\imce;
+
+use Drupal\imce\Imce;
+use Drupal\imce\ImceFM;
+
+/**
+ * Imce Item.
+ */
+abstract class ImceItem {
+
+  /**
+   * Item type
+   *
+   * @var string
+   */
+  public $type;
+
+  /**
+   * Item name.
+   *
+   * @var string
+   */
+  public $name;
+
+  /**
+   * Selected status.
+   *
+   * @var boolean
+   */
+  public $selected;
+
+  /**
+   * Item parent.
+   *
+   * @var \Drupal\imce\ImceFolder
+   */
+  public $parent;
+
+  /**
+   * Item path relative to the root.
+   *
+   * @var string
+   */
+  protected $path;
+
+  /**
+   * Constructs the item.
+   *
+   * @param string $name
+   *   Item name.
+   */
+  public function __construct($name) {
+    $this->name = $name;
+  }
+
+  /**
+   * Returns the active file manager.
+   */
+  public function fm() {
+    return ImceFM::$fm;
+  }
+
+  /**
+   * Returns the item path relative to the root.
+   */
+  public function getPath() {
+    if (isset($this->path)) {
+      return $this->path;
+    }
+    if ($this->parent) {
+      $path = $this->parent->getPath();
+      if (isset($path)) {
+        return Imce::joinPaths($path, $this->name);
+      }
+    }
+  }
+
+  /**
+   * Returns the item uri.
+   */
+  public function getUri() {
+    $path = $this->getPath();
+    if (isset($path)) {
+      return $this->fm()->createUri($path);
+    }
+  }
+
+  /**
+   * Selects the item.
+   */
+  public function select() {
+    $this->fm()->selectItem($this);
+  }
+
+  /**
+   * Deselects the item.
+   */
+  public function deselect() {
+    $this->fm()->deselectItem($this);
+  }
+
+  /**
+   * Removes the item from its parent.
+   */
+  public function remove() {
+    if ($this->parent) {
+      $this->parent->removeItem($this);
+    }
+  }
+
+  /**
+   * Removes the item from js.
+   */
+  public function removeFromJs() {
+    $this->fm()->removeItemFromJs($this);
+  }
+
+  /**
+   * Adds the item to js.
+   */
+  public function addToJs() {
+    $this->fm()->addItemToJs($this);
+  }
+
+}
