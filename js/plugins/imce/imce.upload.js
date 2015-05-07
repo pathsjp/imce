@@ -118,12 +118,8 @@ imce.validateUploadForm = function(form) {
 imce.validateFileUpload = function(file) {
   // Extension
   var ext, exts = imce.getConf('extensions', '');
-  if (exts !== '*') {
-    ext = imce.getExt(file.name);
-    if (!ext || $.inArray(ext.toLowerCase(), exts.toLowerCase().split(/\s+/)) === -1) {
-      imce.setMessage(Drupal.t('Only files with the following extensions are allowed: %files-allowed.', {'%files-allowed': exts}));
-      return false;
-    }
+  if (exts !== '*' && !imce.validateExtension(imce.getExt(file.name), exts)) {
+    return false;
   }
   // Size
   var maxsize = imce.getConf('maxsize');

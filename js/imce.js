@@ -568,6 +568,29 @@ imce.validateCount = function(items) {
 };
 
 /**
+ * Validates item extensions against an allowed list.
+ */
+imce.validateExtensions = function(items, exts) {
+  for (var i in items) {
+    if (!imce.validateExtension(items[i].ext, exts)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * Validates an extension against an allowed list.
+ */
+imce.validateExtension = function(ext, exts) {
+  if (!ext || $.inArray(ext.toLowerCase(), exts.toLowerCase().split(/[\s,]+/)) === -1) {
+    imce.setMessage(Drupal.t('Only files with the following extensions are allowed: %files-allowed.', {'%files-allowed': exts}));
+    return false;
+  }
+  return true;
+};
+
+/**
  * Validates a file name.
  */
 imce.validateFileName = function(name) {
