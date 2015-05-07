@@ -1126,8 +1126,7 @@ imce.ajaxItems = function(jsop, items, opt) {
  * Creates an ajax options object including the items as the selection data.
  */
 imce.ajaxItemsOpt = function(items) {
-  items = $.map(items, function(Item){return Item.getPath()});
-  return {data: {selection: items}};
+  return {data: {selection: imce.getItemPaths(items)}};
 };
 
 /**
@@ -1242,6 +1241,20 @@ imce.ajaxErrorMessage = function(xhr, url) {
   msg += '\n' + Drupal.t('StatusText: !statusText', {'!statusText': xhr.statusText || 'N/A'});
   msg += '\n' + Drupal.t('ResponseText: !responseText', {'!responseText': xhr.responseText || 'N/A'});
   return msg;
+};
+
+/**
+ * Returns an array of item paths.
+ */
+imce.getItemPaths = function(items) {
+  return $.map(items, imce.getItemPath);
+};
+
+/**
+ * Returns the path of an item.
+ */
+imce.getItemPath = function(Item){
+  return Item.getPath();
 };
 
 
