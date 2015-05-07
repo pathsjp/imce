@@ -7,7 +7,6 @@
 
 namespace Drupal\imce;
 
-use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\Imce;
 
@@ -31,13 +30,6 @@ class ImceFM {
   public $conf;
 
   /**
-   * Active request.
-   *
-   * @var \Symfony\Component\HttpFoundation\Request
-   */
-  public $request;
-
-  /**
    * Active user.
    *
    * @var \Drupal\Core\Session\AccountProxyInterface
@@ -45,7 +37,7 @@ class ImceFM {
   public $user;
 
   /**
-   * Current validation status for the configuration and the request.
+   * Current validation status for the configuration.
    *
    * @var boolean
    */
@@ -84,20 +76,17 @@ class ImceFM {
    *
    * @param array $conf
    *   File manager configuration
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The active request that contains parameters for file manager operations
    * @param \Drupal\Core\Session\AccountProxyInterface $user
    *   The active user
    */
-  public function __construct(array $conf, Request $request, AccountProxyInterface $user) {
+  public function __construct(array $conf, AccountProxyInterface $user) {
     static::$fm = $this;
     $this->conf = $conf;
-    $this->request = $request;
     $this->user = $user;
     // Create the root.
     $root = new ImceFolder('.');
     $root->setPath('.');
-    // Validate conf and request.
+    // Validate the conf
     if ($this->validate()) {
       // Set selection
       $paths = $this->getPost('selection');
@@ -116,7 +105,7 @@ class ImceFM {
   }
 
   /**
-   * Validates the configuration and the request.
+   * Validates the configuration.
    */
   public function validate() {
     if (!isset($this->validated)) {
@@ -129,7 +118,7 @@ class ImceFM {
   }
 
   /**
-   * Returns an error message for an invalid configuration/request.
+   * Returns an error message for an invalid configuration.
    */
   protected function getValidationError() {
     $conf = &$this->conf;
@@ -174,7 +163,9 @@ class ImceFM {
         // Remember active path
         if ($this->user->isAuthenticated()) {
           if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
-            $this->request->getSession()->set('imce_active_path', $path);
+            if ($request = $this->getRequest()) {
+              $request->getSession()->set('imce_active_path', $path);
+            }
           }
         }
       }
@@ -271,7 +262,15 @@ class ImceFM {
    * Returns value of a posted parameter.
    */
   public function getPost($key, $default = NULL) {
-    return $this->request->request->get($key, $default);
+    $request = $this->getRequest();
+    return $request ? $request->request->get($key, $default) : $default;
+  }
+
+  /**
+   * Returns the current request.
+   */
+  public function getRequest() {
+    return isset($this->request) ? $this->request : \Drupal::request();
   }
 
   /**
