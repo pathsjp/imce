@@ -88,7 +88,7 @@ class Delete extends ImcePluginBase {
    */
   public static function deleteFileUri($uri, $ignore_usage = FALSE) {
     // Managed file
-    if ($file = Imce::getManagedFile($uri)) {
+    if ($file = Imce::getFileEntity($uri)) {
       if (!$ignore_usage && $usage = \Drupal::service('file.usage')->listUsage($file)) {
         unset($usage['imce']);
         if ($usage) {

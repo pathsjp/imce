@@ -316,13 +316,37 @@ class Imce {
   }
 
   /**
-   * Returns a drupal managed file by uri.
+   * Returns a managed file entity by uri.
+   * Optionally creates it.
    */
-  public static function getManagedFile($uri) {
+  public static function getFileEntity($uri, $create = FALSE, $save = FALSE) {
+    $file = FALSE;
     if ($files = entity_load_multiple_by_properties('file', array('uri' => $uri))) {
-      return reset($files);
+      $file = reset($files);
+      if (!$file && $create) {
+        $file = static::createFileEntity($uri, $save);
+      }
     }
-    return FALSE;
+    return $file;
+  }
+
+  /**
+   * Creates a file entity with an uri.
+   */
+  public static function createFileEntity($uri, $save = FALSE) {
+    $values = array(
+      'uri' => $uri,
+      'uid' => \Drupal::currentUser()->id(),
+      'status' => 1,
+      'filesize' => filesize($uri),
+      'filename' => \Drupal::service('file_system')->basename($uri),
+      'filemime' => \Drupal::service('file.mime_type.guesser')->guess($uri),
+    );
+    $file = entity_create('file', $values);
+    if ($save) {
+      $file->save();
+    }
+    return $file;
   }
 
   /**

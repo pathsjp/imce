@@ -119,7 +119,7 @@ class Resize extends ImcePluginBase {
       }
       // Update existing.
       else {
-        if ($file = Imce::getManagedFile($uri)) {
+        if ($file = Imce::getFileEntity($uri)) {
           $file->setSize($image->getFileSize());
           $file->save();
         }
