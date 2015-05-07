@@ -94,44 +94,35 @@ class ImceFM {
     $this->conf = $conf;
     $this->request = $request;
     $this->user = $user;
-    // Create the root.
-    $root = new ImceFolder('.');
-    $root->setPath('.');
-    // Validate the conf
-    if ($this->validate()) {
-      // Set selection
-      $paths = $this->getPost('selection');
-      if ($paths && is_array($paths)) {
-        foreach ($paths as $path) {
-          if ($item = $this->checkItemPath($path)) {
-            $item->select();
-          }
-          // Remove non-existing paths from js
-          else {
-            $this->removePathFromJs($path);
-          }
-        }
-      }
-    }
+    $this->init();
   }
 
   /**
-   * Validates the configuration.
+   * Initializes the file manager by validating the current configuration and request.
    */
-  public function validate() {
+  protected function init() {
     if (!isset($this->validated)) {
-      if ($msg = $this->getValidationError()) {
-        drupal_set_message($msg, 'error');
+      // Create the root.
+      $root = new ImceFolder('.');
+      $root->setPath('.');
+      // Check initialization error
+      if ($error = $this->getInitError()) {
+        if (!$this->getConf('silentInit')) {
+          drupal_set_message($error, 'error');
+        }
       }
-      $this->validated = $msg === FALSE;
+      else {
+        $this->initSelection();
+      }
+      $this->validated = $error === FALSE;
     }
     return $this->validated;
   }
 
   /**
-   * Returns an error message for an invalid configuration.
+   * Performs the initialization and returns the first error message.
    */
-  public function getValidationError() {
+  protected function getInitError() {
     $conf = &$this->conf;
     // Check configuration options.
     $keys = array('folders', 'root_uri');
@@ -162,50 +153,68 @@ class ImceFM {
       return t('No valid folder definitions found.');
     }
     // Check and set active folder if provided.
-    if (!$this->activeFolder) {
-      $path = $this->getPost('active_path');
-      if (isset($path) && $path !== '') {
-        if ($folder = $this->checkFolderPath($path)) {
-          $this->activeFolder = $folder;
-          // Remember active path
-          if ($this->user->isAuthenticated()) {
-            if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
-              $this->request->getSession()->set('imce_active_path', $path);
-            }
+    $path = $this->getPost('active_path');
+    if (isset($path) && $path !== '') {
+      if ($folder = $this->checkFolderPath($path)) {
+        $this->activeFolder = $folder;
+        // Remember active path
+        if ($this->user->isAuthenticated()) {
+          if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
+            $this->request->getSession()->set('imce_active_path', $path);
           }
         }
-        else {
-          return t('Invalid active folder path: %path.', array('%path' => $path));
-        }
+      }
+      else {
+        return t('Invalid active folder path: %path.', array('%path' => $path));
       }
     }
     return FALSE;
   }
 
   /**
+   * Initiates the selection with a list of user provided item paths.
+   */
+  protected function initSelection() {
+    $paths = $this->getPost('selection');
+    if ($paths && is_array($paths)) {
+      foreach ($paths as $path) {
+        if ($item = $this->checkItemPath($path)) {
+          $item->select();
+        }
+        // Remove non-existing paths from js
+        else {
+          $this->removePathFromJs($path);
+        }
+      }
+    }
+  }
+
+  /**
    * Runs an operation on the file manager.
    */
   public function run($op = NULL) {
-    if ($this->validated) {
-      // Check operation.
-      if (!isset($op)) {
-        $op = $this->getOp();
-      }
-      if ($op && is_string($op)) {
-        // Validate security token.
-        $token = $this->getPost('token');
-        if (!$token || $token !== $this->getConf('token')) {
-          drupal_set_message(t('Invalid security token.'), 'error');
-          return FALSE;
-        }
-        // Let plugins handle the operation.
-        $return = \Drupal::service('plugin.manager.imce.plugin')->handleOperation($op, $this);
-        if ($return === FALSE) {
-          drupal_set_message(t('Invalid operation %op.', array('%op' => $op)), 'error');
-        }
-        return $return;
-      }
+    if (!$this->validated) {
+      return FALSE;
     }
+    // Check operation.
+    if (!isset($op)) {
+      $op = $this->getOp();
+    }
+    if (!$op || !is_string($op)) {
+      return FALSE;
+    }
+    // Validate security token.
+    $token = $this->getPost('token');
+    if (!$token || $token !== $this->getConf('token')) {
+      drupal_set_message(t('Invalid security token.'), 'error');
+      return FALSE;
+    }
+    // Let plugins handle the operation.
+    $return = \Drupal::service('plugin.manager.imce.plugin')->handleOperation($op, $this);
+    if ($return === FALSE) {
+      drupal_set_message(t('Invalid operation %op.', array('%op' => $op)), 'error');
+    }
+    return $return;
   }
 
   /**
