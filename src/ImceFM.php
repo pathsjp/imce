@@ -8,6 +8,7 @@
 namespace Drupal\imce;
 
 use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Drupal\imce\Imce;
 
 /**
@@ -35,6 +36,13 @@ class ImceFM {
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   public $user;
+
+  /**
+   * Active request.
+   *
+   * @var \Symfony\Component\HttpFoundation\Request
+   */
+  public $request;
 
   /**
    * Current validation status for the configuration.
@@ -78,10 +86,13 @@ class ImceFM {
    *   File manager configuration
    * @param \Drupal\Core\Session\AccountProxyInterface $user
    *   The active user
+   * @param \Symfony\Component\HttpFoundation\Request $request
+   *   The active request that contains parameters for file manager operations
    */
-  public function __construct(array $conf, AccountProxyInterface $user) {
+  public function __construct(array $conf, AccountProxyInterface $user, Request $request = NULL) {
     static::$fm = $this;
     $this->conf = $conf;
+    $this->request = $request;
     $this->user = $user;
     // Create the root.
     $root = new ImceFolder('.');
@@ -163,9 +174,7 @@ class ImceFM {
         // Remember active path
         if ($this->user->isAuthenticated()) {
           if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
-            if ($request = $this->getRequest()) {
-              $request->getSession()->set('imce_active_path', $path);
-            }
+            $this->request->getSession()->set('imce_active_path', $path);
           }
         }
       }
@@ -262,15 +271,7 @@ class ImceFM {
    * Returns value of a posted parameter.
    */
   public function getPost($key, $default = NULL) {
-    $request = $this->getRequest();
-    return $request ? $request->request->get($key, $default) : $default;
-  }
-
-  /**
-   * Returns the current request.
-   */
-  public function getRequest() {
-    return isset($this->request) ? $this->request : \Drupal::request();
+    return $this->request ? $this->request->request->get($key, $default) : $default;
   }
 
   /**

@@ -35,8 +35,7 @@ class Imce {
     $conf = static::userConf($user, $scheme);
     // Handle json request.
     if ($request->request->has('jsop')) {
-      $fm = new ImceFM($conf, $user);
-      $fm->request = $request;
+      $fm = new ImceFM($conf, $user, $request);
       $fm->run();
       // Return html response if the flag is set.
       if ($request->request->get('return_html')) {
