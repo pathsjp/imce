@@ -31,11 +31,9 @@ class Imce {
    * Returns a response for an imce request.
    */
   public static function response(Request $request, AccountProxyInterface $user, $scheme) {
-    // Get processed conf
-    $conf = static::userConf($user, $scheme);
     // Handle json request.
     if ($request->request->has('jsop')) {
-      $fm = new ImceFM($conf, $user, $request);
+      $fm = static::userFM($user, $scheme, $request);
       $fm->run();
       // Return html response if the flag is set.
       if ($request->request->get('return_html')) {
@@ -43,6 +41,8 @@ class Imce {
       }
       return new JsonResponse($fm->getResponse());
     }
+    // Prepare main page.
+    $conf = static::userConf($user, $scheme);
     // Add active path to the conf.
     if (!isset($conf['active_path']) && $user->isAuthenticated() && $path = $request->getSession()->get('imce_active_path')) {
       if (static::pathAccess($path, $conf)) {
@@ -71,6 +71,15 @@ class Imce {
     // Render the page.
     $output = \Drupal::service('bare_html_page_renderer')->renderBarePage($page, t('File manager'), 'imce_page', array('#show_messages' => FALSE));
     return new Response($output);
+  }
+
+  /**
+   * Returns a file manager instance for a user.
+   */
+  public static function userFM(AccountProxyInterface $user, $scheme = NULL, Request $request = NULL) {
+    if ($conf = static::userConf($user, $scheme)) {
+      return new ImceFM($conf, $user, $request);
+    }
   }
 
   /**
