@@ -131,7 +131,7 @@ class ImceFM {
   /**
    * Returns an error message for an invalid configuration.
    */
-  protected function getValidationError() {
+  public function getValidationError() {
     $conf = &$this->conf;
     // Check configuration options.
     $keys = array('folders', 'root_uri');
@@ -147,11 +147,6 @@ class ImceFM {
         return t('Missing root folder.');
       }
     }
-    // Check security token.
-    $token = $this->getPost('token');
-    if (!$token || $token !== $this->getConf('token')) {
-      return t('Invalid security token.');
-    }
     // Check and add predefined folders
     foreach ($conf['folders'] as $path => $folder_conf) {
       $path = (string) $path;
@@ -166,40 +161,44 @@ class ImceFM {
     if (!$conf['folders']) {
       return t('No valid folder definitions found.');
     }
-    // Check active folder if provided.
-    $path = $this->getPost('active_path');
-    if (isset($path) && $path !== '') {
-      if ($folder = $this->checkFolderPath($path)) {
-        $this->activeFolder = $folder;
-        // Remember active path
-        if ($this->user->isAuthenticated()) {
-          if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
-            $this->request->getSession()->set('imce_active_path', $path);
+    // Check and set active folder if provided.
+    if (!$this->activeFolder) {
+      $path = $this->getPost('active_path');
+      if (isset($path) && $path !== '') {
+        if ($folder = $this->checkFolderPath($path)) {
+          $this->activeFolder = $folder;
+          // Remember active path
+          if ($this->user->isAuthenticated()) {
+            if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
+              $this->request->getSession()->set('imce_active_path', $path);
+            }
           }
         }
-      }
-      else {
-        return t('Invalid active folder path: %path.', array('%path' => $path));
+        else {
+          return t('Invalid active folder path: %path.', array('%path' => $path));
+        }
       }
     }
     return FALSE;
   }
 
   /**
-   * Returns the current operation in the request.
+   * Runs an operation on the file manager.
    */
-  public function getOp() {
-    return $this->getPost('jsop');
-  }
-
-  /**
-   * Runs the current operation in the request.
-   */
-  public function run() {
+  public function run($op = NULL) {
     if ($this->validated) {
-      // Check current operation.
-      $op = $this->getOp();
+      // Check operation.
+      if (!isset($op)) {
+        $op = $this->getOp();
+      }
       if ($op && is_string($op)) {
+        // Validate security token.
+        $token = $this->getPost('token');
+        if (!$token || $token !== $this->getConf('token')) {
+          drupal_set_message(t('Invalid security token.'), 'error');
+          return FALSE;
+        }
+        // Let plugins handle the operation.
         $return = \Drupal::service('plugin.manager.imce.plugin')->handleOperation($op, $this);
         if ($return === FALSE) {
           drupal_set_message(t('Invalid operation %op.', array('%op' => $op)), 'error');
@@ -265,6 +264,13 @@ class ImceFM {
    */
   public function createUri($path) {
     return Imce::joinPaths($this->getConf('root_uri'), $path);
+  }
+
+  /**
+   * Returns the current operation in the request.
+   */
+  public function getOp() {
+    return $this->getPost('jsop');
   }
 
   /**
