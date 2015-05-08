@@ -323,9 +323,9 @@ class Imce {
     $file = FALSE;
     if ($files = entity_load_multiple_by_properties('file', array('uri' => $uri))) {
       $file = reset($files);
-      if (!$file && $create) {
-        $file = static::createFileEntity($uri, $save);
-      }
+    }
+    elseif ($create) {
+      $file = static::createFileEntity($uri, $save);
     }
     return $file;
   }
