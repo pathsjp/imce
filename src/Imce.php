@@ -362,4 +362,23 @@ class Imce {
     }
     return $messages;
   }
+
+  /**
+   * Checks if the selected file paths are accessible by a user with Imce.
+   * Returns the accessible paths.
+   */
+  public static function checkFilePaths(array $paths, AccountProxyInterface $user, $scheme) {
+    $ret = array();
+    // Initiate user's file manager to validate the selected paths.
+    if ($fm = Imce::userFM($user, $scheme)) {
+      // Check paths
+      foreach ($paths as $path) {
+        $item = $fm->checkItemPath($path);
+        if ($item && $item->type === 'file') {
+          $ret[] = $path;
+        }
+      }
+    }
+    return $ret;
+  }
 }
