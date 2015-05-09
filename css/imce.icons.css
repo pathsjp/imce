@@ -25,7 +25,7 @@
 .imce-ficon.busy:before {
   content: '';
   padding: 8px;
-  background: url(loading.gif) no-repeat 50% 50%;
+  background: url(images/loading.gif) no-repeat 50% 50%;
 }
 .imce-ficon-image:before {
 	content: "\e600";

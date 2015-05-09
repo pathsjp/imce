@@ -197,7 +197,7 @@
   cursor: default;
 }
 .busy > .imce-branch-toggle {
-  background: url(loading.gif) no-repeat 50% 50%;
+  background: url(images/loading.gif) no-repeat 50% 50%;
 }
 .imce-branch-toggle:before {
   content: '+';
