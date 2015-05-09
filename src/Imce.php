@@ -16,7 +16,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\ImceFM;
 
 /**
- * Container class for static methods.
+ * Imce container class for helper methods.
  */
 class Imce {
 
