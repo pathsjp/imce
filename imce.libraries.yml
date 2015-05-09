@@ -63,3 +63,15 @@ drupal.imce.ckeditor:
     js/plugins/ckeditor/imce.ckeditor.js: {}
   dependencies:
     - ckeditor/drupal.ckeditor
+
+drupal.imce.filefield:
+  version: VERSION
+  js:
+    js/imce.filefield.js: {}
+  css:
+    component:
+      css/imce.filefield.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
