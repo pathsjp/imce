@@ -45,7 +45,7 @@ class Imce {
     $conf = static::userConf($user, $scheme);
     // Add active path to the conf.
     if (!isset($conf['active_path']) && $user->isAuthenticated() && $path = $request->getSession()->get('imce_active_path')) {
-      if (static::pathAccess($path, $conf)) {
+      if (static::checkFolderConf($path, $conf)) {
         $conf['active_path'] = $path; 
       }
     }
@@ -194,12 +194,19 @@ class Imce {
   }
 
   /**
-   * Checks if a folder path is accessible by a profile conf.
+   * Checks if a folder path is accessible in a profile conf.
    */
-  public static function pathAccess($path, array $conf) {
+  public static function checkFolderConf($path, array $conf) {
+    return is_array(static::getFolderConf($path, $conf));
+  }
+
+  /**
+   * Returns predefined/inherited configuration of a folder path in a profile conf.
+   */
+  public static function getFolderConf($path, array $conf) {
     // Predefined
     if (isset($conf['folders'][$path])) {
-      return TRUE;
+      return $conf['folders'][$path];
     }
     // Inherited
     if (!empty($conf['folders']) && static::validPath($path) && is_dir(static::joinPaths($conf['root_uri'], $path))) {
@@ -212,11 +219,11 @@ class Imce {
               $rest = $is_root ? $path : substr($path, strlen($folder_path) + 1);
               foreach (explode('/', $rest) as $name) {
                 if (preg_match($filter, $name)) {
-                  return FALSE;
+                  return;
                 }
               }
             }
-            return TRUE;
+            return $folder_conf + array('inherited' => TRUE);
           }
         }
       }

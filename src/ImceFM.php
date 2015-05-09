@@ -251,7 +251,7 @@ class ImceFM {
    * Adds and returns the folder object if it is accessible.
    */
   public function checkFolderPath($path) {
-    if (Imce::pathAccess($path, $this->conf)) {
+    if (Imce::checkFolderConf($path, $this->conf)) {
       return $this->addFolder($path);
     }
   }
