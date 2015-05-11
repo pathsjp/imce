@@ -41,7 +41,7 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->label(),
       '#maxlength' => 64,
       '#required' => TRUE,
-      '#weight' => -5,
+      '#weight' => -20,
     );
     // Id
     $form['id'] = array(
@@ -53,14 +53,14 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->id(),
       '#maxlength' => 32,
       '#required' => TRUE,
-      '#weight' => -5,
+      '#weight' => -20,
     );
     // Description
     $form['description'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Description'),
       '#default_value' => $imce_profile->get('description'),
-      '#weight' => -4,
+      '#weight' => -10,
     );
     // Conf
     $conf = array(
@@ -73,7 +73,7 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->getConf('extensions'),
       '#maxlength' => 255,
       '#description' => $this->t('Separate extensions with a space or comma and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
-      '#weight' => 1,
+      '#weight' => -9,
     );
     // File size
     $maxsize = file_upload_max_size();
@@ -87,7 +87,7 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->getConf('maxsize'),
       '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . t('Your PHP settings limit the upload size to %size.', array('%size' => format_size($maxsize))),
       '#field_suffix' => $this->t('MB'),
-      '#weight' => 2,
+      '#weight' => -8,
     );
     // Quota
     $conf['quota'] = array(
@@ -99,13 +99,13 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->getConf('quota'),
       '#description' => $this->t('Maximum disk space that can be allocated by a user.'),
       '#field_suffix' => $this->t('MB'),
-      '#weight' => 3,
+      '#weight' => -7,
     );
     // Image dimensions
     $conf['dimensions'] = array(
       '#type' => 'container',
       '#attributes' => array('class' => array('dimensions-wrapper form-item')),
-      '#weight' => 4,
+      '#weight' => -6,
     );
     $conf['dimensions']['label'] = array(
       '#markup' => '<label>' . $this->t('Maximum image dimensions') . '</label>',
@@ -144,7 +144,7 @@ class ImceProfileForm extends EntityForm {
         FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
       ),
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
-      '#weight' => 5,
+      '#weight' => -5,
     );
     // Folders
     $conf['folders'] = array(
