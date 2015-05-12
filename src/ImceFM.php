@@ -80,6 +80,13 @@ class ImceFM {
   public $response = array();
 
   /**
+   * Status messages.
+   *
+   * @var array
+   */
+  public $messages = array();
+
+  /**
    * Constructs the file manager.
    *
    * @param array $conf
@@ -108,7 +115,7 @@ class ImceFM {
       // Check initialization error
       if ($error = $this->getInitError()) {
         if (!$this->getConf('silentInit')) {
-          drupal_set_message($error, 'error');
+          $this->setMessage($error);
         }
       }
       else {
@@ -206,13 +213,13 @@ class ImceFM {
     // Validate security token.
     $token = $this->getPost('token');
     if (!$token || $token !== $this->getConf('token')) {
-      drupal_set_message(t('Invalid security token.'), 'error');
+      $this->setMessage(t('Invalid security token.'));
       return FALSE;
     }
     // Let plugins handle the operation.
     $return = \Drupal::service('plugin.manager.imce.plugin')->handleOperation($op, $this);
     if ($return === FALSE) {
-      drupal_set_message(t('Invalid operation %op.', array('%op' => $op)), 'error');
+      $this->setMessage(t('Invalid operation %op.', array('%op' => $op)));
     }
     return $return;
   }
@@ -447,7 +454,14 @@ class ImceFM {
    * Returns the status messages.
    */
   public function getMessages() {
-    return Imce::getMessages();
+    return array_merge_recursive(Imce::getMessages(), $this->messages);
+  }
+
+  /**
+   * Sets a status message.
+   */
+  public function setMessage($message, $type = 'error') {
+    $this->messages[$type][] = $message;
   }
 
   /**
@@ -479,7 +493,7 @@ class ImceFM {
     foreach ($items as $item) {
       if ($item->type === 'folder' && ($folder = $item->hasPredefinedPath())) {
         if (!$silent) {
-          drupal_set_message(t('%path is a predefined path and can not be modified.', array('%path' => $folder->getPath())), 'error');
+          $this->setMessage(t('%path is a predefined path and can not be modified.', array('%path' => $folder->getPath())));
         }
         return FALSE;
       }
@@ -499,7 +513,7 @@ class ImceFM {
     if ($name_filter = $this->getNameFilter()) {
       if (preg_match($name_filter, $filename)) {
         if (!$silent) {
-          drupal_set_message(t('%filename is not allowed.', array('%filename' => $filename)), 'error');
+          $this->setMessage(t('%filename is not allowed.', array('%filename' => $filename)));
         }
         return FALSE;
       }
@@ -507,7 +521,7 @@ class ImceFM {
     // Test chars forbidden in various operating systems.
     if (preg_match('@^\s|\s$|[/\\\\:\*\?"<>\|\x00-\x1F]@', $filename)) {
       if (!$silent) {
-        drupal_set_message(t('%filename contains invalid characters. Use only alphanumeric characters for better portability.', array('%filename' => $filename)), 'error');
+        $this->setMessage(t('%filename contains invalid characters. Use only alphanumeric characters for better portability.', array('%filename' => $filename)));
       }
       return FALSE;
     }
@@ -527,7 +541,7 @@ class ImceFM {
     $maxheight = $this->getConf('maxheight');
     if ($maxwidth && $width > $maxwidth || $maxheight && $height > $maxheight) {
       if (!$silent) {
-        drupal_set_message(t('Image dimensions must be smaller than %dimensions pixels.', array('%dimensions' => $maxwidth . 'x' . $maxwidth)), 'error');
+        $this->setMessage(t('Image dimensions must be smaller than %dimensions pixels.', array('%dimensions' => $maxwidth . 'x' . $maxwidth)));
       }
       return FALSE;
     }
@@ -542,7 +556,7 @@ class ImceFM {
     foreach ($items as $item) {
       if ($item->type === 'folder' || !preg_match($regex, $item->name)) {
         if (!$silent) {
-          drupal_set_message(t('%name is not an image.', array('%name' => $item->name)), 'error');
+          $this->setMessage(t('%name is not an image.', array('%name' => $item->name)));
         }
         return FALSE;
       }

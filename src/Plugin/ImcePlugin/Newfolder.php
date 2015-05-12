@@ -59,7 +59,7 @@ class Newfolder extends ImcePluginBase {
       // Check existence
       $uri = Imce::joinPaths($folder->getUri(), $name);
       if (file_exists($uri)) {
-        drupal_set_message(t('%filename already exists.', array('%filename' => $name)), 'error');
+        $fm->setMessage(t('%filename already exists.', array('%filename' => $name)));
       }
       // Create and add to js
       elseif (mkdir($uri, $fm->getConf('chmod_directory', 0775))) {

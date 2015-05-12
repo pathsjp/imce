@@ -107,7 +107,7 @@ class Resize extends ImcePluginBase {
         // Check quota
         if ($errors = file_validate_size($file, 0, $fm->getConf('quota'))) {
           file_unmanaged_delete($destination);
-          drupal_set_message($errors[0], 'error');
+          $fm->setMessage($errors[0]);
         }
         else {
           $file->save();
