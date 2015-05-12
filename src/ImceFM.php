@@ -114,16 +114,13 @@ class ImceFM {
       $root->setPath('.');
       // Check initialization error
       if ($error = $this->getInitError()) {
-        if (!$this->getConf('silentInit')) {
-          $this->setMessage($error);
-        }
+        $this->setMessage($error);
       }
       else {
         $this->initSelection();
       }
       $this->validated = $error === FALSE;
     }
-    return $this->validated;
   }
 
   /**
