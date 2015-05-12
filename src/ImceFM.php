@@ -103,7 +103,7 @@ class ImceFM {
   protected function init() {
     if (!isset($this->validated)) {
       // Create the root.
-      $root = new ImceFolder('.');
+      $root = $this->createItem('folder', '.');
       $root->setPath('.');
       // Check initialization error
       if ($error = $this->getInitError()) {
@@ -232,9 +232,7 @@ class ImceFM {
     if ($parts = Imce::splitPath($path)) {
       list($parent_path, $name) = $parts;
       if ($parent = $this->addFolder($parent_path)) {
-        $folder = new ImceFolder($name, $conf);
-        $parent->appendItem($folder);
-        return $folder;
+        return $parent->addSubfolder($name, $conf);
       }
     }
   }
@@ -266,6 +264,15 @@ class ImceFM {
         return $folder->checkItem($parts[1]);
       }
     }
+  }
+
+  /**
+   * Creates and returns an imce file/folder object by name.
+   */
+  public function createItem($type, $name, $conf = NULL) {
+    $item = $type === 'folder' ? new ImceFolder($name, $conf) : new ImceFile($name);
+    $item->setFm($this);
+    return $item;
   }
 
   /**

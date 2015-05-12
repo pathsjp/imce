@@ -130,8 +130,7 @@ class ImceFolder extends ImceItem {
     if (isset($this->items[$name])) {
       $item = $this->items[$name];
       if (!is_object($item)) {
-        $item = isset($this->subfolders[$name]) ? new ImceFolder($name) : new ImceFile($name);
-        $this->appendItem($item);
+        $item = isset($this->subfolders[$name]) ? $this->addSubfolder($name) : $this->addFile($name);
       }
       return $item;
     }
@@ -196,6 +195,29 @@ class ImceFolder extends ImceItem {
   }
 
   /**
+   * Creates and returns a child file/folder object by name.
+   */
+  public function createItem($type, $name, $conf = NULL) {
+    $item = $this->fm()->createItem($type, $name, $conf);
+    $this->appendItem($item);
+    return $item;
+  }
+
+  /**
+   * Adds a file by name.
+   */
+  public function addFile($name) {
+    return $this->createItem('file', $name);
+  }
+
+  /**
+   * Adds a subfolder by name.
+   */
+  public function addSubfolder($name, $conf = NULL) {
+    return $this->createItem('folder', $name, $conf);
+  }
+
+  /**
    * Checks if the folder is predefined.
    */
   public function isPredefined() {
@@ -239,7 +261,7 @@ class ImceFolder extends ImceItem {
           $this->subfolders[$name] = $this->items[$name] = $subfolders[$name];
         }
         else {
-          $this->appendItem(new ImceFolder($name));
+          $this->addSubfolder($name);
         }
       }
     }

@@ -44,6 +44,13 @@ abstract class ImceItem {
   public $parent;
 
   /**
+   * File manager
+   *
+   * @var \Drupal\imce\ImceFM
+   */
+  protected $fm;
+
+  /**
    * Item path relative to the root.
    *
    * @var string
@@ -61,10 +68,17 @@ abstract class ImceItem {
   }
 
   /**
-   * Returns the active file manager.
+   * Returns the file manager.
    */
   public function fm() {
-    return ImceFM::$fm;
+    return $this->fm;
+  }
+
+  /**
+   * Sets the file manager.
+   */
+  public function setFm(ImceFM $fm) {
+    $this->fm = $fm;
   }
 
   /**

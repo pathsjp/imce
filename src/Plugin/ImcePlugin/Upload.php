@@ -80,9 +80,7 @@ class Upload extends ImcePluginBase {
         $file->save();
         // Add to the folder and to js response.
         $name = $fs->basename($file->getFileUri());
-        $item = new ImceFile($name);
-        $folder->appendItem($item);
-        $item->addToJs();
+        $folder->addFile($name)->addToJs();
       }
     }
   }

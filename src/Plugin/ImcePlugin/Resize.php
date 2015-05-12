@@ -112,9 +112,7 @@ class Resize extends ImcePluginBase {
         else {
           $file->save();
           // Add imce item
-          $newitem = new ImceFile($filename);
-          $item->parent->appendItem($newitem);
-          $newitem->addToJs();
+          $item->parent->addFile($filename)->addToJs();
         }
       }
       // Update existing.

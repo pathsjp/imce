@@ -63,9 +63,7 @@ class Newfolder extends ImcePluginBase {
       }
       // Create and add to js
       elseif (mkdir($uri, $fm->getConf('chmod_directory', 0775))) {
-        $item = new ImceFolder($name);
-        $folder->appendItem($item);
-        $item->addToJs();
+        $folder->addSubfolder($name)->addToJs();
       }
     }
   }
