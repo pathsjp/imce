@@ -31,6 +31,18 @@ function imce_page_render($variables) {
 }
 
 /**
+ * Implements hook_file_download().
+ */
+function imce_file_download($uri) {
+  if (Imce::accessFileUri($uri, \Drupal::currentUser())) {
+    return array(
+      'Content-type' => \Drupal::service('file.mime_type.guesser')->guess($uri),
+      'Content-Length' => filesize($uri),
+    );
+  }
+}
+
+/**
  * Implements hook_field_widget_third_party_settings_form().
  * Returns imce settings form for supported file widgets.
  */

@@ -318,4 +318,13 @@ class Imce {
     }
     return $ret;
   }
+
+  /**
+   * Checks if a file uri is accessible by a user with Imce.
+   */
+  public static function accessFileUri($uri, AccountProxyInterface $user) {
+    list($scheme, $path) = explode('://', $uri, 2);
+    return $scheme && $path && Imce::accessFilePaths(array($path), $user, $scheme);
+  }
+
 }
