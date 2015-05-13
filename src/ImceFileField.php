@@ -118,7 +118,7 @@ class ImceFileField {
       $paths = array_slice($paths, 0, $element['#cardinality']);
     }
     // Check if paths are accessible by the current user with Imce.
-    if (!$paths = Imce::checkFilePaths($paths, \Drupal::currentUser(), $element['#scheme'])) {
+    if (!$paths = Imce::accessFilePaths($paths, \Drupal::currentUser(), $element['#scheme'])) {
       return;
     }
     // Validate paths as file entities.

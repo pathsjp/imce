@@ -8,7 +8,6 @@
 namespace Drupal\imce;
 
 use Symfony\Component\HttpFoundation\Request;
-use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\ImceFM;
 
@@ -41,37 +40,6 @@ class Imce {
   }
 
   /**
-   * Returns processed profile configuration for a user.
-   */
-  public static function userConf(AccountProxyInterface $user = NULL, $scheme = NULL) {
-    $user = isset($user) ? $user : \Drupal::currentUser();
-    $scheme = isset($scheme) ? $scheme : file_default_scheme();
-    if (!$profile = static::userProfile($user, $scheme)) {
-      return;
-    }
-    $conf = $profile->getConf();
-    $conf['scheme'] = $scheme;
-    $conf['pid'] = $profile->id();
-    // Convert MB to bytes
-    $conf['maxsize'] *= 1048576;
-    $conf['quota'] *= 1048576;
-    // Set root uri and url
-    $conf['root_uri'] = $conf['scheme'] . '://';
-    // file_create_url requires a filepath for some schemes like private://
-    $conf['root_url'] = preg_replace('@/(?:%2E|\.)$@i', '', file_create_url($conf['root_uri'] . '.'));
-    // Convert to relative
-    if (!\Drupal::config('imce.settings')->get('abs_urls')) {
-      $conf['root_url'] = file_url_transform_relative($conf['root_url']);
-    }
-    $conf['token'] = $user->isAnonymous() ? 'anon' : \Drupal::csrfToken()->get('imce');
-    // Process folders
-    $conf['folders'] = Imce::processUserFolders($conf['folders'], $user);
-    // Call plugin processors
-    \Drupal::service('plugin.manager.imce.plugin')->processUserConf($conf, $user);
-    return $conf;
-  }
-
-  /**
    * Returns imce configuration profile for a user.
    */
   public static function userProfile(AccountProxyInterface $user = NULL, $scheme = NULL) {
@@ -100,6 +68,43 @@ class Imce {
   }
 
   /**
+   * Returns processed profile configuration for a user.
+   */
+  public static function userConf(AccountProxyInterface $user = NULL, $scheme = NULL) {
+    $user = isset($user) ? $user : \Drupal::currentUser();
+    $scheme = isset($scheme) ? $scheme : file_default_scheme();
+    if ($profile = static::userProfile($user, $scheme)) {
+      $conf = $profile->getConf();
+      $conf['pid'] = $profile->id();
+      $conf['scheme'] = $scheme;
+      return static::processUserConf($conf, $user);
+    }
+  }
+
+  /**
+   * Processes raw profile configuration of a user.
+   */
+  public static function processUserConf(array $conf, AccountProxyInterface $user) {
+    // Convert MB to bytes
+    $conf['maxsize'] *= 1048576;
+    $conf['quota'] *= 1048576;
+    // Set root uri and url
+    $conf['root_uri'] = $conf['scheme'] . '://';
+    // file_create_url requires a filepath for some schemes like private://
+    $conf['root_url'] = preg_replace('@/(?:%2E|\.)$@i', '', file_create_url($conf['root_uri'] . '.'));
+    // Convert to relative
+    if (!\Drupal::config('imce.settings')->get('abs_urls')) {
+      $conf['root_url'] = file_url_transform_relative($conf['root_url']);
+    }
+    $conf['token'] = $user->isAnonymous() ? 'anon' : \Drupal::csrfToken()->get('imce');
+    // Process folders
+    $conf['folders'] = static::processUserFolders($conf['folders'], $user);
+    // Call plugin processors
+    \Drupal::service('plugin.manager.imce.plugin')->processUserConf($conf, $user);
+    return $conf;
+  }
+
+  /**
    * Processes user folders.
    */
   public static function processUserFolders(array $folders, AccountProxyInterface $user) {
@@ -108,7 +113,7 @@ class Imce {
     $token_data = array('user' => $user);
     foreach ($folders as $folder) {
       $path = $token_service->replace($folder['path'], $token_data);
-      if (static::validPath($path)) {
+      if (static::regularPath($path)) {
         $ret[$path] = $folder;
         unset($ret[$path]['path']);
       }
@@ -142,28 +147,21 @@ class Imce {
   }
 
   /**
-   * Checks if a folder path is accessible in a profile conf.
-   */
-  public static function checkFolderConf($path, array $conf) {
-    return is_array(static::getFolderConf($path, $conf));
-  }
-
-  /**
    * Returns predefined/inherited configuration of a folder path in a profile conf.
    */
-  public static function getFolderConf($path, array $conf) {
+  public static function folderInConf($path, array $conf) {
     // Predefined
     if (isset($conf['folders'][$path])) {
       return $conf['folders'][$path];
     }
     // Inherited
-    if (!empty($conf['folders']) && static::validPath($path) && is_dir(static::joinPaths($conf['root_uri'], $path))) {
+    if (!empty($conf['folders']) && static::regularPath($path) && is_dir(static::joinPaths($conf['root_uri'], $path))) {
       foreach ($conf['folders'] as $folder_path => $folder_conf) {
         $is_root = $folder_path === '.';
         if ($is_root || strpos($path . '/', $folder_path . '/') === 0) {
           if (static::permissionInFolderConf('browse_subfolders', $folder_conf)) {
             // Validate the rest of the path.
-            if ($filter = static::getNameFilter($conf)) {
+            if ($filter = static::nameFilterInConf($conf)) {
               $rest = $is_root ? $path : substr($path, strlen($folder_path) + 1);
               foreach (explode('/', $rest) as $name) {
                 if (preg_match($filter, $name)) {
@@ -176,6 +174,17 @@ class Imce {
         }
       }
     }
+  }
+
+  /**
+   * Returns name filtering regexp from a profile conf.
+   */
+  public static function nameFilterInConf(array $conf) {
+    $filters = isset($conf['name_filters']) ? $conf['name_filters'] : array();
+    if (empty($conf['allow_dot_files'])) {
+      $filters[] = '^\.|\.$';
+    }
+    return $filters ? '/' . implode('|', $filters) . '/' : '';
   }
 
   /**
@@ -209,21 +218,11 @@ class Imce {
   }
 
   /**
-   * Checks structure of a folder path.
+   * Checks the structure of a folder path.
+   * Forbids current/parent directory notations.
    */
-  public static function validPath($path) {
-    return is_string($path) && ($path == '.' || !preg_match('@\\\\|(^|/)\.*(/|$)@', $path));
-  }
-
-  /**
-   * Returns name filtering regexp from a profile conf.
-   */
-  public static function getNameFilter(array $conf) {
-    $filters = isset($conf['name_filters']) ? $conf['name_filters'] : array();
-    if (empty($conf['allow_dot_files'])) {
-      $filters[] = '^\.|\.$';
-    }
-    return $filters ? '/' . implode('|', $filters) . '/' : '';
+  public static function regularPath($path) {
+    return is_string($path) && ($path === '.' || !preg_match('@\\\\|(^|/)\.*(/|$)@', $path));
   }
 
   /**
@@ -305,31 +304,14 @@ class Imce {
   }
 
   /**
-   * Returns status messages by sanitizing the unsafe ones.
-   */
-  public static function getMessages() {
-    if ($messages = drupal_get_messages()) {
-      foreach ($messages as &$group) {
-        foreach ($group as &$message) {
-          $message = SafeMarkup::escape($message);
-        }
-      }
-    }
-    return $messages;
-  }
-
-  /**
    * Checks if the selected file paths are accessible by a user with Imce.
    * Returns the accessible paths.
    */
-  public static function checkFilePaths(array $paths, AccountProxyInterface $user, $scheme) {
+  public static function accessFilePaths(array $paths, AccountProxyInterface $user, $scheme) {
     $ret = array();
-    // Initiate user's file manager to validate the selected paths.
-    if ($fm = Imce::userFM($user, $scheme)) {
-      // Check paths
+    if ($fm = static::userFM($user, $scheme)) {
       foreach ($paths as $path) {
-        $item = $fm->checkItemPath($path);
-        if ($item && $item->type === 'file') {
+        if ($fm->checkFile($path)) {
           $ret[] = $path;
         }
       }

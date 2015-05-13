@@ -219,7 +219,7 @@ class ImceProfileForm extends EntityForm {
         continue;
       }
       // Validate path
-      if (!Imce::validPath($path)) {
+      if (!Imce::regularPath($path)) {
         return $form_state->setError($form['conf']['folders'][$i]['path'], $this->t('Invalid folder path.'));
       }
       // Remove empty permissions

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Component\Serialization\Json;
+use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\Imce;
 
@@ -154,7 +155,7 @@ class ImceFM {
     // Check and set active folder if provided.
     $path = $this->getPost('active_path');
     if (isset($path) && $path !== '') {
-      if ($folder = $this->checkFolderPath($path)) {
+      if ($folder = $this->checkFolder($path)) {
         $this->activeFolder = $folder;
         // Remember active path
         if ($this->user->isAuthenticated()) {
@@ -177,7 +178,7 @@ class ImceFM {
     $paths = $this->getPost('selection');
     if ($paths && is_array($paths)) {
       foreach ($paths as $path) {
-        if ($item = $this->checkItemPath($path)) {
+        if ($item = $this->checkItem($path)) {
           $item->select();
         }
         // Remove non-existing paths from js
@@ -244,12 +245,23 @@ class ImceFM {
   }
 
   /**
-   * Checks the existence of a user provided folder path.
-   * Adds and returns the folder object if it is accessible.
+   * Checks if the user provided folder path is accessible.
+   * Returns the folder object with the path.
    */
-  public function checkFolderPath($path) {
-    if (Imce::checkFolderConf($path, $this->conf)) {
+  public function checkFolder($path) {
+    if (is_array(Imce::folderInConf($path, $this->conf))) {
       return $this->addFolder($path);
+    }
+  }
+
+  /**
+   * Checks if the user provided file path is accessible.
+   * Returns the file object with the path.
+   */
+  public function checkFile($path) {
+    $item = $this->checkItem($path);
+    if ($item && $item->type === 'file') {
+      return $item;
     }
   }
 
@@ -257,9 +269,9 @@ class ImceFM {
    * Checks the existence of a user provided item path.
    * Scans the parent folder and returns the item object if it is accessible.
    */
-  public function checkItemPath($path) {
+  public function checkItem($path) {
     if ($parts = Imce::splitPath($path)) {
-      if ($folder = $this->checkFolderPath($parts[0])) {
+      if ($folder = $this->checkFolder($parts[0])) {
         return $folder->checkItem($parts[1]);
       }
     }
@@ -329,7 +341,7 @@ class ImceFM {
    * Returns name filtering regexp.
    */
   public function getNameFilter() {
-    return Imce::getNameFilter($this->conf);
+    return Imce::nameFilterInConf($this->conf);
   }
 
   /**
@@ -460,7 +472,15 @@ class ImceFM {
    * Returns the status messages.
    */
   public function getMessages() {
-    return array_merge_recursive(Imce::getMessages(), $this->messages);
+    // Get drupal messages
+    $messages = drupal_get_messages();
+    foreach ($messages as &$group) {
+      foreach ($group as &$message) {
+        $message = SafeMarkup::escape($message);
+      }
+    }
+    // Merge with file manager messages.
+    return array_merge_recursive($messages, $this->messages);
   }
 
   /**
@@ -594,8 +614,8 @@ class ImceFM {
         $conf['active_path'] = $folder->getPath();
       }
       elseif ($this->user->isAuthenticated() && $this->request && $path = $this->request->getSession()->get('imce_active_path')) {
-        if ($folder = $this->checkFolderPath($path)) {
-          $conf['active_path'] = $folder->getPath(); 
+        if ($this->checkFolder($path)) {
+          $conf['active_path'] = $path; 
         }
       }
     }
