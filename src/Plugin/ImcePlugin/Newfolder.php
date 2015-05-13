@@ -39,8 +39,8 @@ class Newfolder extends ImcePluginBase {
   /**
    * {@inheritdoc}
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
-    if (Imce::permissionInPage('create_subfolders', $page)) {
+  public function buildPage(array &$page, ImceFM $fm) {
+    if ($fm->hasPermission('create_subfolders')) {
       $page['#attached']['library'][] = 'imce/drupal.imce.newfolder';
     }
   }

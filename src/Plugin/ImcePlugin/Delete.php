@@ -40,9 +40,9 @@ class Delete extends ImcePluginBase {
   /**
    * {@inheritdoc}
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
+  public function buildPage(array &$page, ImceFM $fm) {
     // Check if delete permission exists
-    if (Imce::permissionInPage('delete_files', $page) || Imce::permissionInPage('delete_subfolders', $page)) {
+    if ($fm->hasPermission('delete_files') || $fm->hasPermission('delete_subfolders')) {
       $page['#attached']['library'][] = 'imce/drupal.imce.delete';
     }
   }

@@ -151,8 +151,8 @@ class ImcePluginManager extends DefaultPluginManager {
   /**
    * Builds imce page.
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
-    return $this->invokeAll('buildPage', $page, $user);
+  public function buildPage(array &$page, ImceFM $fm) {
+    return $this->invokeAll('buildPage', $page, $fm);
   }
 
   /**

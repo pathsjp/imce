@@ -40,8 +40,8 @@ class Upload extends ImcePluginBase {
   /**
    * {@inheritdoc}
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
-    if (Imce::permissionInPage('upload_files', $page)) {
+  public function buildPage(array &$page, ImceFM $fm) {
+    if ($fm->hasPermission('upload_files')) {
       $page['#attached']['library'][] = 'imce/drupal.imce.upload';
     }
   }

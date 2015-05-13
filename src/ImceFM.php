@@ -7,21 +7,17 @@
 
 namespace Drupal\imce;
 
-use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Drupal\Component\Serialization\Json;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\Imce;
 
 /**
  * Imce File Manager.
  */
 class ImceFM {
-
-  /**
-   * The last created file manager.
-   *
-   * @var \Drupal\imce\ImceFM
-   */
-  public static $fm;
 
   /**
    * File manager configuration.
@@ -97,10 +93,9 @@ class ImceFM {
    *   The active request that contains parameters for file manager operations
    */
   public function __construct(array $conf, AccountProxyInterface $user, Request $request = NULL) {
-    static::$fm = $this;
     $this->conf = $conf;
-    $this->request = $request;
     $this->user = $user;
+    $this->request = $request;
     $this->init();
   }
 
@@ -305,6 +300,20 @@ class ImceFM {
    */
   public function getConf($key, $default = NULL) {
     return isset($this->conf[$key]) ? $this->conf[$key] : $default;
+  }
+
+  /**
+   * Sets a configuration option.
+   */
+  public function setConf($key, $value) {
+    $this->conf[$key] = $value;
+  }
+
+  /**
+   * Checks if a permission exists in any of the predefined folders.
+   */
+  public function hasPermission($permission) {
+    return Imce::permissionInConf($permission, $this->conf);
   }
 
   /**
@@ -560,4 +569,71 @@ class ImceFM {
     }
     return TRUE;
   }
+
+  /**
+   * Builds file manager page.
+   */
+  public function buildPage() {
+    $page = array();
+    $page['#attached']['library'][] = 'imce/drupal.imce';
+    // Add meta for robots.
+    $robots = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'robots',
+        'content' => 'noindex,nofollow',
+      ),
+    );
+    $page['#attached']['html_head'][] = array($robots, 'robots');
+    // Run builders of available plugins
+    \Drupal::service('plugin.manager.imce.plugin')->buildPage($page, $this);
+    // Add active path to the conf.
+    $conf = $this->conf;
+    if (!isset($conf['active_path'])) {
+      if ($folder = $this->activeFolder) {
+        $conf['active_path'] = $folder->getPath();
+      }
+      elseif ($this->user->isAuthenticated() && $this->request && $path = $this->request->getSession()->get('imce_active_path')) {
+        if ($folder = $this->checkFolderPath($path)) {
+          $conf['active_path'] = $folder->getPath(); 
+        }
+      }
+    }
+    // Set initial messages.
+    if ($messages = $this->getMessages()) {
+      $conf['messages'] = $messages;
+    }
+    $page['#attached']['drupalSettings']['imce'] = $conf;
+    return $page;
+  }
+
+  /**
+   * Builds and renders the file manager page.
+   */
+  public function buildRenderPage() {
+    $page = $this->buildPage();
+    return \Drupal::service('bare_html_page_renderer')->renderBarePage($page, t('File manager'), 'imce_page', array('#show_messages' => FALSE));
+  }
+
+  /**
+   * Returns a page response based on the current request.
+   */
+  public function pageResponse() {
+    if ($request = $this->request) {
+      // Json request
+      if ($request->request->has('jsop')) {
+        $this->run();
+        $data = $this->getResponse();
+        // Return html response if the flag is set.
+        if ($request->request->get('return_html')) {
+          return new Response('<html><body><textarea>' . Json::encode($data)  . '</textarea></body></html>');
+        }
+        return new JsonResponse($data);
+      }
+      // Build and render the main page.
+      $output = $this->buildRenderPage();
+      return new Response($output);
+    }
+  }
+
 }

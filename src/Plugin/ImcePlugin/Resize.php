@@ -38,9 +38,9 @@ class Resize extends ImcePluginBase {
   /**
    * {@inheritdoc}
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
+  public function buildPage(array &$page, ImceFM $fm) {
     // Check if resize permission exists
-    if (Imce::permissionInPage('resize_images', $page)) {
+    if ($fm->hasPermission('resize_images')) {
       $page['#attached']['library'][] = 'imce/drupal.imce.resize';
     }
   }

@@ -12,6 +12,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Entity\ImceProfile;
+use Drupal\imce\ImceFM;
 
 /**
  * Defines a base Imce plugin implementation.
@@ -50,6 +51,6 @@ abstract class ImcePluginBase extends PluginBase implements ImcePluginInterface 
   /**
    * {@inheritdoc}
    */
-  public function buildPage(array &$page, AccountProxyInterface $user) {
+  public function buildPage(array &$page, ImceFM $fm) {
   }
 }

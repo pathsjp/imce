@@ -8,9 +8,6 @@
 namespace Drupal\imce;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\SafeMarkup;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\ImceFM;
@@ -31,46 +28,7 @@ class Imce {
    * Returns a response for an imce request.
    */
   public static function response(Request $request, AccountProxyInterface $user, $scheme) {
-    // Handle json request.
-    if ($request->request->has('jsop')) {
-      $fm = static::userFM($user, $scheme, $request);
-      $fm->run();
-      // Return html response if the flag is set.
-      if ($request->request->get('return_html')) {
-        return new Response('<html><body><textarea>' . Json::encode($fm->getResponse())  . '</textarea></body></html>');
-      }
-      return new JsonResponse($fm->getResponse());
-    }
-    // Prepare main page.
-    $conf = static::userConf($user, $scheme);
-    // Add active path to the conf.
-    if (!isset($conf['active_path']) && $user->isAuthenticated() && $path = $request->getSession()->get('imce_active_path')) {
-      if (static::checkFolderConf($path, $conf)) {
-        $conf['active_path'] = $path; 
-      }
-    }
-    // Set initial messages.
-    if ($messages = static::getMessages()) {
-      $conf['messages'] = $messages;
-    }
-    // Build the page.
-    $page = array();
-    $page['#attached']['drupalSettings']['imce'] = $conf;
-    $page['#attached']['library'][] = 'imce/drupal.imce';
-    // Add meta for robots.
-    $robots = array(
-      '#tag' => 'meta',
-      '#attributes' => array(
-        'name' => 'robots',
-        'content' => 'noindex,nofollow',
-      ),
-    );
-    $page['#attached']['html_head'][] = array($robots, 'robots');
-    // Add plugin components.
-    \Drupal::service('plugin.manager.imce.plugin')->buildPage($page, $user);
-    // Render the page.
-    $output = \Drupal::service('bare_html_page_renderer')->renderBarePage($page, t('File manager'), 'imce_page', array('#show_messages' => FALSE));
-    return new Response($output);
+    return static::userFM($user, $scheme, $request)->pageResponse();
   }
 
   /**
@@ -156,16 +114,6 @@ class Imce {
       }
     }
     return $ret;
-  }
-
-  /**
-   * Checks a permission in an imce page build.
-   */
-  public static function permissionInPage($permission, array $page) {
-    if (!empty($page['#attached']['drupalSettings']['imce'])) {
-      return static::permissionInConf($permission, $page['#attached']['drupalSettings']['imce']);
-    }
-    return FALSE;
   }
 
   /**

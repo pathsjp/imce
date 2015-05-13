@@ -11,6 +11,7 @@ use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\imce\Entity\ImceProfile;
+use Drupal\imce\ImceFM;
 
 /**
  * Defines an interface for Imce plugins.
@@ -45,7 +46,7 @@ interface ImcePluginInterface extends PluginInspectionInterface {
   public function processUserConf(array &$conf, AccountProxyInterface $user);
 
   /**
-   * Builds imce page by attaching required libraries and javascript settings.
+   * Builds imce page by adding required libraries and elements.
    */
-  public function buildPage(array &$page, AccountProxyInterface $user);
+  public function buildPage(array &$page, ImceFM $fm);
 }
