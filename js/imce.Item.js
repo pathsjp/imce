@@ -369,7 +369,7 @@ Item.createPreviewEl = function() {
     el = imce.createEl('<div class="imce-preview-image"><img src="' + Item.getUrl(false, true) + '"></div>');
     prvEl.appendChild(el);
     prvEl.className += ' image';
-    el.firstChild.ondblclick = imce.ePrvImgDblclick;
+    el.firstChild.onclick = imce.ePrvImgClick;
   }
   return prvEl;
 };
@@ -445,9 +445,9 @@ imce.eItemDblclick = function(event) {
 };
 
 /**
- * Double click event for preview image.
+ * Click event for preview image.
  */
-imce.ePrvImgDblclick = function() {
+imce.ePrvImgClick = function() {
   var Item = imce.previewingItem;
   if (Item) Item.dblClick();
   return false;
