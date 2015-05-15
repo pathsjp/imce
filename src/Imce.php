@@ -26,14 +26,14 @@ class Imce {
   /**
    * Returns a response for an imce request.
    */
-  public static function response(Request $request, AccountProxyInterface $user, $scheme) {
+  public static function response(Request $request, AccountProxyInterface $user = NULL, $scheme = NULL) {
     return static::userFM($user, $scheme, $request)->pageResponse();
   }
 
   /**
    * Returns a file manager instance for a user.
    */
-  public static function userFM(AccountProxyInterface $user, $scheme = NULL, Request $request = NULL) {
+  public static function userFM(AccountProxyInterface $user = NULL, $scheme = NULL, Request $request = NULL) {
     if ($conf = static::userConf($user, $scheme)) {
       return new ImceFM($conf, $user, $request);
     }
@@ -44,7 +44,7 @@ class Imce {
    */
   public static function userProfile(AccountProxyInterface $user = NULL, $scheme = NULL) {
     $profiles = &drupal_static(__METHOD__, array());
-    $user = isset($user) ? $user : \Drupal::currentUser();
+    $user = $user ?: \Drupal::currentUser();
     $scheme = isset($scheme) ? $scheme : file_default_scheme();
     $profile = &$profiles[$user->id()][$scheme];
     if (!isset($profile)) {
@@ -71,7 +71,7 @@ class Imce {
    * Returns processed profile configuration for a user.
    */
   public static function userConf(AccountProxyInterface $user = NULL, $scheme = NULL) {
-    $user = isset($user) ? $user : \Drupal::currentUser();
+    $user = $user ?: \Drupal::currentUser();
     $scheme = isset($scheme) ? $scheme : file_default_scheme();
     if ($profile = static::userProfile($user, $scheme)) {
       $conf = $profile->getConf();
@@ -307,7 +307,7 @@ class Imce {
    * Checks if the selected file paths are accessible by a user with Imce.
    * Returns the accessible paths.
    */
-  public static function accessFilePaths(array $paths, AccountProxyInterface $user, $scheme) {
+  public static function accessFilePaths(array $paths, AccountProxyInterface $user = NULL, $scheme = NULL) {
     $ret = array();
     if ($fm = static::userFM($user, $scheme)) {
       foreach ($paths as $path) {
@@ -322,7 +322,7 @@ class Imce {
   /**
    * Checks if a file uri is accessible by a user with Imce.
    */
-  public static function accessFileUri($uri, AccountProxyInterface $user) {
+  public static function accessFileUri($uri, AccountProxyInterface $user = NULL) {
     list($scheme, $path) = explode('://', $uri, 2);
     return $scheme && $path && Imce::accessFilePaths(array($path), $user, $scheme);
   }

@@ -93,9 +93,9 @@ class ImceFM {
    * @param \Symfony\Component\HttpFoundation\Request $request
    *   The active request that contains parameters for file manager operations
    */
-  public function __construct(array $conf, AccountProxyInterface $user, Request $request = NULL) {
+  public function __construct(array $conf, AccountProxyInterface $user = NULL, Request $request = NULL) {
     $this->conf = $conf;
-    $this->user = $user;
+    $this->user = $user ?: \Drupal::currentUser();
     $this->request = $request;
     $this->init();
   }
