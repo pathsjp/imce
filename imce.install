@@ -23,6 +23,6 @@ function imce_install() {
       }
     }
     $config->set('roles_profiles', $roles_profiles);
-    $config->save();
+    $config->save(TRUE);
   }
 }
