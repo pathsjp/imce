@@ -67,7 +67,7 @@ imce.profile_conf.folders:
       label: 'Folder'
       mapping:
         path:
-          type: label
+          type: string
           label: 'Path'
         permissions:
           type: sequence
