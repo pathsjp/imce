@@ -296,7 +296,7 @@ class Imce {
       'filename' => \Drupal::service('file_system')->basename($uri),
       'filemime' => \Drupal::service('file.mime_type.guesser')->guess($uri),
     );
-    $file = entity_create('file', $values);
+    $file = \Drupal::entityManager()->getStorage('file')->create($values);
     if ($save) {
       $file->save();
     }
