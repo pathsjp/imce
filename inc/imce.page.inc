@@ -824,7 +824,7 @@ function imce_process_directories(&$imce, $user) {
 }
 
 /**
- * Return an avaliable directory for the profile.
+ * Return an available directory for the profile.
  */
 function imce_working_directory(&$imce) {
   //Do not use session if there is only one directory assigned.

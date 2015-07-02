@@ -235,14 +235,14 @@ function imce_profile_form(&$form_state, $pid = 0) {
     '#type' => 'textfield',
     '#title' => t('Maximum file size per upload'),
     '#default_value' => $profile['filesize'],
-    '#description' => t('Set to 0 to use the maximum value avaliable.') .' '. t('Your PHP settings limit the maximum file size per upload to %size.', array('%size' => format_size(file_upload_max_size()))),
+    '#description' => t('Set to 0 to use the maximum value available.') .' '. t('Your PHP settings limit the maximum file size per upload to %size.', array('%size' => format_size(file_upload_max_size()))),
     '#field_suffix' => t('MB'),
   );
   $form['quota'] = array(
     '#type' => 'textfield',
     '#title' => t('Directory quota'),
     '#default_value' => $profile['quota'],
-    '#description' => t('Define the upload quota per directory. Total user quota is proportional to the number of directories that the user has upload access to.') .' '. t('Set to 0 to use the maximum value avaliable.'),
+    '#description' => t('Define the upload quota per directory. Total user quota is proportional to the number of directories that the user has upload access to.') .' '. t('Set to 0 to use the maximum value available.'),
     '#field_suffix' => t('MB'),
   );
   $form['tuquota'] = array(
