@@ -1085,7 +1085,15 @@ function imce_dir_uri($imce, $dir = NULL) {
   if (!isset($dir)) {
     $dir = $imce['dir'];
   }
-  return $imce['scheme'] . '://' . ($dir == '.' ? '' : $dir . '/');
+  $target = $dir === '.' ? '' : $dir;
+  $uri = $imce['scheme'] . '://' . $target;
+  // Uri is already normalized. Call alterers.
+  drupal_alter('file_stream_wrapper_uri_normalize', $uri, $imce['scheme'], $target);
+  // Add the slash
+  if (substr($uri, -1) !== '/') {
+    $uri .= '/';
+  }
+  return $uri;
 }
 
 /**
