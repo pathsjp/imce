@@ -521,7 +521,8 @@ fopSettings: function (fop) {
 fopLoading: function(fop, state) {
   var el = imce.el('edit-'+ fop), func = state ? 'addClass' : 'removeClass';
   if (el) {
-    $(el)[func]('loading').attr('disabled', state);
+    $(el)[func]('loading');
+    el.disabled = state;
   }
   else {
     $(imce.ops[fop].li)[func]('loading');
