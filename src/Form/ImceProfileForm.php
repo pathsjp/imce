@@ -209,7 +209,7 @@ class ImceProfileForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function validate(array $form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state) {
     // Check folders
     $folders = array();
     foreach ($form_state->getValue(array('conf', 'folders')) as $i => $folder) {
@@ -234,7 +234,7 @@ class ImceProfileForm extends EntityForm {
     $form_state->setValue(array('conf', 'folders'), array_values($folders));
     // Call plugin validators
     \Drupal::service('plugin.manager.imce.plugin')->validateProfileForm($form, $form_state, $this->getEntity());
-    return parent::validate($form, $form_state);
+    return parent::validateForm($form, $form_state);
   }
 
   /**
