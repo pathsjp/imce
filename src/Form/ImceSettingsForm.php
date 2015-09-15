@@ -10,7 +10,7 @@ namespace Drupal\imce\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 
 /**
  * Imce settings form.
@@ -96,12 +96,12 @@ class ImceSettingsForm extends ConfigFormBase {
     $default = file_default_scheme();
     foreach ($wrappers as $scheme => $name) {
       $url = $scheme === $default ? $imce_url : $imce_url . '/' . $scheme;
-      $rp_table['#header'][]['data'] = array('#markup' => '<a href="' . $url . '">' . SafeMarkup::checkPlain($name) . '</a>');
+      $rp_table['#header'][]['data'] = array('#markup' => '<a href="' . $url . '">' . Html::escape($name) . '</a>');
     }
     // Build rows
     foreach ($roles as $rid => $role) {
       $rp_table[$rid]['role_name'] = array(
-        '#markup' => SafeMarkup::checkPlain($role->label()),
+        '#plain_text' => $role->label(),
       );
       foreach ($wrappers as $scheme => $name) {
         $rp_table[$rid][$scheme] = array(

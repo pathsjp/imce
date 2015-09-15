@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\imce\Imce;
 
@@ -476,7 +477,7 @@ class ImceFM {
     $messages = drupal_get_messages();
     foreach ($messages as &$group) {
       foreach ($group as &$message) {
-        $message = SafeMarkup::escape($message);
+        $message = SafeMarkup::isSafe($message) ? $message . '' : Html::escape($message);
       }
     }
     // Merge with file manager messages.

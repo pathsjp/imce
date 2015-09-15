@@ -9,7 +9,6 @@ namespace Drupal\imce;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Component\Utility\SafeMarkup;
 
 /**
  * Defines a class to build a list of Imce Profile entities.
@@ -32,7 +31,7 @@ class ImceProfileListBuilder extends ConfigEntityListBuilder {
    */
   public function buildRow(EntityInterface $imce_profile) {
     $row['label'] = $imce_profile->label();
-    $row['description'] = SafeMarkup::checkPlain($imce_profile->get('description'));
+    $row['description'] = $imce_profile->get('description');
     return $row + parent::buildRow($imce_profile);
   }
 
