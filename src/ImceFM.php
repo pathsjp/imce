@@ -652,8 +652,7 @@ class ImceFM {
         return new JsonResponse($data);
       }
       // Build and render the main page.
-      $output = $this->buildRenderPage();
-      return new Response($output);
+      return $this->buildRenderPage();
     }
   }
 
