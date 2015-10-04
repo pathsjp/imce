@@ -33,7 +33,7 @@ class ImceFileField {
   /**
    * Checks if a widget is supported.
    */
-  public static function isWidgetSupported($widget) {
+  public static function isWidgetSupported(WidgetInterface $widget) {
     return in_array($widget->getPluginId(), static::supportedWidgets());
   }
 
