@@ -31,7 +31,7 @@
   imceFileField.processButton = function (button) {
     var el;
     var url = button.getAttribute('data-imce-url');
-    var fieldId = button.id.replace('-imce-button', '');
+    var fieldId = button.getAttribute('data-drupal-selector').split('-imce-button')[0];
     if (url && fieldId) {
       url += (url.indexOf('?') === -1 ? '?' : '&') + 'sendto=imceFileField.sendto&fieldId=' + fieldId;
       el = $(imceFileField.createWidget(url)).insertBefore(button.parentNode)[0];
@@ -88,8 +88,8 @@
    * Submits a field widget with selected file paths.
    */
   imceFileField.submit = function (fieldId, paths) {
-    $('#' + fieldId + '-imce-paths').val(paths.join(':'));
-    $('#' + fieldId + '-imce-button').mousedown();
+    $('[data-drupal-selector="' + fieldId + '-imce-paths"]').val(paths.join(':'));
+    $('[data-drupal-selector="' + fieldId + '-imce-button"]').mousedown();
   };
 
 })(jQuery, Drupal);

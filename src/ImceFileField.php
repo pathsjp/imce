@@ -69,8 +69,6 @@ class ImceFileField {
   public static function processWidget($element, FormStateInterface $form_state, $form) {
     // Button
     $element['imce_button'] = array(
-      '#name' => $element['#name'] . '[imce_button]',
-      '#id' => $element['#id'] . '-imce-button',
       '#attributes' => array(
         'class' => array('hidden', 'imce-filefield-button'),
         'data-imce-url' => \Drupal::url('imce.page', array('scheme' => $element['#scheme'])),
@@ -79,7 +77,6 @@ class ImceFileField {
     // Path input
     $element['imce_paths'] = array(
       '#type' => 'hidden',
-      '#attributes' => array('id' => $element['#id'] . '-imce-paths'),
       // Reset value to prevent consistent errors
       '#value' => '',
     );
