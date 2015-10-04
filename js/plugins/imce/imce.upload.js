@@ -29,6 +29,7 @@
   imce.createUploadForm = function () {
     var els;
     var el;
+    var exts;
     var form = imce.uploadForm;
     var name = 'files[imce][]';
     if (form) {
@@ -50,9 +51,13 @@
     els = form.elements;
     // Set token
     els.token.value = imce.getConf('token');
-    // Set accepted extensions
+    // Set accepted extensions.
     el = els[name];
-    el.accept = '.' + imce.getConf('extensions', '').replace(/\s+/g, ',.');
+    exts = imce.getConf('extensions', '');
+    // Skip for * which is interpreted incorrectly by some browsers.
+    if (exts !== '*') {
+      el.accept = '.' + exts.replace(/\s+/g, ',.');
+    }
     // Ajax upload
     if (imce.canAjaxUpload()) {
       imce.activeUq = new imce.UploadQueue({name: name, accept: el.accept});
