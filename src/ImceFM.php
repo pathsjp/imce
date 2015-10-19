@@ -606,6 +606,8 @@ class ImceFM {
       ),
     );
     $page['#attached']['html_head'][] = array($robots, 'robots');
+    // Disable cache
+    $page['#cache']['max-age'] = 0;
     // Run builders of available plugins
     \Drupal::service('plugin.manager.imce.plugin')->buildPage($page, $this);
     // Add active path to the conf.
