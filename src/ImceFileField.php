@@ -45,7 +45,7 @@ class ImceFileField {
     if (static::isWidgetSupported($widget)) {
       $form['enabled'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Allow users to select files from <a href="!url">Imce File Manager</a> for this field.', array('!url' => \Drupal::url('imce.admin'))),
+        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => \Drupal::url('imce.admin'))),
         '#default_value' => $widget->getThirdPartySetting('imce', 'enabled'),
       );
     }
@@ -59,7 +59,7 @@ class ImceFileField {
     $widget = $context['widget'];
     if (static::isWidgetSupported($widget)) {
       $status = $widget->getThirdPartySetting('imce', 'enabled') ? t('Yes') : t('No');
-      $summary[] = t('Imce enabled: !status', array('!status' => $status));
+      $summary[] = t('Imce enabled: @status', array('@status' => $status));
     }
   }
 

@@ -31,7 +31,7 @@ class ImceProfileForm extends EntityForm {
     // Check duplication
     if ($this->getOperation() === 'duplicate') {
       $imce_profile = $imce_profile->createDuplicate();
-      $imce_profile->set('label', $this->t('Duplicate of !label', array('!label' => $imce_profile->label())));
+      $imce_profile->set('label', $this->t('Duplicate of @label', array('@label' => $imce_profile->label())));
       $this->setEntity($imce_profile);
     }
     // Label
@@ -150,7 +150,7 @@ class ImceProfileForm extends EntityForm {
     $conf['folders'] = array(
       '#type' => 'fieldset',
       '#title' => $this->t('Folders'),
-      'description' => array('#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. !tokens.', array('!tokens' => '[user:uid], [user:name]' )) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'),
+      'description' => array('#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', array('@tokens' => '[user:uid], [user:name]' )) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'),
       '#weight' => 10,
     );
     $folders = $imce_profile->getConf('folders', array());

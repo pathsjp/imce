@@ -113,7 +113,7 @@ class ImceSettingsForm extends ConfigFormBase {
     }
     // Add description
     $rp_table['#prefix'] = '<h3>' . $this->t('Role-profile assignments') . '</h3>';
-    $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. The default file system %name is accessible at !url path.', array('%name' => $wrappers[file_default_scheme()], '!url' => $imce_url)) . '</div>';
+    $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. The default file system %name is accessible at :url path.', array('%name' => $wrappers[file_default_scheme()], ':url' => $imce_url)) . '</div>';
     return $rp_table;
   }
 
