@@ -11,6 +11,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\user\RoleInterface;
 
 /**
  * Imce settings form.
@@ -71,7 +72,7 @@ class ImceSettingsForm extends ConfigFormBase {
     $config->set('roles_profiles', $roles_profiles);
     $config->save();
     // Warn about anonymous access
-    if (!empty($roles_profiles[DRUPAL_ANONYMOUS_RID])) {
+    if (!empty($roles_profiles[RoleInterface::ANONYMOUS_ID])) {
       drupal_set_message(t('You have enabled anonymous access to the file manager. Please make sure this is not a misconfiguration.'), 'warning');
     }
     parent::submitForm($form, $form_state);
