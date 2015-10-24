@@ -276,7 +276,7 @@ class Imce {
    */
   public static function getFileEntity($uri, $create = FALSE, $save = FALSE) {
     $file = FALSE;
-    if ($files = entity_load_multiple_by_properties('file', array('uri' => $uri))) {
+    if ($files = \Drupal::entityManager()->getStorage('file')->loadByProperties(array('uri' => $uri))) {
       $file = reset($files);
     }
     elseif ($create) {
