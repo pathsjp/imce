@@ -91,7 +91,7 @@
     var i;
     var selection = imce.getSelection();
     for (i in selection) {
-      if (selection[i] !== Item) {
+      if (selection.hasOwnProperty(i) && selection[i] !== Item) {
         selection[i].deselect();
       }
     }

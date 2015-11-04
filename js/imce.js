@@ -632,7 +632,7 @@
    */
   imce.validateExtensions = function (items, exts) {
     for (var i in items) {
-      if (!imce.validateExtension(items[i].ext, exts)) {
+      if (items.hasOwnProperty(i) && !imce.validateExtension(items[i].ext, exts)) {
         return false;
       }
     }
