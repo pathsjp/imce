@@ -53,7 +53,7 @@
         var lines = [];
         var selection = imce.getSelection();
         for (i in selection) {
-          if (!selection.hasOwnProperty(i)) {
+          if (!imce.owns(selection, i)) {
             continue;
           }
           File = selection[i];
