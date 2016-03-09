@@ -95,7 +95,15 @@
           }
           // Link
           else {
-            lines.push('<a href="' + File.getUrl() + '">' + File.formatName() + '</a>');
+            // Use the selected text/image for the first link
+            var text = '';
+            if (!lines.length) {
+              var range = editor.getSelection().getRanges()[0];
+              var div = editor.document.createElement('div');
+              div.append(range.cloneContents());
+              text = div.getHtml();
+            }
+            lines.push('<a href="' + File.getUrl() + '">' + (text || File.formatName()) + '</a>');
           }
         }
         editor.insertHtml(lines.join('<br />'));
