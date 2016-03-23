@@ -81,6 +81,7 @@
       var editor = CKEDITOR.instances[imce.getQuery('ck_id')];
       if (editor) {
         var i;
+        var text;
         var lines = [];
         var selection = imce.getSelection();
         var is_img = imce.getQuery('type') === 'image';
@@ -96,14 +97,8 @@
           // Link
           else {
             // Use the selected text/image for the first link
-            var text = '';
-            if (!lines.length) {
-              var range = editor.getSelection().getRanges()[0];
-              var div = editor.document.createElement('div');
-              div.append(range.cloneContents());
-              text = div.getHtml();
-            }
-            lines.push('<a href="' + File.getUrl() + '">' + (text || File.formatName()) + '</a>');
+            text = !lines.length && CKEDITOR.imce.getSelectedHtml(editor) || File.formatName();
+            lines.push('<a href="' + File.getUrl() + '">' + text + '</a>');
           }
         }
         editor.insertHtml(lines.join('<br />'));
@@ -120,8 +115,22 @@
         url += (url.indexOf('?') === -1 ? '?' : '&') + query;
       }
       return url;
-    }
+    },
 
+    /**
+     * Returns the selection source from the editor.
+     */
+    getSelectedHtml: function (editor) {
+      var html = '';
+      try {
+        var range = editor.getSelection().getRanges()[0];
+        var div = editor.document.createElement('div');
+        div.append(range.cloneContents());
+        html = div.getHtml();
+      } catch(err) {}
+      return html;
+    }
+ 
   };
 
 })(jQuery, Drupal, CKEDITOR);
