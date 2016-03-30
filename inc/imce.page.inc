@@ -297,7 +297,7 @@ function imce_upload_submit($form, &$form_state) {
 
     //core bug #54223.
     if ($replace == FILE_EXISTS_RENAME) {
-      $name = basename($file->uri);
+      $name = drupal_basename($file->uri);
       if ($name != $file->filename) {
         $file->filename = $name;
         drupal_set_message(t('The file has been renamed to %filename.', array('%filename' => $file->filename)));
@@ -494,7 +494,7 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   if (!$destname || $destname == $filename) {
     $file->uri = $copy ? file_create_filename($filename, $destdir) : $imguri;
   }
-  $file->filename = basename($file->uri);
+  $file->filename = drupal_basename($file->uri);
 
   //check if a file having the same properties exists already.
   if (isset($imce['files'][$file->filename])) {
