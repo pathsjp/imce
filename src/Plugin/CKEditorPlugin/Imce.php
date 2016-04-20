@@ -58,7 +58,7 @@ class Imce extends CKEditorPluginBase {
    * Uses the icon from drupalimage plugin.
    */
   public function imageIcon() {
-    return drupal_get_path('module', 'ckeditor') . '/js/plugins/drupalimage/image.png';
+    return drupal_get_path('module', 'imce') . '/js/plugins/ckeditor/icons/imceimage.png';
   }
 
   /**
@@ -66,7 +66,7 @@ class Imce extends CKEditorPluginBase {
    * Uses the icon from drupallink plugin.
    */
   public function linkIcon() {
-    return drupal_get_path('module', 'ckeditor') . '/js/plugins/drupallink/link.png';
+    return drupal_get_path('module', 'imce') . '/js/plugins/ckeditor/icons/imcelink.png';
   }
 
 }
