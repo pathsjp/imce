@@ -17,27 +17,27 @@
   Drupal.behaviors.imceFileField = {
     attach: function (context, settings) {
       var i;
-      var button;
-      var $buttons = $('.imce-filefield-button', context).not('.iff-processed').addClass('iff-processed');
-      for (i = 0; button = $buttons[i]; i++) {
-        imceFileField.processButton(button);
+      var el;
+      var $els = $('.imce-filefield-paths', context).not('.iff-processed').addClass('iff-processed');
+      for (i = 0; el = $els[i]; i++) {
+        imceFileField.processInput(el);
       }
     }
   };
 
   /**
-   * Processes an imce file field button to create a widget.
+   * Processes an imce file field input to create a widget.
    */
-  imceFileField.processButton = function (button) {
-    var el;
-    var url = button.getAttribute('data-imce-url');
-    var fieldId = button.getAttribute('data-drupal-selector').split('-imce-button')[0];
+  imceFileField.processInput = function (el) {
+    var widget;
+    var url = el.getAttribute('data-imce-url');
+    var fieldId = el.getAttribute('data-drupal-selector').split('-imce-paths')[0];
     if (url && fieldId) {
       url += (url.indexOf('?') === -1 ? '?' : '&') + 'sendto=imceFileField.sendto&fieldId=' + fieldId;
-      el = $(imceFileField.createWidget(url)).insertBefore(button.parentNode)[0];
-      el.parentNode.className += ' imce-filefield-parent';
+      widget = $(imceFileField.createWidget(url)).insertBefore(el.parentNode)[0];
+      widget.parentNode.className += ' imce-filefield-parent';
     }
-    return el;
+    return widget;
   };
 
   /**
@@ -89,7 +89,7 @@
    */
   imceFileField.submit = function (fieldId, paths) {
     $('[data-drupal-selector="' + fieldId + '-imce-paths"]').val(paths.join(':'));
-    $('[data-drupal-selector="' + fieldId + '-imce-button"]').mousedown();
+    $('[data-drupal-selector="' + fieldId + '-upload-button"]').mousedown();
   };
 
 })(jQuery, Drupal);

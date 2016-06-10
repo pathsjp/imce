@@ -65,16 +65,13 @@ class ImceFileField {
    * Processes widget form.
    */
   public static function processWidget($element, FormStateInterface $form_state, $form) {
-    // Button
-    $element['imce_button'] = array(
-      '#attributes' => array(
-        'class' => array('hidden', 'imce-filefield-button'),
-        'data-imce-url' => \Drupal::url('imce.page', array('scheme' => $element['#scheme'])),
-      ),
-    ) + $element['upload_button'];
     // Path input
     $element['imce_paths'] = array(
       '#type' => 'hidden',
+      '#attributes' => array(
+        'class' => array('imce-filefield-paths'),
+        'data-imce-url' => \Drupal::url('imce.page', array('scheme' => $element['#scheme'])),
+      ),
       // Reset value to prevent consistent errors
       '#value' => '',
     );
@@ -92,7 +89,6 @@ class ImceFileField {
     // Hide elements if there is already an uploaded file.
     if (!empty($element['#value']['fids'])) {
       $element['imce_paths']['#access'] = FALSE;
-      $element['imce_button']['#access'] = FALSE;
     }
     return $element;
   }

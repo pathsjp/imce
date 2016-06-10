@@ -1,6 +1,3 @@
-.imce-filefield-button {
-  display: none !important;
-}
 .imce-filefield-link:before {
   content: '';
   display: inline-block;
