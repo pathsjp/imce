@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Plugin\ImcePlugin\Delete.
- */
-
 namespace Drupal\imce\Plugin\ImcePlugin;
 
 use Drupal\imce\Imce;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Imce.
- */
-
 namespace Drupal\imce;
 
 use Symfony\Component\HttpFoundation\Request;

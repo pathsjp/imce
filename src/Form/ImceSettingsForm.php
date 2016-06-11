@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Form\ImceSettingsForm.
- */
-
 namespace Drupal\imce\Form;
 
 use Drupal\Core\Form\ConfigFormBase;

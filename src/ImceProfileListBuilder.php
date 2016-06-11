@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImceProfileListBuilder.
- */
-
 namespace Drupal\imce;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;

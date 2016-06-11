@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImceFile.
- */
-
 namespace Drupal\imce;
 
 /**

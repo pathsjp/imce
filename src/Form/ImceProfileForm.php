@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Form\ImceProfileForm.
- */
-
 namespace Drupal\imce\Form;
 
 use Drupal\Core\Entity\EntityForm;

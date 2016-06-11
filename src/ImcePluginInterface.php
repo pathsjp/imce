@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImcePluginInterface.
- */
-
 namespace Drupal\imce;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;

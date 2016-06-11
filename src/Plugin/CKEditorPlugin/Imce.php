@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Plugin\CKEditorPlugin\Imce.
- */
-
 namespace Drupal\imce\Plugin\CKEditorPlugin;
 
 use Drupal\editor\Entity\Editor;

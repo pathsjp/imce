@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImcePluginBase.
- */
-
 namespace Drupal\imce;
 
 use Drupal\Core\Plugin\PluginBase;

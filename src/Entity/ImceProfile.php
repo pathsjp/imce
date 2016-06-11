@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Entity\ImceProfile.
- */
-
 namespace Drupal\imce\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;

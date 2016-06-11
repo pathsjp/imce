@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\imce\Annotation\ImcePlugin.
- */
-
 namespace Drupal\imce\Annotation;
 
 use Drupal\Component\Annotation\Plugin;

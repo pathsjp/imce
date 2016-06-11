@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Plugin\ImcePlugin\Upload.
- */
-
 namespace Drupal\imce\Plugin\ImcePlugin;
 
 use Drupal\file\Entity\FileInterface;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImceFileField.
- */
-
 namespace Drupal\imce;
 
 use Drupal\Core\Form\FormStateInterface;

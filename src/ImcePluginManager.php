@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\ImcePluginManager.
- */
-
 namespace Drupal\imce;
 
 use Drupal\Core\Plugin\DefaultPluginManager;

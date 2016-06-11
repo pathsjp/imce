@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\imce\Plugin\BUEditorPlugin\Imce.
- */
-
 namespace Drupal\imce\Plugin\BUEditorPlugin;
 
 use Drupal\Core\Form\FormStateInterface;
