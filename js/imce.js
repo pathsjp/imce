@@ -380,7 +380,7 @@
           imce.sendtoHandler = function (Item, win) {
             try {
               imce.parentWin.focus();
-              $(urlField).val(Item.getUrl()).blur().change().focus();
+              (imce.parentWin.jQuery||$)(urlField).val(Item.getUrl()).blur().change().focus();
             }
             catch (err) {
               imce.delayError(err);
