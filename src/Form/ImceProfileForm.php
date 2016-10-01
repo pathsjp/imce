@@ -67,7 +67,7 @@ class ImceProfileForm extends EntityForm {
       '#title' => $this->t('Allowed file extensions'),
       '#default_value' => $imce_profile->getConf('extensions'),
       '#maxlength' => 255,
-      '#description' => $this->t('Separate extensions with a space or comma and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
+      '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
       '#weight' => -9,
     );
     // File size
