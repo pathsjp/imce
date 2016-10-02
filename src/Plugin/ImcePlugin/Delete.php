@@ -65,7 +65,7 @@ class Delete extends ImcePluginBase {
     $ignore_usage = $fm->getConf('ignore_usage', FALSE);
     foreach ($items as $item) {
       if ($uri = $item->getUri()) {
-        $result = $item->type === 'folder' ? $this->deleteFolderUri($uri, $ignore_usage) : $this->deleteFileUri($uri, $ignore_usage);
+        $result = $item->type === 'folder' ? $this->deleteFolderUri($uri, $ignore_usage, !$item->getPermission('delete_files')) : $this->deleteFileUri($uri, $ignore_usage);
         if ($result) {
           $item->removeFromJs();
           $item->remove();
@@ -99,15 +99,19 @@ class Delete extends ImcePluginBase {
   /**
    * Deletes a folder by uri.
    */
-  public static function deleteFolderUri($uri, $ignore_usage = FALSE) {
+  public static function deleteFolderUri($uri, $ignore_usage = FALSE, $check_files = FALSE) {
     // Get folder content without any filtering.
     $content = Imce::scanDir($uri);
     if (!empty($content['error'])) {
       return FALSE;
     }
+    if ($check_files && !empty($content['files'])) {
+      drupal_set_message(t('%folder contains files and can not be deleted.', array('%folder' => \Drupal::service('file_system')->basename($uri))), 'error');
+      return FALSE;
+    }
     // Delete subfolders first.
     foreach ($content['subfolders'] as $path) {
-      if (!static::deleteFolderUri($path, $ignore_usage)) {
+      if (!static::deleteFolderUri($path, $ignore_usage, $check_files)) {
         return FALSE;
       }
     }
