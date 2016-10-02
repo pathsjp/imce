@@ -18,6 +18,14 @@ class Imce extends CKEditorPluginBase {
   /**
    * {@inheritdoc}
    */
+  function getDependencies(Editor $editor) {
+    // Need drupalimage for drupallink support. See #2666596
+    return array('drupalimage');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFile() {
     return drupal_get_path('module', 'imce') . '/js/plugins/ckeditor/imce.ckeditor.js';
   }
