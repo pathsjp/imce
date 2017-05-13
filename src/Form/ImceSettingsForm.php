@@ -32,7 +32,7 @@ class ImceSettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('imce.settings');
-    $form['roles_profiles'] = $this->buildRolesProfilesTable($config->get('roles_profiles', array()));
+    $form['roles_profiles'] = $this->buildRolesProfilesTable($config->get('roles_profiles') ?: array());
     // Common settings container
     $form['common'] = array(
       '#type' => 'details',

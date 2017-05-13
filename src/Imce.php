@@ -49,7 +49,7 @@ class Imce {
           return $profile;
         }
         $imce_settings = \Drupal::config('imce.settings');
-        $roles_profiles = $imce_settings->get('roles_profiles', array());
+        $roles_profiles = $imce_settings->get('roles_profiles');
         $user_roles = array_flip($user->getRoles());
         // Order roles from more permissive to less permissive.
         $roles = array_reverse(user_roles());
