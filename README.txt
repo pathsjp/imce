@@ -19,8 +19,9 @@ INSTALLATION
 CKEDITOR INTEGRATION
 -----------
 1. Go to /admin/config/content/formats to edit a text format that uses CKEditor.
-2. Enable the image button provided by Imce under Toolbar Configuration.
-The button has the default image icon with the title "Insert images using Imce File Manager"
+2. Enable CKEditor image button without image uploads.
+Image uploads must be disabled in order for IMCE link appear in the image dialog.
+There is also an image button provided by Imce but it can't be used for editing existing images.
 
 
 BUEDITOR INTEGRATION
