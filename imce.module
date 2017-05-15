@@ -105,3 +105,14 @@ function imce_process_url_element(&$element, $type = 'link') {
     $element['#attached']['library'][] = 'imce/drupal.imce.input';
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter() for filter_format_form.
+ */
+function imce_form_filter_format_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if (isset($form['editor']['settings']['subform']['plugins']['drupalimage']['image_upload']['status'])) {
+    $desc = &$form['editor']['settings']['subform']['plugins']['drupalimage']['image_upload']['status']['#description'];
+    $str = t('Disable to use IMCE file browser.');
+    $desc = $desc ? $desc . ' ' . $str : $str;
+  }
+}
