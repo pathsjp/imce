@@ -29,8 +29,7 @@
 }
 
 #imce-toolbar {
-  background: #e8ecdf;
-  background: linear-gradient(180deg, #eff2e7, #e0e4d6);
+  background: #ececec;
   overflow: hidden;
   border: 1px solid #ccc;
   box-shadow: 1px 1px 0 #fff inset;
@@ -373,8 +372,7 @@
   top: 0;
 }
 .imce-content-header .imce-item {
-  background: #edf0e6;
-  background: linear-gradient(180deg, #f3f5ed, #e8ebe1);
+  background: #f1f1f1;
   box-shadow: 1px 1px 0 #fff inset;
   border-bottom-color: #ccc;
 }
@@ -403,11 +401,11 @@
 }
 .imce-content-status > * {
   display: inline-block;
-  background: #edf0e6;
-  background: linear-gradient(180deg, #f3f5ed, #e8ebe1);
+  background: #f5f5f5;
   border: 1px solid #ccc;
   border-width: 1px 1px 0 0;
   padding: 2px 8px;
+  font-size: 0.9em;
 }
 
 /* Folder content */
