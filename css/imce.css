@@ -477,7 +477,7 @@
   cursor: default;
   padding: 6px 7px;
   float: left;
-  dsplay: inline-block;
+  display: inline-block;
 }
 .imce-tbb:hover {
   background-color: #fafafa;
