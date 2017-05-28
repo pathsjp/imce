@@ -6,6 +6,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\Component\Utility\Html;
+use Drupal\Core\Url;
 use Drupal\user\RoleInterface;
 
 /**
@@ -87,7 +88,7 @@ class ImceSettingsForm extends ConfigFormBase {
       $options[$pid] = $profile->label();
     }
     // Build header
-    $imce_url = \Drupal::url('imce.page');
+    $imce_url = Url::fromRoute('imce.page');
     $rp_table['#header'] = array($this->t('Role'));
     $default = file_default_scheme();
     foreach ($wrappers as $scheme => $name) {

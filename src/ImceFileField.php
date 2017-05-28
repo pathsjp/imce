@@ -4,6 +4,7 @@ namespace Drupal\imce;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\WidgetInterface;
+use Drupal\Core\Url;
 
 /**
  * Defines methods for integrating Imce into file field widgets.
@@ -38,7 +39,7 @@ class ImceFileField {
     if (static::isWidgetSupported($widget)) {
       $form['enabled'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => \Drupal::url('imce.admin'))),
+        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => Url::fromRoute('imce.admin'))),
         '#default_value' => $widget->getThirdPartySetting('imce', 'enabled'),
       );
     }
@@ -65,7 +66,7 @@ class ImceFileField {
       '#type' => 'hidden',
       '#attributes' => array(
         'class' => array('imce-filefield-paths'),
-        'data-imce-url' => \Drupal::url('imce.page', array('scheme' => $element['#scheme'])),
+        'data-imce-url' => Url::fromRoute('imce.page', array('scheme' => $element['#scheme'])),
       ),
       // Reset value to prevent consistent errors
       '#value' => '',
