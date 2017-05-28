@@ -52,7 +52,7 @@ class Imce extends BUEditorPluginBase {
         'class' => array('description'),
       ),
       'content' => array(
-        '#markup' => $this->t('Configure <a href=":url">Imce File Manager</a>.', array(':url' => Url::fromRoute('imce.admin')))
+        '#markup' => $this->t('Configure <a href=":url">Imce File Manager</a>.', array(':url' => Url::fromRoute('imce.admin')->toString()))
       ),
     );
     // Set weight

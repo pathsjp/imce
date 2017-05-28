@@ -88,7 +88,7 @@ class ImceSettingsForm extends ConfigFormBase {
       $options[$pid] = $profile->label();
     }
     // Build header
-    $imce_url = Url::fromRoute('imce.page');
+    $imce_url = Url::fromRoute('imce.page')->toString();
     $rp_table['#header'] = array($this->t('Role'));
     $default = file_default_scheme();
     foreach ($wrappers as $scheme => $name) {

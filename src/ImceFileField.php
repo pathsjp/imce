@@ -39,7 +39,7 @@ class ImceFileField {
     if (static::isWidgetSupported($widget)) {
       $form['enabled'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => Url::fromRoute('imce.admin'))),
+        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => Url::fromRoute('imce.admin')->toString())),
         '#default_value' => $widget->getThirdPartySetting('imce', 'enabled'),
       );
     }
@@ -66,7 +66,7 @@ class ImceFileField {
       '#type' => 'hidden',
       '#attributes' => array(
         'class' => array('imce-filefield-paths'),
-        'data-imce-url' => Url::fromRoute('imce.page', array('scheme' => $element['#scheme'])),
+        'data-imce-url' => Url::fromRoute('imce.page', array('scheme' => $element['#scheme']))->toString(),
       ),
       // Reset value to prevent consistent errors
       '#value' => '',
