@@ -60,7 +60,7 @@ class ImceProfile extends ConfigEntityBase {
    *
    * @var array
    */
-  protected $conf = array();
+  protected $conf = [];
 
   /**
    * Returns configuration options.

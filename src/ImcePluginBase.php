@@ -20,7 +20,7 @@ abstract class ImcePluginBase extends PluginBase implements ImcePluginInterface 
    * {@inheritdoc}
    */
   public function permissionInfo() {
-    return array();
+    return [];
   }
 
   /**

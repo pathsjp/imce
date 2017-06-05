@@ -23,10 +23,10 @@ class Core extends ImcePluginBase {
    * {@inheritdoc}
    */
   public function permissionInfo() {
-    return array(
+    return [
       'browse_files' => $this->t('Browse files'),
       'browse_subfolders' => $this->t('Browse subfolders'),
-    );
+    ];
   }
 
   /**
@@ -37,7 +37,7 @@ class Core extends ImcePluginBase {
       $folder->scan();
       $uri = $folder->getUri();
       $uri_prefix = substr($uri, -1) === '/' ? $uri : $uri . '/';
-      $content = array('props' => $fm->getFolderProperties($uri));
+      $content = ['props' => $fm->getFolderProperties($uri)];
       if ($folder->getPermission('browse_files')) {
         foreach ($folder->files as $name => $file) {
           $content['files'][$name] = $fm->getFileProperties($uri_prefix . $name);

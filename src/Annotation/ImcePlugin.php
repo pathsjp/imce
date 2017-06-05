@@ -43,6 +43,6 @@ class ImcePlugin extends Plugin {
    *
    * @var array
    */
-  public $operations = array();
+  public $operations = [];
 
 }

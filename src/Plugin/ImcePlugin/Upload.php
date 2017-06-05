@@ -24,9 +24,9 @@ class Upload extends ImcePluginBase {
    * {@inheritdoc}
    */
   public function permissionInfo() {
-    return array(
+    return [
       'upload_files' => $this->t('Upload files'),
-    );
+    ];
   }
 
   /**
@@ -49,20 +49,20 @@ class Upload extends ImcePluginBase {
     // Prepare save options
     $destination = $folder->getUri();
     $replace = $fm->getConf('replace', FILE_EXISTS_RENAME);
-    $validators = array();
+    $validators = [];
     // Extension validator
     $exts = $fm->getConf('extensions', '');
-    $validators['file_validate_extensions'] = array($exts === '*' ? NULL : $exts);
+    $validators['file_validate_extensions'] = [$exts === '*' ? NULL : $exts];
     // File size and user quota validator
-    $validators['file_validate_size'] = array($fm->getConf('maxsize'), $fm->getConf('quota'));
+    $validators['file_validate_size'] = [$fm->getConf('maxsize'), $fm->getConf('quota')];
     // Image resolution validator.
     $width = $fm->getConf('maxwidth');
     $height = $fm->getConf('maxheight');
     if ($width || $height) {
-      $validators['file_validate_image_resolution'] = array(($width ? $width : 10000) . 'x' . ($height ? $height : 10000));
+      $validators['file_validate_image_resolution'] = [($width ? $width : 10000) . 'x' . ($height ? $height : 10000)];
     }
     // Name validator
-    $validators[get_class($this) . '::validateFileName'] = array($fm);
+    $validators[get_class($this) . '::validateFileName'] = [$fm];
     // Save files
     if ($files = file_save_upload('imce', $validators, $destination, NULL, $replace)) {
       $fs = \Drupal::service('file_system');
@@ -81,9 +81,9 @@ class Upload extends ImcePluginBase {
    * Validates the name of a file object.
    */
   public static function validateFileName(FileInterface $file, ImceFM $fm) {
-    $errors = array();
+    $errors = [];
     if (!$fm->validateFileName($file->getFileName(), TRUE)) {
-      $errors[] = t('%filename contains invalid characters.', array('%filename' => $filename));
+      $errors[] = t('%filename contains invalid characters.', ['%filename' => $filename]);
     }
     return $errors;
   }

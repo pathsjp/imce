@@ -48,14 +48,14 @@ class ImceFM {
    *
    * @var array
    */
-  public $selection = array();
+  public $selection = [];
 
   /**
    * Folder tree.
    *
    * @var array
    */
-  public $tree = array();
+  public $tree = [];
 
   /**
    * Active folder.
@@ -69,14 +69,14 @@ class ImceFM {
    *
    * @var array
    */
-  public $response = array();
+  public $response = [];
 
   /**
    * Status messages.
    *
    * @var array
    */
-  public $messages = array();
+  public $messages = [];
 
   /**
    * Constructs the file manager.
@@ -120,10 +120,10 @@ class ImceFM {
   protected function getInitError() {
     $conf = &$this->conf;
     // Check configuration options.
-    $keys = array('folders', 'root_uri');
+    $keys = ['folders', 'root_uri'];
     foreach ($keys as $key) {
       if (empty($conf[$key])) {
-        return t('Missing configuration %key.', array('%key' => $key));
+        return t('Missing configuration %key.', ['%key' => $key]);
       }
     }
     // Check root.
@@ -160,7 +160,7 @@ class ImceFM {
         }
       }
       else {
-        return t('Invalid active folder path: %path.', array('%path' => $path));
+        return t('Invalid active folder path: %path.', ['%path' => $path]);
       }
     }
     return FALSE;
@@ -207,7 +207,7 @@ class ImceFM {
     // Let plugins handle the operation.
     $return = \Drupal::service('plugin.manager.imce.plugin')->handleOperation($op, $this);
     if ($return === FALSE) {
-      $this->setMessage(t('Invalid operation %op.', array('%op' => $op)));
+      $this->setMessage(t('Invalid operation %op.', ['%op' => $op]));
     }
     return $return;
   }
@@ -326,8 +326,8 @@ class ImceFM {
   /**
    * Returns the contents of a directory.
    */
-  public function scanDir($diruri, array $options = array()) {
-    $options += array('name_filter' => $this->getNameFilter());
+  public function scanDir($diruri, array $options = []) {
+    $options += ['name_filter' => $this->getNameFilter()];
     $scanner = $this->getConf('scanner', 'Drupal\imce\Imce::scanDir');
     return call_user_func($scanner, $diruri, $options);
   }
@@ -357,7 +357,7 @@ class ImceFM {
    * Groups the items by parent path and type.
    */
   public function groupItems(array $items) {
-    $group = array();
+    $group = [];
     foreach ($items as $item) {
       $path = $item->parent->getPath();
       $type = $item->type == 'folder' ? 'subfolders' : 'files';
@@ -427,7 +427,7 @@ class ImceFM {
    * Returns js properties of a file.
    */
   public function getFileProperties($uri) {
-    $properties = array('date' => filemtime($uri), 'size' => filesize($uri));
+    $properties = ['date' => filemtime($uri), 'size' => filesize($uri)];
     if (preg_match('/\.(jpe?g|png|gif)$/i', $uri) && $info = getimagesize($uri)) {
       $properties['width'] = $info[0];
       $properties['height'] = $info[1];
@@ -439,14 +439,14 @@ class ImceFM {
    * Returns js properties of a folder.
    */
   public function getFolderProperties($uri) {
-    return array('date' => filemtime($uri));
+    return ['date' => filemtime($uri)];
   }
 
   /**
    * Returns the response data.
    */
   public function getResponse() {
-    $defaults = array('jsop' => $this->getOp());
+    $defaults = ['jsop' => $this->getOp()];
     if ($messages = $this->getMessages()) {
       $defaults['messages'] = $messages;
     }
@@ -514,7 +514,7 @@ class ImceFM {
     foreach ($items as $item) {
       if ($item->type === 'folder' && ($folder = $item->hasPredefinedPath())) {
         if (!$silent) {
-          $this->setMessage(t('%path is a predefined path and can not be modified.', array('%path' => $folder->getPath())));
+          $this->setMessage(t('%path is a predefined path and can not be modified.', ['%path' => $folder->getPath()]));
         }
         return FALSE;
       }
@@ -534,7 +534,7 @@ class ImceFM {
     if ($name_filter = $this->getNameFilter()) {
       if (preg_match($name_filter, $filename)) {
         if (!$silent) {
-          $this->setMessage(t('%filename is not allowed.', array('%filename' => $filename)));
+          $this->setMessage(t('%filename is not allowed.', ['%filename' => $filename]));
         }
         return FALSE;
       }
@@ -542,7 +542,7 @@ class ImceFM {
     // Test chars forbidden in various operating systems.
     if (preg_match('@^\s|\s$|[/\\\\:\*\?"<>\|\x00-\x1F]@', $filename)) {
       if (!$silent) {
-        $this->setMessage(t('%filename contains invalid characters. Use only alphanumeric characters for better portability.', array('%filename' => $filename)));
+        $this->setMessage(t('%filename contains invalid characters. Use only alphanumeric characters for better portability.', ['%filename' => $filename]));
       }
       return FALSE;
     }
@@ -562,7 +562,7 @@ class ImceFM {
     $maxheight = $this->getConf('maxheight');
     if ($maxwidth && $width > $maxwidth || $maxheight && $height > $maxheight) {
       if (!$silent) {
-        $this->setMessage(t('Image dimensions must be smaller than %dimensions pixels.', array('%dimensions' => $maxwidth . 'x' . $maxwidth)));
+        $this->setMessage(t('Image dimensions must be smaller than %dimensions pixels.', ['%dimensions' => $maxwidth . 'x' . $maxwidth]));
       }
       return FALSE;
     }
@@ -577,7 +577,7 @@ class ImceFM {
     foreach ($items as $item) {
       if ($item->type === 'folder' || !preg_match($regex, $item->name)) {
         if (!$silent) {
-          $this->setMessage(t('%name is not an image.', array('%name' => $item->name)));
+          $this->setMessage(t('%name is not an image.', ['%name' => $item->name]));
         }
         return FALSE;
       }
@@ -589,17 +589,17 @@ class ImceFM {
    * Builds file manager page.
    */
   public function buildPage() {
-    $page = array();
+    $page = [];
     $page['#attached']['library'][] = 'imce/drupal.imce';
     // Add meta for robots.
-    $robots = array(
+    $robots = [
       '#tag' => 'meta',
-      '#attributes' => array(
+      '#attributes' => [
         'name' => 'robots',
         'content' => 'noindex,nofollow',
-      ),
-    );
-    $page['#attached']['html_head'][] = array($robots, 'robots');
+      ],
+    ];
+    $page['#attached']['html_head'][] = [$robots, 'robots'];
     // Disable cache
     $page['#cache']['max-age'] = 0;
     // Run builders of available plugins
@@ -629,7 +629,7 @@ class ImceFM {
    */
   public function buildRenderPage() {
     $page = $this->buildPage();
-    return \Drupal::service('bare_html_page_renderer')->renderBarePage($page, t('File manager'), 'imce_page', array('#show_messages' => FALSE))->getContent();
+    return \Drupal::service('bare_html_page_renderer')->renderBarePage($page, t('File manager'), 'imce_page', ['#show_messages' => FALSE])->getContent();
   }
 
   /**

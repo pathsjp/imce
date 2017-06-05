@@ -43,18 +43,18 @@ class Imce extends BUEditorPluginBase {
     $fb = &$form['settings']['fileBrowser'];
     $fb['#options']['imce'] = $this->t('Imce File Manager');
     // Add configuration link
-    $form['settings']['imce'] = array(
+    $form['settings']['imce'] = [
       '#type' => 'container',
-      '#states' => array(
-        'visible' => array(':input[name="settings[fileBrowser]"]' => array('value' => 'imce')),
-      ),
-      '#attributes' => array(
-        'class' => array('description'),
-      ),
-      'content' => array(
-        '#markup' => $this->t('Configure <a href=":url">Imce File Manager</a>.', array(':url' => Url::fromRoute('imce.admin')->toString()))
-      ),
-    );
+      '#states' => [
+        'visible' => [':input[name="settings[fileBrowser]"]' => ['value' => 'imce']],
+      ],
+      '#attributes' => [
+        'class' => ['description'],
+      ],
+      'content' => [
+        '#markup' => $this->t('Configure <a href=":url">Imce File Manager</a>.', [':url' => Url::fromRoute('imce.admin')->toString()]),
+      ],
+    ];
     // Set weight
     if (isset($fb['#weight'])) {
       $form['settings']['imce']['#weight'] = $fb['#weight'] + 0.1;

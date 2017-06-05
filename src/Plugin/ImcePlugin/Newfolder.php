@@ -24,9 +24,9 @@ class Newfolder extends ImcePluginBase {
    * {@inheritdoc}
    */
   public function permissionInfo() {
-    return array(
+    return [
       'create_subfolders' => $this->t('Create subfolders'),
-    );
+    ];
   }
 
   /**
@@ -52,7 +52,7 @@ class Newfolder extends ImcePluginBase {
       // Check existence
       $uri = Imce::joinPaths($folder->getUri(), $name);
       if (file_exists($uri)) {
-        $fm->setMessage(t('%filename already exists.', array('%filename' => $name)));
+        $fm->setMessage(t('%filename already exists.', ['%filename' => $name]));
       }
       // Create and add to js
       elseif (mkdir($uri, $fm->getConf('chmod_directory', 0775))) {

@@ -23,9 +23,9 @@ class Resize extends ImcePluginBase {
    * {@inheritdoc}
    */
   public function permissionInfo() {
-    return array(
+    return [
       'resize_images' => $this->t('Resize images'),
-    );
+    ];
   }
 
   /**
@@ -64,7 +64,7 @@ class Resize extends ImcePluginBase {
   public function resizeItems(ImceFM $fm, array $items, $width, $height, $copy = FALSE) {
     $factory = \Drupal::service('image.factory');
     $fs = \Drupal::service('file_system');
-    $success = array();
+    $success = [];
     foreach ($items as $item) {
       $uri = $item->getUri();
       $image = $factory->get($uri);
@@ -88,14 +88,14 @@ class Resize extends ImcePluginBase {
       // Create a new file record.
       if ($copy) {
         $filename = $fs->basename($destination);
-        $values = array(
+        $values = [
           'uid' => $fm->user->id(),
           'status' => 1,
           'filename' => $filename,
           'uri' => $destination,
           'filesize' => $image->getFileSize(),
           'filemime' => $image->getMimeType(),
-        );
+        ];
         $file = \Drupal::entityTypeManager()->getStorage('file')->create($values);
         // Check quota
         if ($errors = file_validate_size($file, 0, $fm->getConf('quota'))) {

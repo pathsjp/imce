@@ -17,7 +17,7 @@ class ImceFileField {
   public static function supportedWidgets() {
     $widgets = &drupal_static(__FUNCTION__);
     if (!isset($widgets)) {
-      $widgets = array('file_generic', 'image_image');
+      $widgets = ['file_generic', 'image_image'];
       \Drupal::moduleHandler()->alter('imce_supported_widgets', $widgets);
       $widgets = array_unique($widgets);
     }
@@ -35,13 +35,13 @@ class ImceFileField {
    * Returns widget settings form.
    */
   public static function widgetSettingsForm(WidgetInterface $widget) {
-    $form = array();
+    $form = [];
     if (static::isWidgetSupported($widget)) {
-      $form['enabled'] = array(
+      $form['enabled'] = [
         '#type' => 'checkbox',
-        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', array(':url' => Url::fromRoute('imce.admin')->toString())),
+        '#title' => t('Allow users to select files from <a href=":url">Imce File Manager</a> for this field.', [':url' => Url::fromRoute('imce.admin')->toString()]),
         '#default_value' => $widget->getThirdPartySetting('imce', 'enabled'),
-      );
+      ];
     }
     return $form;
   }
@@ -53,7 +53,7 @@ class ImceFileField {
     $widget = $context['widget'];
     if (static::isWidgetSupported($widget)) {
       $status = $widget->getThirdPartySetting('imce', 'enabled') ? t('Yes') : t('No');
-      $summary[] = t('Imce enabled: @status', array('@status' => $status));
+      $summary[] = t('Imce enabled: @status', ['@status' => $status]);
     }
   }
 
@@ -62,19 +62,19 @@ class ImceFileField {
    */
   public static function processWidget($element, FormStateInterface $form_state, $form) {
     // Path input
-    $element['imce_paths'] = array(
+    $element['imce_paths'] = [
       '#type' => 'hidden',
-      '#attributes' => array(
-        'class' => array('imce-filefield-paths'),
-        'data-imce-url' => Url::fromRoute('imce.page', array('scheme' => $element['#scheme']))->toString(),
-      ),
+      '#attributes' => [
+        'class' => ['imce-filefield-paths'],
+        'data-imce-url' => Url::fromRoute('imce.page', ['scheme' => $element['#scheme']])->toString(),
+      ],
       // Reset value to prevent consistent errors
       '#value' => '',
-    );
+    ];
     // Library
     $element['#attached']['library'][] = 'imce/drupal.imce.filefield';
     // Set the pre-renderer to conditionally disable the elements.
-    $element['#pre_render'][] = array(get_called_class(), 'preRenderWidget');
+    $element['#pre_render'][] = [get_called_class(), 'preRenderWidget'];
     return $element;
   }
 
@@ -110,7 +110,7 @@ class ImceFileField {
     }
     // Validate paths as file entities.
     $file_usage = \Drupal::service('file.usage');
-    $errors = array();
+    $errors = [];
     foreach ($paths as $path) {
       // Get entity by uri
       $file = Imce::getFileEntity($element['#scheme'] . '://' . $path, TRUE);
@@ -135,7 +135,7 @@ class ImceFileField {
     if ($errors) {
       $errors = array_unique($errors);
       if (count($errors) > 1) {
-        $errors = array('#theme' => 'item_list', '#items' => $errors);
+        $errors = ['#theme' => 'item_list', '#items' => $errors];
         $message = \Drupal::service('renderer')->render($errors);
       }
       else {

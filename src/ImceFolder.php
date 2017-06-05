@@ -31,21 +31,21 @@ class ImceFolder extends ImceItem {
    *
    * @var array
    */
-  public $items = array();
+  public $items = [];
 
   /**
    * Files.
    *
    * @var array
    */
-  public $files = array();
+  public $files = [];
 
   /**
    * Subfolders.
    *
    * @var array
    */
-  public $subfolders = array();
+  public $subfolders = [];
 
   /**
    * Constructs the folder.
@@ -71,7 +71,7 @@ class ImceFolder extends ImceItem {
     if ($parent = $this->parent) {
       if ($conf = $parent->getConf()) {
         if (Imce::permissionInFolderConf('browse_subfolders', $conf)) {
-          return $conf + array('inherited' => TRUE);
+          return $conf + ['inherited' => TRUE];
         }
       }
     }
@@ -237,16 +237,16 @@ class ImceFolder extends ImceItem {
   public function scan() {
     if (!$this->scanned) {
       $this->scanned = TRUE;
-      $options = array(
+      $options = [
         'browse_files' => $this->getPermission('browse_files'),
         'browse_subfolders' => $this->getPermission('browse_subfolders'),
-      );
+      ];
       $content = $this->fm()->scanDir($this->getUri(), $options);
       // Add files as raw data. We create the objects when needed.
       $this->files = $this->items = $content['files'];
       // Create the subfolder objects.
       $subfolders = $this->subfolders;
-      $this->subfolders = array();
+      $this->subfolders = [];
       foreach ($content['subfolders'] as $name => $uri) {
         // Check if previously created
         if (isset($subfolders[$name]) && is_object($subfolders[$name])) {

@@ -26,53 +26,53 @@ class ImceProfileForm extends EntityForm {
     // Check duplication
     if ($this->getOperation() === 'duplicate') {
       $imce_profile = $imce_profile->createDuplicate();
-      $imce_profile->set('label', $this->t('Duplicate of @label', array('@label' => $imce_profile->label())));
+      $imce_profile->set('label', $this->t('Duplicate of @label', ['@label' => $imce_profile->label()]));
       $this->setEntity($imce_profile);
     }
     // Label
-    $form['label'] = array(
+    $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
       '#default_value' => $imce_profile->label(),
       '#maxlength' => 64,
       '#required' => TRUE,
       '#weight' => -20,
-    );
+    ];
     // Id
-    $form['id'] = array(
+    $form['id'] = [
       '#type' => 'machine_name',
-      '#machine_name' => array(
-        'exists' => array(get_class($imce_profile), 'load'),
-        'source' => array('label'),
-      ),
+      '#machine_name' => [
+        'exists' => [get_class($imce_profile), 'load'],
+        'source' => ['label'],
+      ],
       '#default_value' => $imce_profile->id(),
       '#maxlength' => 32,
       '#required' => TRUE,
       '#weight' => -20,
-    );
+    ];
     // Description
-    $form['description'] = array(
+    $form['description'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Description'),
       '#default_value' => $imce_profile->get('description'),
       '#weight' => -10,
-    );
+    ];
     // Conf
-    $conf = array(
+    $conf = [
       '#tree' => TRUE,
-    );
+    ];
     // Extensions
-    $conf['extensions'] = array(
+    $conf['extensions'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Allowed file extensions'),
       '#default_value' => $imce_profile->getConf('extensions'),
       '#maxlength' => 255,
       '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
       '#weight' => -9,
-    );
+    ];
     // File size
     $maxsize = file_upload_max_size();
-    $conf['maxsize'] = array(
+    $conf['maxsize'] = [
       '#type' => 'number',
       '#min' => 0,
       '#max' => ceil($maxsize/1024/1024),
@@ -80,12 +80,12 @@ class ImceProfileForm extends EntityForm {
       '#size' => 8,
       '#title' => $this->t('Maximum file size'),
       '#default_value' => $imce_profile->getConf('maxsize'),
-      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . t('Your PHP settings limit the upload size to %size.', array('%size' => format_size($maxsize))),
+      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
       '#field_suffix' => $this->t('MB'),
       '#weight' => -8,
-    );
+    ];
     // Quota
-    $conf['quota'] = array(
+    $conf['quota'] = [
       '#type' => 'number',
       '#min' => 0,
       '#step' => 'any',
@@ -95,17 +95,17 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Maximum disk space that can be allocated by a user.'),
       '#field_suffix' => $this->t('MB'),
       '#weight' => -7,
-    );
+    ];
     // Image dimensions
-    $conf['dimensions'] = array(
+    $conf['dimensions'] = [
       '#type' => 'container',
-      '#attributes' => array('class' => array('dimensions-wrapper form-item')),
+      '#attributes' => ['class' => ['dimensions-wrapper form-item']],
       '#weight' => -6,
-    );
-    $conf['dimensions']['label'] = array(
+    ];
+    $conf['dimensions']['label'] = [
       '#markup' => '<label>' . $this->t('Maximum image dimensions') . '</label>',
-    );
-    $conf['dimensions']['maxwidth'] = array(
+    ];
+    $conf['dimensions']['maxwidth'] = [
       '#type' => 'number',
       '#default_value' => $imce_profile->getConf('maxwidth'),
       '#maxlength' => 5,
@@ -113,9 +113,9 @@ class ImceProfileForm extends EntityForm {
       '#size' => 8,
       '#placeholder' => $this->t('Width'),
       '#field_suffix' => ' x ',
-      '#parents' => array('conf', 'maxwidth'),
-    );
-    $conf['dimensions']['maxheight'] = array(
+      '#parents' => ['conf', 'maxwidth'],
+    ];
+    $conf['dimensions']['maxheight'] = [
       '#type' => 'number',
       '#default_value' => $imce_profile->getConf('maxheight'),
       '#maxlength' => 5,
@@ -123,32 +123,32 @@ class ImceProfileForm extends EntityForm {
       '#size' => 8,
       '#placeholder' => $this->t('Height'),
       '#field_suffix' => $this->t('pixels'),
-      '#parents' => array('conf', 'maxheight'),
-    );
-    $conf['dimensions']['description'] = array(
+      '#parents' => ['conf', 'maxheight'],
+    ];
+    $conf['dimensions']['description'] = [
       '#markup' => '<div class="description">' . $this->t('Images exceeding the limit will be scaled down.') . '</div>',
-    );
+    ];
     // Replace method
-    $conf['replace'] = array(
+    $conf['replace'] = [
       '#type' => 'radios',
       '#title' => $this->t('Upload replace method'),
       '#default_value' => $imce_profile->getConf('replace', FILE_EXISTS_RENAME),
-      '#options' => array(
+      '#options' => [
         FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
         FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
         FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
-      ),
+      ],
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
-    );
+    ];
     // Folders
-    $conf['folders'] = array(
+    $conf['folders'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Folders'),
-      'description' => array('#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', array('@tokens' => '[user:uid], [user:name]' )) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'),
+      'description' => ['#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', ['@tokens' => '[user:uid], [user:name]' ]) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'],
       '#weight' => 10,
-    );
-    $folders = $imce_profile->getConf('folders', array());
+    ];
+    $folders = $imce_profile->getConf('folders', []);
     $index = 0;
     foreach ($folders as $folder) {
       $conf['folders'][] = $this->folderForm($index++, $folder);
@@ -166,37 +166,37 @@ class ImceProfileForm extends EntityForm {
   /**
    * Returns folder form elements.
    */
-  public function folderForm($index, array $folder = array()) {
-    $folder += array('path' => '', 'permissions' => array());
-    $form = array(
+  public function folderForm($index, array $folder = []) {
+    $folder += ['path' => '', 'permissions' => []];
+    $form = [
       '#type' => 'container',
-      '#attributes' => array('class' => array('folder-container')),
-    );
-    $form['path'] = array(
+      '#attributes' => ['class' => ['folder-container']],
+    ];
+    $form['path'] = [
       '#type' => 'textfield',
       '#default_value' => $folder['path'],
       '#field_prefix' => '&lt;' . $this->t('root') . '&gt;' . '/',
-    );
-    $form['permissions'] = array(
+    ];
+    $form['permissions'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Permissions'),
-      '#attributes' => array('class' => array('folder-permissions')),
-    );
+      '#attributes' => ['class' => ['folder-permissions']],
+    ];
     $perms = $this->permissionInfo();
-    $form['permissions']['all'] = array(
+    $form['permissions']['all'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('All permissions'),
       '#default_value' => isset($folder['permissions']['all']) ? $folder['permissions']['all'] : 0,
-    );
+    ];
     foreach ($perms as $perm => $title) {
-      $form['permissions'][$perm] = array(
+      $form['permissions'][$perm] = [
         '#type' => 'checkbox',
         '#title' => $title,
         '#default_value' => isset($folder['permissions'][$perm]) ? $folder['permissions'][$perm] : 0,
-        '#states' => array(
-          'disabled' => array('input[name="conf[folders][' . $index . '][permissions][all]"]' => array('checked' => TRUE)),
-        ),
-      );
+        '#states' => [
+          'disabled' => ['input[name="conf[folders][' . $index . '][permissions][all]"]' => ['checked' => TRUE]],
+        ],
+      ];
     }
     return $form;
   }
@@ -206,8 +206,8 @@ class ImceProfileForm extends EntityForm {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // Check folders
-    $folders = array();
-    foreach ($form_state->getValue(array('conf', 'folders')) as $i => $folder) {
+    $folders = [];
+    foreach ($form_state->getValue(['conf', 'folders']) as $i => $folder) {
       $path = trim($folder['path']);
       // Empty path
       if ($path === '') {
@@ -226,7 +226,7 @@ class ImceProfileForm extends EntityForm {
     if (!$folders) {
       return $form_state->setError($form['conf']['folders'][0]['path'], $this->t('You must define a folder.'));
     }
-    $form_state->setValue(array('conf', 'folders'), array_values($folders));
+    $form_state->setValue(['conf', 'folders'], array_values($folders));
     // Call plugin validators
     \Drupal::service('plugin.manager.imce.plugin')->validateProfileForm($form, $form_state, $this->getEntity());
     return parent::validateForm($form, $form_state);
@@ -239,12 +239,12 @@ class ImceProfileForm extends EntityForm {
     $imce_profile = $this->getEntity();
     $status = $imce_profile->save();
     if ($status == SAVED_NEW) {
-      drupal_set_message($this->t('Profile %name has been added.', array('%name' => $imce_profile->label())));
+      drupal_set_message($this->t('Profile %name has been added.', ['%name' => $imce_profile->label()]));
     }
     elseif ($status == SAVED_UPDATED) {
       drupal_set_message($this->t('The changes have been saved.'));
     }
-    $form_state->setRedirect('entity.imce_profile.edit_form', array('imce_profile' => $imce_profile->id()));
+    $form_state->setRedirect('entity.imce_profile.edit_form', ['imce_profile' => $imce_profile->id()]);
   }
 
   /**

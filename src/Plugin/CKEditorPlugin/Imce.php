@@ -20,7 +20,7 @@ class Imce extends CKEditorPluginBase {
    */
   function getDependencies(Editor $editor) {
     // Need drupalimage for drupallink support. See #2666596
-    return array('drupalimage');
+    return ['drupalimage'];
   }
 
   /**
@@ -34,26 +34,26 @@ class Imce extends CKEditorPluginBase {
    * {@inheritdoc}
    */
   public function getButtons() {
-    return array(
-      'ImceImage' => array(
+    return [
+      'ImceImage' => [
         'label' => t('Insert images using Imce File Manager'),
         'image' => $this->imageIcon(),
-      ),
-      'ImceLink' => array(
+      ],
+      'ImceLink' => [
         'label' => t('Insert file links using Imce File Manager'),
         'image' => $this->linkIcon(),
-      ),
-    );
+      ],
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getConfig(Editor $editor) {
-    return array(
+    return [
       'ImceImageIcon' => file_create_url($this->imageIcon()),
       'ImceLinkIcon' => file_create_url($this->linkIcon()),
-    );
+    ];
   }
 
   /**

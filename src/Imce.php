@@ -37,7 +37,7 @@ class Imce {
    * Returns imce configuration profile for a user.
    */
   public static function userProfile(AccountProxyInterface $user = NULL, $scheme = NULL) {
-    $profiles = &drupal_static(__METHOD__, array());
+    $profiles = &drupal_static(__METHOD__, []);
     $user = $user ?: \Drupal::currentUser();
     $scheme = isset($scheme) ? $scheme : file_default_scheme();
     $profile = &$profiles[$user->id()][$scheme];
@@ -107,12 +107,12 @@ class Imce {
    * Processes user folders.
    */
   public static function processUserFolders(array $folders, AccountProxyInterface $user) {
-    $ret = array();
+    $ret = [];
     $token_service = \Drupal::token();
     $meta = new \Drupal\Core\Render\BubbleableMetadata();
-    $token_data = array('user' => $user);
+    $token_data = ['user' => $user];
     foreach ($folders as $folder) {
-      $path = $token_service->replace($folder['path'], $token_data, array(), $meta);
+      $path = $token_service->replace($folder['path'], $token_data, [], $meta);
       if (static::regularPath($path)) {
         $ret[$path] = $folder;
         unset($ret[$path]['path']);
@@ -169,7 +169,7 @@ class Imce {
                 }
               }
             }
-            return $folder_conf + array('inherited' => TRUE);
+            return $folder_conf + ['inherited' => TRUE];
           }
         }
       }
@@ -180,7 +180,7 @@ class Imce {
    * Returns name filtering regexp from a profile conf.
    */
   public static function nameFilterInConf(array $conf) {
-    $filters = isset($conf['name_filters']) ? $conf['name_filters'] : array();
+    $filters = isset($conf['name_filters']) ? $conf['name_filters'] : [];
     if (empty($conf['allow_dot_files'])) {
       $filters[] = '^\.|\.$';
     }
@@ -196,7 +196,7 @@ class Imce {
       $filename = array_pop($parts);
       $dirpath = implode('/', $parts);
       if ($filename !== '') {
-        return array($dirpath === '' ? '.' : $dirpath, $filename);
+        return [$dirpath === '' ? '.' : $dirpath, $filename];
       }
     }
   }
@@ -228,15 +228,15 @@ class Imce {
   /**
    * Returns the contents of a directory.
    */
-  public static function scanDir($diruri, array $options = array()) {
-    $content = array('files' => array(), 'subfolders' => array());
+  public static function scanDir($diruri, array $options = []) {
+    $content = ['files' => [], 'subfolders' => []];
     $browse_files = isset($options['browse_files']) ? $options['browse_files'] : TRUE;
     $browse_subfolders = isset($options['browse_subfolders']) ? $options['browse_subfolders'] : TRUE;
     if (!$browse_files && !$browse_subfolders) {
       return $content;
     }
     if (!$opendir = opendir($diruri)) {
-      return $content + array('error' => TRUE);
+      return $content + ['error' => TRUE];
     }
     // Prepare filters
     $name_filter = empty($options['name_filter']) ? FALSE : $options['name_filter'];
@@ -275,7 +275,7 @@ class Imce {
    */
   public static function getFileEntity($uri, $create = FALSE, $save = FALSE) {
     $file = FALSE;
-    if ($files = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(array('uri' => $uri))) {
+    if ($files = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uri' => $uri])) {
       $file = reset($files);
     }
     elseif ($create) {
@@ -288,14 +288,14 @@ class Imce {
    * Creates a file entity with an uri.
    */
   public static function createFileEntity($uri, $save = FALSE) {
-    $values = array(
+    $values = [
       'uri' => $uri,
       'uid' => \Drupal::currentUser()->id(),
       'status' => 1,
       'filesize' => filesize($uri),
       'filename' => \Drupal::service('file_system')->basename($uri),
       'filemime' => \Drupal::service('file.mime_type.guesser')->guess($uri),
-    );
+    ];
     $file = \Drupal::entityTypeManager()->getStorage('file')->create($values);
     if ($save) {
       $file->save();
@@ -308,7 +308,7 @@ class Imce {
    * Returns the accessible paths.
    */
   public static function accessFilePaths(array $paths, AccountProxyInterface $user = NULL, $scheme = NULL) {
-    $ret = array();
+    $ret = [];
     if ($fm = static::userFM($user, $scheme)) {
       foreach ($paths as $path) {
         if ($fm->checkFile($path)) {
@@ -324,7 +324,7 @@ class Imce {
    */
   public static function accessFileUri($uri, AccountProxyInterface $user = NULL) {
     list($scheme, $path) = explode('://', $uri, 2);
-    return $scheme && $path && Imce::accessFilePaths(array($path), $user, $scheme);
+    return $scheme && $path && Imce::accessFilePaths([$path], $user, $scheme);
   }
 
 }
