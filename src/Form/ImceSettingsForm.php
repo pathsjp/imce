@@ -45,6 +45,12 @@ class ImceSettingsForm extends ConfigFormBase {
       '#description' => t('Make the file manager return absolute file URLs to other applications.'),
       '#default_value' => $config->get('abs_urls'),
     ];
+    $form['common']['admin_theme'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use admin theme for IMCE paths'),
+      '#default_value' => $config->get('admin_theme'),
+      '#description' => $this->t('If you have user interface issues with the active theme you may consider switching to admin theme.')
+    ];
     $form['#attached']['library'][] = 'imce/drupal.imce.admin';
     return parent::buildForm($form, $form_state);
   }
@@ -56,6 +62,8 @@ class ImceSettingsForm extends ConfigFormBase {
     $config = $this->config('imce.settings');
     // Absolute URLs
     $config->set('abs_urls', $form_state->getValue('abs_urls'));
+    // Admin theme
+    $config->set('admin_theme', $form_state->getValue('admin_theme'));
     // Role-profile assignments.
     $old_roles_profiles = $config->get('roles_profiles');
     $roles_profiles = $form_state->getValue('roles_profiles');
