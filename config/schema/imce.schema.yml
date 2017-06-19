@@ -6,6 +6,9 @@ imce.settings:
     abs_urls:
       type: boolean
       label: 'Enable absolute URLs'
+    admin_theme:
+      type: boolean
+      label: 'Use admin theme for IMCE paths'
     roles_profiles:
       type: sequence
       label: 'Role-profile assignments'
