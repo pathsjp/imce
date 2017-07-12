@@ -388,7 +388,7 @@
       infoEl.appendChild(imce.createEl('<div class="date">' + Item.formatDate() + '</div>'));
     }
     // Image
-    if (Item.width && imce.getConf('preview_images', 1)) {
+    if (Item.isImageSource() && imce.getConf('preview_images', 1)) {
       el = imce.createEl('<div class="imce-preview-image"><img src="' + Item.getUrl(false, true) + '"></div>');
       prvEl.appendChild(el);
       prvEl.className += ' image';
