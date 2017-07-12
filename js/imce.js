@@ -96,7 +96,7 @@ dirSubdirs: function(dir, subdirs) {
   var branch = imce.tree[dir];
   if (subdirs && subdirs.length) {
     var prefix = dir == '.' ? '' : dir +'/';
-    for (var i in subdirs) {//add subdirectories
+    for (var i = 0; i < subdirs.length; i++) {//add subdirectories
       imce.dirAdd(prefix + subdirs[i], branch, true);
     }
     $(branch.li).removeClass('leaf').addClass('expanded');
