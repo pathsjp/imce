@@ -420,14 +420,18 @@
    * Runs custom sendto handler on the first selected item.
    */
   imce.runSendtoHandler = function (items) {
-    var Item;
-    var prop;
     var handler = imce.sendtoHandler;
     if (handler) {
+      var Item;
+      var imgType = imce.sendtoType === 'image';
       items = items || imce.getSelection();
-      prop = imce.sendtoType === 'image' ? 'width' : 'isFile';
-      if (Item = imce.getFirstItem(items, prop)) {
-        return handler(Item, window);
+      for (var i in items) {
+        if (imce.owns(items, i)) {
+          Item = items[i];
+          if (imgType ? Item.isImageSource() : Item.isFile) {
+            return handler(Item, window);
+          }
+        }
       }
     }
   };

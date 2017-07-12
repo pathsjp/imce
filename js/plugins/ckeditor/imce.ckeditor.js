@@ -91,8 +91,8 @@
           }
           File = selection[i];
           // Image
-          if (is_img && File.width) {
-            lines.push('<img src="' + File.getUrl() + '" width="' + File.width + '" height="' + File.height + '" alt="' + File.formatName() + '" />');
+          if (is_img && File.isImageSource()) {
+            lines.push('<img src="' + File.getUrl() + '"' + (File.width ? ' width="' + File.width + '"' : '') + (File.height ? ' height="' + File.height + '"' : '') + ' alt="' + File.formatName() + '" />');
           }
           // Link
           else {

@@ -444,6 +444,13 @@
     imce.scrollToEl(this.el, imce.contentEl, imce.contentHeaderEl.offsetHeight, imce.contentStatusEl.offsetHeight);
   };
 
+  /**
+   * Check if the item can be used as an image source.
+   */
+  Item.isImageSource = function() {
+    return this.width || this.ext && this.ext.toLowerCase() === 'svg';
+  };
+
 
   /**
    * Mousedown event for items.
