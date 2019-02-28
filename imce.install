@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
-use Drupal\Core\Config\FileStorage;
 
 /**
  * Implements hook_install().
@@ -26,14 +25,4 @@ function imce_install() {
     $config->set('roles_profiles', $roles_profiles);
     $config->save(TRUE);
   }
-}
-
-/**
- * Create image style for IMCE browser.
- */
-function imce_update_8001() {
-  $config_path = Drupal::service('module_handler')->getModule('imce')->getPath() . '/config/install';
-  $source = new FileStorage($config_path);
-  $config_storage = \Drupal::service('config.storage');
-  $config_storage->write('image.style.imce_thumbnail', $source->read('image.style.imce_thumbnail'));
 }

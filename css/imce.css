@@ -277,6 +277,7 @@
   white-space: nowrap;
   overflow: hidden;
   padding: 4px 2px;
+  height: 24px;
   float: right;
   text-align: right;
 }
