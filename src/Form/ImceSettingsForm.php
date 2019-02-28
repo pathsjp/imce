@@ -41,8 +41,8 @@ class ImceSettingsForm extends ConfigFormBase {
     ];
     $form['common']['abs_urls'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable absolute URLs'),
-      '#description' => t('Make the file manager return absolute file URLs to other applications.'),
+      '#title' => $this->t('Enable absolute URLs'),
+      '#description' => $this->t('Make the file manager return absolute file URLs to other applications.'),
       '#default_value' => $config->get('abs_urls'),
     ];
     $form['common']['admin_theme'] = [
@@ -70,14 +70,14 @@ class ImceSettingsForm extends ConfigFormBase {
     // Filter empty values
     foreach ($roles_profiles as $rid => &$profiles) {
       if (!$profiles = array_filter($profiles)) {
-        unset($roles_profiles[$rid]); 
+        unset($roles_profiles[$rid]);
       }
     }
     $config->set('roles_profiles', $roles_profiles);
     $config->save();
     // Warn about anonymous access
     if (!empty($roles_profiles[RoleInterface::ANONYMOUS_ID])) {
-      drupal_set_message(t('You have enabled anonymous access to the file manager. Please make sure this is not a misconfiguration.'), 'warning');
+      drupal_set_message($this->t('You have enabled anonymous access to the file manager. Please make sure this is not a misconfiguration.'), 'warning');
     }
     parent::submitForm($form, $form_state);
   }
