@@ -35,7 +35,7 @@
     var children;
     var Item = this;
     if (!Item.el) {
-      el = Item.el = imce.createEl('<div class="imce-item"><div class="imce-item-date"></div><div class="imce-item-height"></div><div class="imce-item-width"></div><div class="imce-item-size"></div><div class="imce-item-icon imce-ficon"></div><div class="imce-item-name"></div></div>');
+      el = Item.el = imce.createEl('<div class="imce-item"><div class="imce-item-date"></div><div class="imce-item-height"></div><div class="imce-item-width"></div><div class="imce-item-size"></div><div class="imce-item-icon imce-ficon"></div><div class="imce-item-thumbnail"></div><div class="imce-item-name"></div></div>');
       el.onmousedown = imce.eItemMousedown;
       el.ondblclick = imce.eItemDblclick;
       el.Item = Item;
@@ -45,7 +45,8 @@
       Item.widthEl = children[2];
       Item.sizeEl = children[3];
       Item.iconEl = children[4];
-      Item.nameEl = children[5];
+      Item.thumbEl = children[5];
+      Item.nameEl = children[6];
     }
   };
 
@@ -323,6 +324,13 @@
     if (Item.parent) {
       Item.parent.onItemNameChange(Item, oldname);
     }
+  };
+
+  /**
+   * Thumbnail change handler.
+   */
+  Item.onThumbnailChange = function (oldval) {
+    this.thumbEl.innerHTML = '<img src="' + this.thumbnail + '"/>';
   };
 
   /**
