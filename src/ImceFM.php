@@ -476,7 +476,7 @@ class ImceFM {
    */
   public function getMessages() {
     // Get drupal messages
-    $messages = drupal_get_messages();
+    $messages = \Drupal::messenger()->all();
     foreach ($messages as &$group) {
       foreach ($group as &$message) {
         $message = $message instanceof MarkupInterface ? $message . '' : Html::escape($message);
