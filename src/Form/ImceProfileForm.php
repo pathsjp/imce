@@ -5,11 +5,39 @@ namespace Drupal\imce\Form;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\imce\Imce;
+use Drupal\imce\ImcePluginManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base form for Imce Profile entities.
  */
 class ImceProfileForm extends EntityForm {
+
+  /**
+   * Plugin manager for Imce Plugins.
+   *
+   * @var \Drupal\imce\ImcePluginManager
+   */
+  protected $pluginManagerImce;
+
+  /**
+   * The construct method.
+   *
+   * @param \Drupal\imce\ImcePluginManager $plugin_manager_imce
+   *   Plugin manager for Imce Plugins.
+   */
+  public function __construct(ImcePluginManager $plugin_manager_imce) {
+    $this->pluginManagerImce = $plugin_manager_imce;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('plugin.manager.imce.plugin')
+    );
+  }
 
   /**
    * Folder permissions.
@@ -23,13 +51,13 @@ class ImceProfileForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $imce_profile = $this->getEntity();
-    // Check duplication
+    // Check duplication.
     if ($this->getOperation() === 'duplicate') {
       $imce_profile = $imce_profile->createDuplicate();
       $imce_profile->set('label', $this->t('Duplicate of @label', ['@label' => $imce_profile->label()]));
       $this->setEntity($imce_profile);
     }
-    // Label
+    // Label.
     $form['label'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
@@ -38,7 +66,7 @@ class ImceProfileForm extends EntityForm {
       '#required' => TRUE,
       '#weight' => -20,
     ];
-    // Id
+    // Id.
     $form['id'] = [
       '#type' => 'machine_name',
       '#machine_name' => [
@@ -50,18 +78,18 @@ class ImceProfileForm extends EntityForm {
       '#required' => TRUE,
       '#weight' => -20,
     ];
-    // Description
+    // Description.
     $form['description'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Description'),
       '#default_value' => $imce_profile->get('description'),
       '#weight' => -10,
     ];
-    // Conf
+    // Conf.
     $conf = [
       '#tree' => TRUE,
     ];
-    // Extensions
+    // Extensions.
     $conf['extensions'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Allowed file extensions'),
@@ -70,12 +98,12 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
       '#weight' => -9,
     ];
-    // File size
+    // File size.
     $maxsize = file_upload_max_size();
     $conf['maxsize'] = [
       '#type' => 'number',
       '#min' => 0,
-      '#max' => ceil($maxsize/1024/1024),
+      '#max' => ceil($maxsize / 1024 / 1024),
       '#step' => 'any',
       '#size' => 8,
       '#title' => $this->t('Maximum file size'),
@@ -84,7 +112,7 @@ class ImceProfileForm extends EntityForm {
       '#field_suffix' => $this->t('MB'),
       '#weight' => -8,
     ];
-    // Quota
+    // Quota.
     $conf['quota'] = [
       '#type' => 'number',
       '#min' => 0,
@@ -159,7 +187,7 @@ class ImceProfileForm extends EntityForm {
     // Add library
     $form['#attached']['library'][] = 'imce/drupal.imce.admin';
     // Call plugin form alterers
-    \Drupal::service('plugin.manager.imce.plugin')->alterProfileForm($form, $form_state, $imce_profile);
+    $this->pluginManagerImce->alterProfileForm($form, $form_state, $imce_profile);
     return parent::form($form, $form_state);
   }
 
@@ -228,7 +256,7 @@ class ImceProfileForm extends EntityForm {
     }
     $form_state->setValue(['conf', 'folders'], array_values($folders));
     // Call plugin validators
-    \Drupal::service('plugin.manager.imce.plugin')->validateProfileForm($form, $form_state, $this->getEntity());
+    $this->pluginManagerImce->validateProfileForm($form, $form_state, $this->getEntity());
     return parent::validateForm($form, $form_state);
   }
 
@@ -252,7 +280,7 @@ class ImceProfileForm extends EntityForm {
    */
   public function permissionInfo() {
     if (!isset($this->folderPermissions)) {
-      $this->folderPermissions = \Drupal::service('plugin.manager.imce.plugin')->permissionInfo();
+      $this->folderPermissions = $this->pluginManagerImce->permissionInfo();
     }
     return $this->folderPermissions;
   }
