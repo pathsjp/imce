@@ -85,36 +85,25 @@
         var lines = [];
         var selection = imce.getSelection();
         var is_img = imce.getQuery('type') === 'image';
-        var entity_data = '';
         for (i in selection) {
           if (!imce.owns(selection, i)) {
             continue;
           }
           File = selection[i];
-          if (File.uuid) {
-            entity_data = ' data-entity-type="' + File.type + '" data-entity-uuid="' + File.uuid + '"';
-          }
           // Image
           if (is_img && File.isImageSource()) {
-            // Get the UUID. Since this is a takes more resources than the other
-            // file data get this now rather than for all files being viewed.
-            $.getJSON('/imce-get-uuid/', {uri: File.uri})
-              .always( function (json) {
-                lines.push(' <img src="' + File.getUrl() + '" data-entity-uuid="' + json.uuid + '" data-entity-type="file"' + (File.width ? ' width="' + File.width + '"' : '') + (File.height ? ' height="' + File.height + '"' : '') + ' alt="' + File.formatName() + '" /> ');
-                editor.insertHtml(lines.join('<br />'));
-                win.close();
-              });
+            lines.push('<img src="' + File.getUrl() + '"' + (File.width ? ' width="' + File.width + '"' : '') + (File.height ? ' height="' + File.height + '"' : '') + ' alt="" />');
           }
           // Link
           else {
             // Use the selected text/image for the first link
             text = !lines.length && CKEDITOR.imce.getSelectedHtml(editor) || File.formatName();
-            lines.push('<a href="' + File.getUrl() + entity_data + '">' + text + '</a>');
-            editor.insertHtml(lines.join('<br />'));
-            win.close();
+            lines.push('<a href="' + File.getUrl() + '">' + text + '</a>');
           }
         }
+        editor.insertHtml(lines.join('<br />'));
       }
+      win.close();
     },
 
     /**
