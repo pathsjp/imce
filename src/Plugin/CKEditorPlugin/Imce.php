@@ -20,7 +20,7 @@ class Imce extends CKEditorPluginBase {
    */
   function getDependencies(Editor $editor) {
     // Need drupalimage for drupallink support. See #2666596
-    return ['drupalimage'];
+    return ['drupalimage', 'drupalimagecaption'];
   }
 
   /**
