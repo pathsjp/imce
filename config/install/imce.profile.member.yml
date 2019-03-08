@@ -10,7 +10,7 @@ conf:
   maxheight: 1024
   replace: 0
   folders:
-    - 
+    -
       path: 'users/user[user:uid]'
       permissions:
         browse_files: true

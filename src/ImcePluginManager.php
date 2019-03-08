@@ -166,4 +166,5 @@ class ImcePluginManager extends DefaultPluginManager {
     // Indicate that the operation handler is not found.
     return FALSE;
   }
+
 }

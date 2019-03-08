@@ -10,7 +10,7 @@ conf:
   maxheight: 0
   replace: 0
   folders:
-    - 
+    -
       path: '.'
       permissions:
         all: true

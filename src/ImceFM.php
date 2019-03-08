@@ -618,7 +618,7 @@ class ImceFM {
         // Check session
         elseif ($this->user->isAuthenticated() && $path = $this->request->getSession()->get('imce_active_path')) {
           if ($this->checkFolder($path)) {
-            $conf['active_path'] = $path; 
+            $conf['active_path'] = $path;
           }
         }
       }
