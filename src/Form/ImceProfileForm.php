@@ -108,7 +108,7 @@ class ImceProfileForm extends EntityForm {
       '#size' => 8,
       '#title' => $this->t('Maximum file size'),
       '#default_value' => $imce_profile->getConf('maxsize'),
-      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
+      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . $this->t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
       '#field_suffix' => $this->t('MB'),
       '#weight' => -8,
     ];
@@ -162,9 +162,9 @@ class ImceProfileForm extends EntityForm {
       '#title' => $this->t('Upload replace method'),
       '#default_value' => $imce_profile->getConf('replace', FILE_EXISTS_RENAME),
       '#options' => [
-        FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
-        FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
-        FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
+        FILE_EXISTS_RENAME => $this->t('Keep the existing file renaming the new one'),
+        FILE_EXISTS_REPLACE => $this->t('Replace the existing file with the new one'),
+        FILE_EXISTS_ERROR => $this->t('Keep the existing file rejecting the new one'),
       ],
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
