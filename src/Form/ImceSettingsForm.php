@@ -2,17 +2,63 @@
 
 namespace Drupal\imce\Form;
 
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
-use Drupal\Component\Utility\Html;
+use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\Core\Url;
 use Drupal\user\RoleInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Imce settings form.
  */
 class ImceSettingsForm extends ConfigFormBase {
+
+  /**
+   * Manages entity type plugin definitions.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Provides a StreamWrapper manager.
+   *
+   * @var Drupal\Core\StreamWrapper\StreamWrapperManagerInterface
+   */
+  protected $streamWrapperManager;
+
+  /**
+   * Constructs a \Drupal\system\ConfigFormBase object.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The factory for configuration objects.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   Manages entity type plugin definitions.
+   * @param \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface $stream_wrapper_manager
+   *   Provides a StreamWrapper manager.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, StreamWrapperManagerInterface $stream_wrapper_manager) {
+    parent::__construct($config_factory);
+
+    $this->entityTypeManager = $entity_type_manager;
+    $this->streamWrapperManager = $stream_wrapper_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('entity_type.manager'),
+      $container->get('stream_wrapper_manager')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -90,10 +136,10 @@ class ImceSettingsForm extends ConfigFormBase {
     $rp_table = ['#type' => 'table'];
     // Prepare roles
     $roles = user_roles();
-    $wrappers = \Drupal::service('stream_wrapper_manager')->getNames(StreamWrapperInterface::WRITE_VISIBLE);
+    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
     // Prepare profile options
     $options = ['' => '-' . $this->t('None') . '-'];
-    foreach (\Drupal::entityTypeManager()->getStorage('imce_profile')->loadMultiple() as $pid => $profile) {
+    foreach ($this->entityTypeManager->getStorage('imce_profile')->loadMultiple() as $pid => $profile) {
       $options[$pid] = $profile->label();
     }
     // Build header
