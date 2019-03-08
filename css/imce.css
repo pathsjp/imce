@@ -267,7 +267,7 @@
 }
 .imce-item.selected {
   background-color: #6bb6ff;
-  background-image: linear-gradient(180deg, #65B5FF, #6FBAFF);
+  background-image: linear-gradient(180deg, #65b5ff, #6fbaff);
 }
 .imce-item.disabled {
   opacity: 0.6;

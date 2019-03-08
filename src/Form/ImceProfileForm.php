@@ -124,7 +124,7 @@ class ImceProfileForm extends EntityForm {
       '#field_suffix' => $this->t('MB'),
       '#weight' => -7,
     ];
-    // Image dimensions
+    // Image dimensions.
     $conf['dimensions'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['dimensions-wrapper form-item']],
@@ -156,7 +156,7 @@ class ImceProfileForm extends EntityForm {
     $conf['dimensions']['description'] = [
       '#markup' => '<div class="description">' . $this->t('Images exceeding the limit will be scaled down.') . '</div>',
     ];
-    // Replace method
+    // Replace method.
     $conf['replace'] = [
       '#type' => 'radios',
       '#title' => $this->t('Upload replace method'),
@@ -169,11 +169,11 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
     ];
-    // Folders
+    // Folders.
     $conf['folders'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Folders'),
-      'description' => ['#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', ['@tokens' => '[user:uid], [user:name]' ]) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'],
+      'description' => ['#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', ['@tokens' => '[user:uid], [user:name]']) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'],
       '#weight' => 10,
     ];
     $folders = $imce_profile->getConf('folders', []);
@@ -184,9 +184,9 @@ class ImceProfileForm extends EntityForm {
     $conf['folders'][] = $this->folderForm($index++);
     $conf['folders'][] = $this->folderForm($index);
     $form['conf'] = $conf;
-    // Add library
+    // Add library.
     $form['#attached']['library'][] = 'imce/drupal.imce.admin';
-    // Call plugin form alterers
+    // Call plugin form alterers.
     $this->pluginManagerImce->alterProfileForm($form, $form_state, $imce_profile);
     return parent::form($form, $form_state);
   }
@@ -233,29 +233,29 @@ class ImceProfileForm extends EntityForm {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    // Check folders
+    // Check folders.
     $folders = [];
     foreach ($form_state->getValue(['conf', 'folders']) as $i => $folder) {
       $path = trim($folder['path']);
-      // Empty path
+      // Empty path.
       if ($path === '') {
         continue;
       }
-      // Validate path
+      // Validate path.
       if (!Imce::regularPath($path)) {
         return $form_state->setError($form['conf']['folders'][$i]['path'], $this->t('Invalid folder path.'));
       }
-      // Remove empty permissions
+      // Remove empty permissions.
       $folder['permissions'] = array_filter($folder['permissions']);
       $folder['path'] = $path;
       $folders[$path] = $folder;
     }
-    // No valid folders
+    // No valid folders.
     if (!$folders) {
       return $form_state->setError($form['conf']['folders'][0]['path'], $this->t('You must define a folder.'));
     }
     $form_state->setValue(['conf', 'folders'], array_values($folders));
-    // Call plugin validators
+    // Call plugin validators.
     $this->pluginManagerImce->validateProfileForm($form, $form_state, $this->getEntity());
     return parent::validateForm($form, $form_state);
   }

@@ -39,7 +39,7 @@ class ImceFM {
   /**
    * Current validation status for the configuration.
    *
-   * @var boolean
+   * @var bool
    */
   public $validated;
 
@@ -82,11 +82,11 @@ class ImceFM {
    * Constructs the file manager.
    *
    * @param array $conf
-   *   File manager configuration
+   *   File manager configuration.
    * @param \Drupal\Core\Session\AccountProxyInterface $user
-   *   The active user
+   *   The active user.
    * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The active request that contains parameters for file manager operations
+   *   The active request that contains parameters for file manager operations.
    */
   public function __construct(array $conf, AccountProxyInterface $user = NULL, Request $request = NULL) {
     $this->conf = $conf;
@@ -96,14 +96,17 @@ class ImceFM {
   }
 
   /**
-   * Initializes the file manager by validating the current configuration and request.
+   * Initializes the file manager.
+   *
+   * Initializes the file manager by validating
+   *   the current configuration and request.
    */
   protected function init() {
     if (!isset($this->validated)) {
       // Create the root.
       $root = $this->createItem('folder', '.');
       $root->setPath('.');
-      // Check initialization error
+      // Check initialization error.
       if ($error = $this->getInitError()) {
         $this->setMessage($error);
       }
@@ -133,7 +136,7 @@ class ImceFM {
         return t('Missing root folder.');
       }
     }
-    // Check and add predefined folders
+    // Check and add predefined folders.
     foreach ($conf['folders'] as $path => $folder_conf) {
       $path = (string) $path;
       $uri = $this->createUri($path);
@@ -152,7 +155,7 @@ class ImceFM {
     if (isset($path) && $path !== '') {
       if ($folder = $this->checkFolder($path)) {
         $this->activeFolder = $folder;
-        // Remember active path
+        // Remember active path.
         if ($this->user->isAuthenticated()) {
           if (!isset($conf['folders'][$path]) || count($conf['folders']) > 1 || $folder->getPermission('browse_subfolders')) {
             $this->request->getSession()->set('imce_active_path', $path);
@@ -176,7 +179,7 @@ class ImceFM {
         if ($item = $this->checkItem($path)) {
           $item->select();
         }
-        // Remove non-existing paths from js
+        // Remove non-existing paths from js.
         else {
           $this->removePathFromJs($path);
         }
@@ -233,7 +236,13 @@ class ImceFM {
   }
 
   /**
-   * Returns a folder from the tree.
+   * Get folder.
+   *
+   * @param string $path
+   *   The patchs folder.
+   *
+   * @return mixed
+   *   Returns a folder from the tree.
    */
   public function getFolder($path) {
     return isset($this->tree[$path]) ? $this->tree[$path] : NULL;
@@ -241,7 +250,12 @@ class ImceFM {
 
   /**
    * Checks if the user provided folder path is accessible.
-   * Returns the folder object with the path.
+   *
+   * @param string $path
+   *   The patchs folder.
+   *
+   * @return object
+   *   Returns the folder object with the path.
    */
   public function checkFolder($path) {
     if (is_array(Imce::folderInConf($path, $this->conf))) {
@@ -251,6 +265,7 @@ class ImceFM {
 
   /**
    * Checks if the user provided file path is accessible.
+   *
    * Returns the file object with the path.
    */
   public function checkFile($path) {
@@ -262,6 +277,7 @@ class ImceFM {
 
   /**
    * Checks the existence of a user provided item path.
+   *
    * Scans the parent folder and returns the item object if it is accessible.
    */
   public function checkItem($path) {
@@ -467,7 +483,7 @@ class ImceFM {
    * Returns the status messages.
    */
   public function getMessages() {
-    // Get drupal messages
+    // Get drupal messages.
     $messages = \Drupal::messenger()->all();
     foreach ($messages as &$group) {
       foreach ($group as &$message) {
@@ -491,13 +507,13 @@ class ImceFM {
   public function validatePermissions(array $items, $file_perm = NULL, $subfolder_perm = NULL) {
     foreach ($this->groupItems($items) as $path => $content) {
       $parent = $this->getFolder($path);
-      // Parent contains files but does not have the file permission
+      // Parent contains files but does not have the file permission.
       if (!empty($content['files'])) {
         if (!isset($file_perm) || !$parent->getPermission($file_perm)) {
           return FALSE;
         }
       }
-      // Parent contains subfolders but does not have the subfolder permission
+      // Parent contains subfolders but does not have the subfolder permission.
       if (!empty($content['subfolders'])) {
         if (!isset($subfolder_perm) || !$parent->getPermission($subfolder_perm)) {
           return FALSE;
@@ -553,7 +569,7 @@ class ImceFM {
    * Validates min/max image dimensions.
    */
   public function validateDimensions(array $items, $width, $height, $silent = FALSE) {
-    // Check min dimensions
+    // Check min dimensions.
     if ($width < 1 || $height < 1) {
       return FALSE;
     }
@@ -600,9 +616,9 @@ class ImceFM {
       ],
     ];
     $page['#attached']['html_head'][] = [$robots, 'robots'];
-    // Disable cache
+    // Disable cache.
     $page['#cache']['max-age'] = 0;
-    // Run builders of available plugins
+    // Run builders of available plugins.
     \Drupal::service('plugin.manager.imce.plugin')->buildPage($page, $this);
     // Add active path to the conf.
     $conf = $this->conf;
@@ -611,11 +627,11 @@ class ImceFM {
         $conf['active_path'] = $folder->getPath();
       }
       elseif ($this->request) {
-        // Check $_GET['init_path']
+        // Check $_GET['init_path'].
         if (($path = $this->request->query->get('init_path')) && $this->checkFolder($path)) {
           $conf['active_path'] = $path;
         }
-        // Check session
+        // Check session.
         elseif ($this->user->isAuthenticated() && $path = $this->request->getSession()->get('imce_active_path')) {
           if ($this->checkFolder($path)) {
             $conf['active_path'] = $path;
@@ -644,13 +660,13 @@ class ImceFM {
    */
   public function pageResponse() {
     if ($request = $this->request) {
-      // Json request
+      // Json request.
       if ($request->request->has('jsop')) {
         $this->run();
         $data = $this->getResponse();
         // Return html response if the flag is set.
         if ($request->request->get('return_html')) {
-          return new Response('<html><body><textarea>' . Json::encode($data)  . '</textarea></body></html>');
+          return new Response('<html><body><textarea>' . Json::encode($data) . '</textarea></body></html>');
         }
         return new JsonResponse($data);
       }

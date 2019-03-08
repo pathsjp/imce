@@ -34,7 +34,7 @@ class Delete extends ImcePluginBase {
    * {@inheritdoc}
    */
   public function buildPage(array &$page, ImceFM $fm) {
-    // Check if delete permission exists
+    // Check if delete permission exists.
     if ($fm->hasPermission('delete_files') || $fm->hasPermission('delete_subfolders')) {
       $page['#attached']['library'][] = 'imce/drupal.imce.delete';
     }
@@ -80,7 +80,7 @@ class Delete extends ImcePluginBase {
    * Deletes a file by uri.
    */
   public static function deleteFileUri($uri, $ignore_usage = FALSE) {
-    // Managed file
+    // Managed file.
     if ($file = Imce::getFileEntity($uri)) {
       if (!$ignore_usage && $usage = \Drupal::service('file.usage')->listUsage($file)) {
         unset($usage['imce']);
@@ -93,7 +93,7 @@ class Delete extends ImcePluginBase {
       $file->delete();
       return TRUE;
     }
-    // Unmanaged file
+    // Unmanaged file.
     return file_unmanaged_delete($uri);
   }
 
@@ -123,11 +123,12 @@ class Delete extends ImcePluginBase {
         return FALSE;
       }
     }
-    // Recently emptied folders need some refreshing before the removal on windows.
+    // Recently emptied folders need some refreshing
+    // before the removal on windows.
     if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
       @closedir(@opendir($uri));
     }
-    // Remove the folder
+    // Remove the folder.
     return rmdir($uri);
   }
 
