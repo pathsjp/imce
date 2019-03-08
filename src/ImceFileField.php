@@ -142,7 +142,8 @@ class ImceFileField {
         $message = array_pop($errors);
       }
       // May break the widget flow if set as a form error.
-      drupal_set_message($message, 'error');
+      \Drupal::messenger()
+        ->addMessage($message, 'error');
     }
   }
 

@@ -267,10 +267,12 @@ class ImceProfileForm extends EntityForm {
     $imce_profile = $this->getEntity();
     $status = $imce_profile->save();
     if ($status == SAVED_NEW) {
-      drupal_set_message($this->t('Profile %name has been added.', ['%name' => $imce_profile->label()]));
+      $this->messenger()
+        ->addMessage($this->t('Profile %name has been added.', ['%name' => $imce_profile->label()]));
     }
     elseif ($status == SAVED_UPDATED) {
-      drupal_set_message($this->t('The changes have been saved.'));
+      $this->messenger()
+        ->addMessage($this->t('The changes have been saved.'));
     }
     $form_state->setRedirect('entity.imce_profile.edit_form', ['imce_profile' => $imce_profile->id()]);
   }

@@ -85,7 +85,8 @@ class Delete extends ImcePluginBase {
       if (!$ignore_usage && $usage = \Drupal::service('file.usage')->listUsage($file)) {
         unset($usage['imce']);
         if ($usage) {
-          drupal_set_message(t('%filename is in use by another application.', ['%filename' => $file->getFilename()]), 'error');
+          \Drupal::messenger()
+            ->addMessage(t('%filename is in use by another application.', ['%filename' => $file->getFilename()]), 'error');
           return FALSE;
         }
       }
@@ -106,7 +107,8 @@ class Delete extends ImcePluginBase {
       return FALSE;
     }
     if ($check_files && !empty($content['files'])) {
-      drupal_set_message(t('%folder contains files and can not be deleted.', ['%folder' => \Drupal::service('file_system')->basename($uri)]), 'error');
+      \Drupal::messenger()
+        ->addMessage(t('%folder contains files and can not be deleted.', ['%folder' => \Drupal::service('file_system')->basename($uri)]), 'error');
       return FALSE;
     }
     // Delete subfolders first.
