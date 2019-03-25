@@ -1,4 +1,4 @@
-(function ($, Drupal) {
+(function ($, Drupal, drupalSettings) {
   'use strict';
 
   /**
@@ -34,6 +34,7 @@
    * Initiate imce on document ready.
    */
   $(document).ready(function () {
+
     var settings = window.drupalSettings;
     var conf = settings && settings.imce;
     var body = document.body;
@@ -1963,4 +1964,4 @@
     }
   };
 
-})(jQuery, Drupal);
+})(jQuery, Drupal, drupalSettings);

@@ -277,10 +277,21 @@
   white-space: nowrap;
   overflow: hidden;
   padding: 4px 2px;
-  height: 24px;
   float: right;
   text-align: right;
 }
+
+  img#img-thumb {
+    width: 100px;
+    height: 100px;
+    display: none;
+  }
+
+
+.imce-item-thumbnail {
+  float: left;
+}
+
 /* Item icon */
 .imce-item-icon {
   float: left;

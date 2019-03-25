@@ -79,6 +79,13 @@ class ImceFM {
   public $messages = [];
 
   /**
+   * Image style for thumbnails.
+   *
+   * @var \Drupal\image\Entity\ImageStyle
+   */
+  private $style;
+
+  /**
    * Constructs the file manager.
    *
    * @param array $conf
@@ -92,6 +99,7 @@ class ImceFM {
     $this->conf = $conf;
     $this->user = $user ?: \Drupal::currentUser();
     $this->request = $request;
+    $this->style = \Drupal::entityTypeManager()->getStorage('image_style')->load('imce_thumbnail');
     $this->init();
   }
 
@@ -447,6 +455,7 @@ class ImceFM {
     if (preg_match('/\.(jpe?g|png|gif)$/i', $uri) && $info = getimagesize($uri)) {
       $properties['width'] = $info[0];
       $properties['height'] = $info[1];
+      $properties['thumbnail'] = $this->style->buildUrl($uri);
     }
     return $properties;
   }
