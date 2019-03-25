@@ -78,6 +78,7 @@ class Imce {
       $conf = $profile->getConf();
       $conf['pid'] = $profile->id();
       $conf['scheme'] = $scheme;
+      $conf['thumbnail'] = \Drupal::config('imce.settings')->get('thumbnail');
       return static::processUserConf($conf, $user);
     }
   }
