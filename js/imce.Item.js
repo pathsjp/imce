@@ -331,6 +331,7 @@
    */
   Item.onThumbnailChange = function (oldval) {
     if (imce.conf.thumbnail) {
+      $(this.iconEl).addClass('hidden');
       this.thumbEl.innerHTML = '<img src="'+this.thumbnail+'"/>';
     }
   };
