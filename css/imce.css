@@ -212,9 +212,11 @@
   border: 1px solid #777;
   border-radius: 1px;
   margin-bottom: 3px;
+  padding: 1px
 }
 .expanded > .imce-branch-toggle:before {
   content: '-';
+  padding: 0px 1px;
 }
 .leaf > .imce-branch-toggle:before,
 .busy > .imce-branch-toggle::before {
