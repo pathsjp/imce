@@ -1,7 +1,7 @@
 .imce-page {
   margin: 0;
   padding: 0;
-  font: 12px/16px verdana;
+  font: 12px/16px arial;
   color: #000;
 }
 .imce-page *,
@@ -26,6 +26,10 @@
   padding: 2px;
   outline: 0;
   background: #fff;
+}
+
+#imce-toolbar .imce-ficon::before {
+  color:#5f5f5f;
 }
 
 #imce-toolbar {
@@ -209,10 +213,11 @@
   font: bold 9px/8px courier new;
   width: 9px;
   height: 9px;
-  border: 1px solid #777;
+  border: 1px solid #adadad;
   border-radius: 1px;
   margin-bottom: 3px;
-  padding: 1px
+  padding: 1px;
+  color: #585858;
 }
 .expanded > .imce-branch-toggle:before {
   content: '-';
