@@ -388,6 +388,13 @@
   left: 0;
   top: 0;
 }
+.imce-content-header .imce-item-name,
+.imce-content-header .imce-item-size,
+.imce-content-header .imce-item-width,
+.imce-content-header .imce-item-height,
+.imce-content-header .imce-item-date {
+  cursor: pointer;
+}
 .imce-content-header .imce-item {
   background: #f1f1f1;
   box-shadow: 1px 1px 0 #fff inset;
