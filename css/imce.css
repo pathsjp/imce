@@ -397,10 +397,11 @@
   color: #00c;
 }
 .imce-content-header .asc:after {
-  content: '\2191';
+  content: '\25b2';
+
 }
 .imce-content-header .desc:after {
-  content: '\2193';
+  content: '\25bc';
 }
 .imce-content-header .imce-item-icon {
   width: 20px;
