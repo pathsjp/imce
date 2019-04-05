@@ -438,6 +438,10 @@
   padding-bottom: 20px;
 }
 
+.imce-folder-content .imce-item {
+  cursor: pointer;
+}
+
 /* Layer */
 .imce-layer {
   position: absolute;
