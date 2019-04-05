@@ -43,28 +43,31 @@ class Imce {
     $user = $user ?: \Drupal::currentUser();
     $scheme = isset($scheme) ? $scheme : file_default_scheme();
     $profile = &$profiles[$user->id()][$scheme];
-    if (!isset($profile)) {
-      // Check stream wrapper.
-      if (\Drupal::service('stream_wrapper_manager')->getViaScheme($scheme)) {
-        $storage = \Drupal::entityTypeManager()->getStorage('imce_profile');
-        if ($user->id() == 1 && $profile = $storage->load('admin')) {
-          return $profile;
-        }
-        $imce_settings = \Drupal::config('imce.settings');
-        $roles_profiles = $imce_settings->get('roles_profiles');
-        $user_roles = array_flip($user->getRoles());
-        // Order roles from more permissive to less permissive.
-        $roles = array_reverse(user_roles());
-        foreach ($roles as $rid => $role) {
-          if (isset($user_roles[$rid]) && !empty($roles_profiles[$rid][$scheme])) {
-            if ($profile = $storage->load($roles_profiles[$rid][$scheme])) {
-              return $profile;
-            }
+
+    if (isset($profile)) {
+      return $profile;
+    }
+    $profile = FALSE;
+
+    if (\Drupal::service('stream_wrapper_manager')->getViaScheme($scheme)) {
+      $storage = \Drupal::entityTypeManager()->getStorage('imce_profile');
+      if ($user->id() == 1 && $profile = $storage->load('admin')) {
+        return $profile;
+      }
+      $imce_settings = \Drupal::config('imce.settings');
+      $roles_profiles = $imce_settings->get('roles_profiles');
+      $user_roles = array_flip($user->getRoles());
+      // Order roles from more permissive to less permissive.
+      $roles = array_reverse(user_roles());
+      foreach ($roles as $rid => $role) {
+        if (isset($user_roles[$rid]) && !empty($roles_profiles[$rid][$scheme])) {
+          if ($profile = $storage->load($roles_profiles[$rid][$scheme])) {
+            return $profile;
           }
         }
       }
-      $profile = FALSE;
     }
+
     return $profile;
   }
 

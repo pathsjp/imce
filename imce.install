@@ -13,7 +13,6 @@ use Drupal\Core\Config\FileStorage;
  */
 function imce_install() {
   // Assign admin profile to administrators.
-  set_config_ckeditor();
   $admin_roles = \Drupal::entityQuery('user_role')->condition('is_admin', TRUE)->execute();
   if ($admin_roles) {
     $config = \Drupal::configFactory()->getEditable('imce.settings');
@@ -27,22 +26,6 @@ function imce_install() {
     $config->set('roles_profiles', $roles_profiles);
     $config->save(TRUE);
   }
-}
-
-/**
- * Settings imce on CKEditor.
- */
-function set_config_ckeditor() {
-  $config_storage = \Drupal::service('config.storage');
-  $arrayConfig = $config_storage->read('editor.editor.basic_html');
-
-  $arrayConfig['settings']['toolbar']['rows'][0][10] = [
-    'name' => 'IMCE',
-    'items' => [
-      0 => "ImceImage",
-    ],
-  ];
-  $config_storage->write('editor.editor.basic_html', $arrayConfig);
 }
 
 /**
