@@ -200,10 +200,13 @@ class ImceProfileForm extends EntityForm {
       '#type' => 'container',
       '#attributes' => ['class' => ['folder-container']],
     ];
+
+    $fieldPrefix = $this->t('root');
+    $slach = '/';
     $form['path'] = [
       '#type' => 'textfield',
       '#default_value' => $folder['path'],
-      '#field_prefix' => '&lt;' . $this->t('root') . '&gt;' . '/',
+      '#field_prefix' => '&lt;' . $fieldPrefix . '&gt;' . $slach,
     ];
     $form['permissions'] = [
       '#type' => 'fieldset',
