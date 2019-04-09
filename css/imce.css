@@ -39,16 +39,19 @@
   box-shadow: 1px 1px 0 #fff inset;
   margin-bottom: 4px;
 }
+
 #imce-body {
   height: 300px;
   overflow: hidden;
 }
+
 #imce-body-resizer {
   height: 5px;
   cursor: n-resize;
   overflow: hidden;
   text-align: center;
 }
+
 #imce-body-resizer:before {
   content: '\22ef';
   display: inline-block;
@@ -56,6 +59,7 @@
   line-height: 0px;
   font-size: 13px;
 }
+
 #imce-preview {
   height: 90px;
   overflow: auto;
@@ -288,12 +292,11 @@
   text-align: right;
 }
 
-  img#img-thumb {
-    width: 100px;
-    height: 100px;
-    display: none;
-  }
-
+img#img-thumb {
+  width: 100px;
+  height: 100px;
+  display: none;
+}
 
 .imce-item-thumbnail {
   float: left;
@@ -436,7 +439,6 @@
 }
 .imce-content-header .asc:after {
   content: '\25b2';
-
 }
 .imce-content-header .desc:after {
   content: '\25bc';
