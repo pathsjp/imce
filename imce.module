@@ -131,9 +131,40 @@ function imce_help($route_name, RouteMatchInterface $route_match) {
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('IMCE is an image/file uploader and browser that supports personal directories and quota.') . '</p>';
+      $output .= '<h3>CKEditor Iintegration</h3>';
+      $output .= '<ul class="ul-help">';
+      $output .= '<li>' . t('Go to Administration > Configuration >
+        Content Authoring > Text formats and editors >
+        and <b>edit</b> a text format that uses CKEditor;') . '</li>';
+      $output .= '<li>' . t('Enable CKEditor image button without image uploads.') . '</li>';
+      $output .= '</ul>';
+      $output .= '<p><b>Note:</b> Image uploads must be disabled in order for IMCE link appear in the image
+dialog. There is also an image button provided by Imce but it can\'t be used for
+editing existing images. </p>';
+      $output .= '<br/>';
+
+      $output .= '<h3>BUEditor Integration</h3>';
+      $output .= '<ul class="ul-help">';
+      $output .= '<li>' . t('Edit your editor at :path', [':path' => '/admin/config/content/bueditor;']) . '</li>';
+      $output .= '<li>' . t('Select Imce File Manager as the File browser under Settings.') . '</li>';
+      $output .= '</ul>';
+      $output .= '<br/>';
+
+      $output .= '<h3>FILE/IMAGE Field Integration</h3>';
+      $output .= '<ul class="ul-help">';
+      $output .= '<li>' . t('Go to form settings of your content type;');
+      $output .= '<br/>';
+      $output .= 'Ex: /admin/structure/types/manage/article/form-display.</li>';
+      $output .= '<li>' . t('Edit widget settings of a file/image field;') . '</li>';
+      $output .= '<li>' . t('Check the box saying "Allow users to select files from Imce File Manager
+        for this field." Save;') . '</li>';
+      $output .= '<li>' . t('You should now see the "Open File Browser" link above the upload widget
+        in the content form.') . '</li>';
+      $output .= '</ul>';
+      $output .= '<br/>';
+
       return $output;
 
     default:
   }
 }
-
