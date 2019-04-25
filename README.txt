@@ -78,5 +78,4 @@ FILE/IMAGE FIELD INTEGRATION
 MAINTAINERS
 -----------
 
- * ufku - https://www.drupal.org/u/ufku - https://git.drupalcode.org/ufku
- * thalles - https://www.drupal.org/u/thalles - https://git.drupalcode.org/thallesvf
+ * ufku - https://www.drupal.org/u/ufku
