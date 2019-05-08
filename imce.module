@@ -21,6 +21,12 @@ function imce_theme() {
       'render element' => 'page',
       'function' => 'imce_page_render',
     ],
+    'imce_help' => [
+      'variables' => [
+        'videos' => [],
+        'markup' => '',
+      ],
+    ],
   ];
 }
 
