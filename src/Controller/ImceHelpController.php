@@ -55,15 +55,17 @@ class ImceHelpController extends ControllerBase {
   public function index() {
     $build = [];
     $name = 'imce';
-
+    $build['#theme'] = 'imce_help';
     $module_name = $this->moduleHandler()->getName($name);
     $build['#title'] = 'Imce File Manager Help';
     $temp = $this->moduleHandler()->invoke($name, 'help', ["help.page.$name", $this->routeMatch]);
 
     if (!is_array($temp)) {
       $temp = ['#markup' => $temp];
+      $build['#markup'] = $temp['#markup'];
     }
     $build['top'] = $temp;
+    // $build['#videos'][] = '<iframe width="560" height="315" src="https://www.youtube.com/embed/MKE3aLLxN8g?start=273" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
@@ -84,6 +86,7 @@ class ImceHelpController extends ControllerBase {
         '#links' => $links,
       ];
     }
+
     return $build;
   }
 
