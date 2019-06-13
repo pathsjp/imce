@@ -5,7 +5,6 @@ namespace Drupal\imce\Controller;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\file\Entity\File;
 use Drupal\imce\Imce;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,21 +60,20 @@ class ImceController extends ControllerBase {
    */
   public function getUuid(Request $request) {
     // Get the current user.
-    $user = \Drupal::currentUser();
-    if (!$user->hasPermission('administration imce')) {
+    if (!$this->currentUser()->hasPermission('administration imce')) {
       return FALSE;
     }
 
     $uri = XSS::filter($request->query->get('uri'));
-    $id = \Drupal::entityQuery('file')
+    $storageFile = $this->entityTypeManager()->getStorage('file');
+    $id = $storageFile->getQuery()
       ->condition('uri', $uri)
       ->execute();
     if (!empty($id)) {
-      $file = File::load(reset($id));
+      $file = $storageFile->load(reset($id));
     }
     else {
-      $file = File::create(['uri' => $uri]);
-      $file->save();
+      $file = $storageFile->create(['uri' => $uri])->save();
     }
     return new JsonResponse([
       'uuid' => $file->uuid(),
