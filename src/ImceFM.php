@@ -10,6 +10,7 @@ use Drupal\Component\Render\MarkupInterface;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\file\Entity\File;
 
 /**
  * Imce File Manager.
@@ -477,7 +478,7 @@ class ImceFM {
   public function getUuidFromUri($uri) {
     if ($this->hasPermission('create_files')) {
       $nids = \Drupal::entityQuery('file')->condition('uri', $uri)->execute();
-      $file = \Drupal\file\Entity\File::load(reset($nids));
+      $file = File::load(reset($nids));
       return $file ? $file->uuid() : NULL;
     }
   }
