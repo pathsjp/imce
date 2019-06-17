@@ -106,6 +106,7 @@ function imce_theme() {
 
 /**
  * Implements hook_file_download().
+ *
  * Support private downloads if not disabled.
  */
 function imce_file_download($uri) {
@@ -138,18 +139,35 @@ function imce_textarea($element) {
   }
   if ($regexp && preg_match($regexp, $element['#id'])) {
     drupal_add_js(drupal_get_path('module', 'imce') . '/js/imce_set_inline.js');
-    $element['#description'] = (isset($element['#description']) ? $element['#description'] : '') . '<div class="imce-inline-wrapper" style="display:none">' . t('Insert !image or !link.', array('!image' => l(t('image'), 'imce', array('attributes' => array('name' => $element['#id'] . '-IMCE-image', 'class' => array('imce-inline-image')))), '!link' => l(t('link'), 'imce', array('attributes' => array('name' => $element['#id'] . '-IMCE-link', 'class' => array('imce-inline-link')))))) . '</div>';
+    $arrayAtributtes = array(
+      '!image' => l(t('image'), 'imce', array(
+        'attributes' => array(
+          'name' => $element['#id'] . '-IMCE-image',
+          'class' => array('imce-inline-image'),
+        ),
+      )),
+      '!link' => l(t('link'), 'imce', array(
+        'attributes' => array(
+          'name' => $element['#id'] . '-IMCE-link',
+          'class' => array('imce-inline-link'),
+        ),
+      )),
+    );
+    $element['#description'] = (isset($element['#description']) ? $element['#description'] : '') . '<div class="imce-inline-wrapper" style="display:none">' . t('Insert !image or !link.', $arrayAtributtes) . '</div>';
   }
   return $element;
 }
 
 /**
- * Returns the configuration profile assigned to a user for a specific file scheme.
+ * Returns the configuration profile.
+ *
+ * Returns the configuration profile assigned to a user for
+ *  a specific file scheme.
  */
 function imce_user_profile($user, $scheme = NULL) {
   static $ups = array();
 
-  // Set scheme
+  // Set scheme.
   if (empty($scheme)) {
     $scheme = variable_get('file_default_scheme', 'public');
   }
@@ -160,7 +178,7 @@ function imce_user_profile($user, $scheme = NULL) {
   }
   $ups[$scheme][$user->uid] = FALSE;
 
-  // Check scheme
+  // Check scheme.
   $swrappers = file_get_stream_wrappers();
   if (!isset($swrappers[$scheme])) {
     return FALSE;
@@ -169,7 +187,7 @@ function imce_user_profile($user, $scheme = NULL) {
   $profiles = variable_get('imce_profiles', array());
   $scinfo = array('scheme' => $scheme);
 
-  // Handle user#1 separately
+  // Handle user#1 separately.
   if ($user->uid == 1) {
     return $ups[$scheme][$user->uid] = isset($profiles[1]) ? $profiles[1] + $scinfo : FALSE;
   }
@@ -188,6 +206,7 @@ function imce_user_profile($user, $scheme = NULL) {
 
 /**
  * Checks if the user is assigned an imce profile.
+ *
  * A more detailed assignment check is performed before imce loads.
  */
 function imce_access($user = FALSE, $scheme = NULL) {
