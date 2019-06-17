@@ -36,11 +36,11 @@ class Imce extends CKEditorPluginBase {
   public function getButtons() {
     return [
       'ImceImage' => [
-        'label' => t('Insert images using Imce File Manager'),
+        'label' => $this->t('Insert images using Imce File Manager'),
         'image' => $this->imageIcon(),
       ],
       'ImceLink' => [
-        'label' => t('Insert file links using Imce File Manager'),
+        'label' => $this->t('Insert file links using Imce File Manager'),
         'image' => $this->linkIcon(),
       ],
     ];
