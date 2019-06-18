@@ -1,12 +1,21 @@
 <?php
-$imce =& $imce_ref['imce'];//keep this line.
+
+/**
+ * @file
+ * Content Template file.
+ */
+
+// Keep this line.
+$imce =& $imce_ref['imce'];
 
 /*
  * Although the file list table here is available for theming,
  * it is not recommended to change the table structure, because
- * it is read and manipulated by javascript assuming this is the deafult structure.
+ * it is read and manipulated by javascript assuming this is
+ * the deafult structure.
  * You can always change the data created by format functions
- * such as format_size or format_date, or you can do css theming which is the best practice here.
+ * such as format_size or format_date, or you can do css theming
+ * which is the best practice here.
  */
 ?>
 

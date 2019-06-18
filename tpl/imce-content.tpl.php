@@ -1,5 +1,12 @@
 <?php
-$imce =& $imce_ref['imce'];//keep this line.
+
+/**
+ * @file
+ * Content Template file.
+ */
+
+// Keep this line.
+$imce =& $imce_ref['imce'];
 ?>
 
 <script type="text/javascript">
@@ -47,10 +54,10 @@ $imce =& $imce_ref['imce'];//keep this line.
     </ul>
     <h4><?php print t('Limitations'); ?>:</h4>
     <ul class="tips">
-      <li><?php print t('Maximum file size per upload') .': '. ($imce['filesize'] ? format_size($imce['filesize']) : t('unlimited')); ?></li>
-      <li><?php print t('Permitted file extensions') .': '. ($imce['extensions'] != '*' ? $imce['extensions'] : t('all')); ?></li>
-      <li><?php print t('Maximum image resolution') .': '. ($imce['dimensions'] ? $imce['dimensions'] : t('unlimited')); ?></li>
-      <li><?php print t('Maximum number of files per operation') .': '. ($imce['filenum'] ? $imce['filenum'] : t('unlimited')); ?></li>
+      <li><?php print t('Maximum file size per upload') . ': ' . ($imce['filesize'] ? format_size($imce['filesize']) : t('unlimited')); ?></li>
+      <li><?php print t('Permitted file extensions') . ': ' . ($imce['extensions'] != '*' ? $imce['extensions'] : t('all')); ?></li>
+      <li><?php print t('Maximum image resolution') . ': ' . ($imce['dimensions'] ? $imce['dimensions'] : t('unlimited')); ?></li>
+      <li><?php print t('Maximum number of files per operation') . ': ' . ($imce['filenum'] ? $imce['filenum'] : t('unlimited')); ?></li>
     </ul>
   </div>
 </div>
@@ -88,9 +95,9 @@ $imce =& $imce_ref['imce'];//keep this line.
     </div>
 
     <div id="dir-stat"><?php print t('!num files using !dirsize of !quota', array(
-        '!num' => '<span id="file-count">'. count($imce['files']) .'</span>',
-        '!dirsize' => '<span id="dir-size">'. format_size($imce['dirsize']) .'</span>',
-        '!quota' => '<span id="dir-quota">'. ($imce['quota'] ? format_size($imce['quota']) : ($imce['tuquota'] ? format_size($imce['tuquota']) : t('unlimited quota'))) .'</span>'
+        '!num' => '<span id="file-count">' . count($imce['files']) . '</span>',
+        '!dirsize' => '<span id="dir-size">' . format_size($imce['dirsize']) . '</span>',
+        '!quota' => '<span id="dir-quota">' . ($imce['quota'] ? format_size($imce['quota']) : ($imce['tuquota'] ? format_size($imce['tuquota']) : t('unlimited quota'))) . '</span>',
       )); ?>
     </div>
 
