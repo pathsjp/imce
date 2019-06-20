@@ -1,8 +1,8 @@
 .imce-page {
   margin: 0;
   padding: 0;
-  font: 12px/16px arial;
-  color: #444;
+  font: 12px/16px verdana;
+  color: #000;
 }
 .imce-page *,
 .imce-page *:before,
@@ -26,10 +26,6 @@
   padding: 2px;
   outline: 0;
   background: #fff;
-}
-
-#imce-toolbar .imce-ficon::before {
-  color:#5f5f5f;
 }
 
 #imce-toolbar {
@@ -217,10 +213,9 @@
   font: bold 9px/8px courier new;
   width: 9px;
   height: 9px;
-  border: 1px solid #adadad;
+  border: 1px solid #777;
   border-radius: 1px;
   margin-bottom: 3px;
-  color: #585858;
 }
 .expanded > .imce-branch-toggle:before {
   content: '-';
@@ -383,42 +378,6 @@
   top: 0;
 }
 
-.imce-content-header .imce-item-name,
-.imce-content-header .imce-item-size,
-.imce-content-header .imce-item-width,
-.imce-content-header .imce-item-height,
-.imce-content-header .imce-item-date {
-  cursor: pointer;
-  border-left: 1px #bbb;
-  border-left-style: dotted;
-}
-
-.imce-content-header .imce-item-name:hover,
-.imce-content-header .imce-item-size:hover,
-.imce-content-header .imce-item-width:hover,
-.imce-content-header .imce-item-height:hover,
-.imce-content-header .imce-item-date:hover {
-  background: #f5f5f5;
-  color: #0084ff;
-}
-
-.imce-content-header .imce-item-name::after,
-.imce-content-header .imce-item-size::after,
-.imce-content-header .imce-item-width::after,
-.imce-content-header .imce-item-height::after,
-.imce-content-header .imce-item-date::after {
-  content: '\25b2';
-  color: rgba(0, 0, 0, 0);
-}
-
-.imce-content-header .sorted.imce-item-name::after,
-.imce-content-header .sorted.imce-item-size::after,
-.imce-content-header .sorted.imce-item-width::after,
-.imce-content-header .sorted.imce-item-height::after,
-.imce-content-header .sorted.imce-item-date::after {
-  color: rgb(91, 91, 216);
-}
-
 .imce-content-header .imce-item {
   background: #f1f1f1;
   box-shadow: 1px 1px 0 #fff inset;
@@ -460,10 +419,6 @@
 /* Folder content */
 .imce-folder-content {
   padding-bottom: 20px;
-}
-
-.imce-folder-content .imce-item {
-  cursor: pointer;
 }
 
 /* Layer */
