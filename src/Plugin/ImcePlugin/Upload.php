@@ -83,7 +83,7 @@ class Upload extends ImcePluginBase {
   public static function validateFileName(FileInterface $file, ImceFM $fm) {
     $errors = [];
     $filename = $file->getFileName();
-    if (!$fm->validateFileName($file->getFileName(), TRUE)) {
+    if (!$fm->validateFileName($filename, TRUE)) {
       $errors[] = t('%filename contains invalid characters.', ['%filename' => $filename]);
     }
     return $errors;
