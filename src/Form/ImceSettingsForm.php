@@ -91,12 +91,6 @@ class ImceSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Make the file manager return absolute file URLs to other applications.'),
       '#default_value' => $config->get('abs_urls'),
     ];
-    $form['common']['thumbnail'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Enable thumbnail images'),
-      '#description' => $this->t('Preview thumbnail images.'),
-      '#default_value' => $config->get('thumbnail'),
-    ];
     $form['common']['admin_theme'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use admin theme for IMCE paths'),
@@ -114,8 +108,6 @@ class ImceSettingsForm extends ConfigFormBase {
     $config = $this->config('imce.settings');
     // Absolute URLs.
     $config->set('abs_urls', $form_state->getValue('abs_urls'));
-    // Enable thumbnail images?
-    $config->set('thumbnail', $form_state->getValue('thumbnail'));
     // Admin theme.
     $config->set('admin_theme', $form_state->getValue('admin_theme'));
     $roles_profiles = $form_state->getValue('roles_profiles');

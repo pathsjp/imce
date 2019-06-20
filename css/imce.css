@@ -220,12 +220,10 @@
   border: 1px solid #adadad;
   border-radius: 1px;
   margin-bottom: 3px;
-  padding: 1px;
   color: #585858;
 }
 .expanded > .imce-branch-toggle:before {
   content: '-';
-  padding: 0px 1px;
 }
 .leaf > .imce-branch-toggle:before,
 .busy > .imce-branch-toggle::before {
@@ -292,16 +290,6 @@
   text-align: right;
 }
 
-img#img-thumb {
-  width: 100px;
-  height: 100px;
-  display: none;
-}
-
-.imce-item-thumbnail {
-  float: left;
-}
-
 /* Item icon */
 .imce-item-icon {
   float: left;
@@ -335,6 +323,9 @@ img#img-thumb {
 /* Specific item icons */
 .imce-item-icon:before {
   content: "\e601";
+}
+.imce-item-thumbnail:before {
+  display: none !important;
 }
 .folder > .imce-item-icon:before {
   content: "\e609";

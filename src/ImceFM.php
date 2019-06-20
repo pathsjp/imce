@@ -87,7 +87,7 @@ class ImceFM {
    *
    * @var \Drupal\image\Entity\ImageStyle
    */
-  private $style;
+  private $thumbnailStyle;
 
   /**
    * Constructs the file manager.
@@ -103,7 +103,6 @@ class ImceFM {
     $this->conf = $conf;
     $this->user = $user ?: \Drupal::currentUser();
     $this->request = $request;
-    $this->style = \Drupal::entityTypeManager()->getStorage('image_style')->load('imce_thumbnail');
     $this->init();
   }
 
@@ -464,12 +463,26 @@ class ImceFM {
     if (preg_match('/\.(jpe?g|png|gif)$/i', $uri) && $info = getimagesize($uri)) {
       $properties['width'] = $info[0];
       $properties['height'] = $info[1];
-      if (substr_count($uri, 'styles/imce_thumbnail') < 1) {
-        $properties['thumbnail'] = $this->style->buildUrl($uri);
-      }
       $properties['uri'] = $uri;
+      $style = $this->getThumbnailStyle();
+      if ($style && strpos($uri, '/styles/') === FALSE) {
+        $properties['thumbnail'] = $style->buildUrl($uri);
+      }
     }
     return $properties;
+  }
+
+  /**
+   * Returns thumbnail style.
+   */
+  public function getThumbnailStyle() {
+    if (!isset($this->thumbnailStyle)) {
+      $this->thumbnailStyle = FALSE;
+      if ($style_name = $this->getConf('thumbnail_style')) {
+        $this->thumbnailStyle = \Drupal::entityTypeManager()->getStorage('image_style')->load($style_name);
+      }
+    }
+    return $this->thumbnailStyle;
   }
 
   /**
