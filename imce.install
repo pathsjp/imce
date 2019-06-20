@@ -11,9 +11,6 @@ use Drupal\Core\StreamWrapper\StreamWrapperInterface;
  * Implements hook_install().
  */
 function imce_install() {
-  \Drupal::messenger()
-    ->addStatus('For better CKEditor operation disable CKEditor default image upload');
-
   // Assign admin profile to administrators.
   $admin_roles = \Drupal::entityQuery('user_role')->condition('is_admin', TRUE)->execute();
   if ($admin_roles) {
