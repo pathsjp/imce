@@ -7,13 +7,6 @@ imce.page:
   requirements:
     _custom_access: '\Drupal\imce\Controller\ImceController::checkAccess'
 
-imce.uuid:
-  path: '/imce-get-uuid'
-  defaults:
-    _controller: '\Drupal\imce\Controller\ImceController::getUuid'
-  requirements:
-    _permission: 'administer imce'
-
 imce.admin:
   path: '/admin/config/media/imce'
   defaults:

@@ -428,7 +428,11 @@ class ImceFM {
           $this->response['added'][$path]['subfolders'][$name] = $this->getFolderProperties($uri);
         }
         else {
-          $this->response['added'][$path]['files'][$name] = $this->getFileProperties($uri);
+          $props = $this->getFileProperties($uri);
+          if (isset($item->uuid)) {
+            $props['uuid'] = $item->uuid;
+          }
+          $this->response['added'][$path]['files'][$name] = $props;
         }
       }
     }
@@ -455,15 +459,9 @@ class ImceFM {
    */
   public function getFileProperties($uri) {
     $properties = ['date' => filemtime($uri), 'size' => filesize($uri)];
-    if ($uuid = $this->getUuidFromUri($uri)) {
-      $properties['type'] = 'file';
-      $properties['uuid'] = $uuid;
-    }
-
     if (preg_match('/\.(jpe?g|png|gif)$/i', $uri) && $info = getimagesize($uri)) {
       $properties['width'] = $info[0];
       $properties['height'] = $info[1];
-      $properties['uri'] = $uri;
       $style = $this->getThumbnailStyle();
       if ($style && strpos($uri, '/styles/') === FALSE) {
         $properties['thumbnail'] = $style->buildUrl($uri);
@@ -483,17 +481,6 @@ class ImceFM {
       }
     }
     return $this->thumbnailStyle;
-  }
-
-  /**
-   * Returns UUID from URI.
-   */
-  public function getUuidFromUri($uri) {
-    if ($this->hasPermission('create_files')) {
-      $nids = \Drupal::entityQuery('file')->condition('uri', $uri)->execute();
-      $file = File::load(reset($nids));
-      return $file ? $file->uuid() : NULL;
-    }
   }
 
   /**
@@ -529,7 +516,9 @@ class ImceFM {
    */
   public function getMessages() {
     // Get drupal messages.
-    $messages = \Drupal::messenger()->all();
+    $messenger = \Drupal::messenger();
+    $messages = $messenger->all();
+    $messenger->deleteAll();
     foreach ($messages as &$group) {
       foreach ($group as &$message) {
         $message = $message instanceof MarkupInterface ? $message . '' : Html::escape($message);

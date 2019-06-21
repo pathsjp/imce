@@ -2,11 +2,9 @@
 
 namespace Drupal\imce\Controller;
 
-use Drupal\Component\Utility\Xss;
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\imce\Imce;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -42,42 +40,6 @@ class ImceController extends ControllerBase {
    */
   public function checkAccess($scheme) {
     return AccessResult::allowedIf(Imce::access($this->currentUser(), $scheme));
-  }
-
-  /**
-   * Handles request to /imce-get-uuid path.
-   *
-   * This will get the uuid for a Drupal file or if none exists for the uri,
-   * will create a new File entity and return the UUID for the new one.
-   *
-   * Calls to this endpoint should have a get parameter for with the uri.
-   *
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The request object.
-   *
-   * @return \Symfony\Component\HttpFoundation\JsonResponse
-   *   A JSON object with the file uuid.
-   */
-  public function getUuid(Request $request) {
-    // Get the current user.
-    if (!$this->currentUser()->hasPermission('administration imce')) {
-      return FALSE;
-    }
-
-    $uri = XSS::filter($request->query->get('uri'));
-    $storageFile = $this->entityTypeManager()->getStorage('file');
-    $id = $storageFile->getQuery()
-      ->condition('uri', $uri)
-      ->execute();
-    if (!empty($id)) {
-      $file = $storageFile->load(reset($id));
-    }
-    else {
-      $file = $storageFile->create(['uri' => $uri])->save();
-    }
-    return new JsonResponse([
-      'uuid' => $file->uuid(),
-    ]);
   }
 
 }
