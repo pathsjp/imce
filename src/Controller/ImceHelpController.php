@@ -65,7 +65,9 @@ class ImceHelpController extends ControllerBase {
       $build['#markup'] = $temp['#markup'];
     }
     $build['top'] = $temp;
-    // $build['#videos'][] = '<iframe width="560" height="315" src="https://www.youtube.com/embed/MKE3aLLxN8g?start=273" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+
+    $build['#videos'][1]['title'] = 'IMCE with CKEditor in Drupal 8';
+    $build['#videos'][1]['video'] = 'https://www.youtube.com/embed/wnOmlvG4tRo';
 
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
