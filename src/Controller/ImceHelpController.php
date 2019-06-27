@@ -69,6 +69,9 @@ class ImceHelpController extends ControllerBase {
     $build['#videos'][1]['title'] = 'IMCE with CKEditor in Drupal 8';
     $build['#videos'][1]['video'] = 'https://www.youtube.com/embed/wnOmlvG4tRo';
 
+    $build['#videos'][2]['title'] = 'Integration IMCE with image/file field in Drupal 8';
+    $build['#videos'][2]['video'] = 'https://www.youtube.com/embed/MAHonUyKVc0';
+
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
     $admin_tasks = system_get_module_admin_tasks($name, system_get_info('module', $name));
