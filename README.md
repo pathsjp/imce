@@ -1,5 +1,7 @@
-CONTENTS OF THIS FILE
----------------------
+# IMCE FILE MANAGER
+
+## CONTENTS OF THIS FILE
+
 
  * Introduction
  * Requirements
@@ -11,8 +13,7 @@ CONTENTS OF THIS FILE
  * Maintainers
 
 
-INTRODUCTION
-------------
+## INTRODUCTION
 
 Imce is an ajax based file manager that supports personal folders.
 
@@ -23,28 +24,24 @@ Imce is an ajax based file manager that supports personal folders.
    https://www.drupal.org/project/issues/imce
 
 
-REQUIREMENTS
-------------
+## REQUIREMENTS
 
 This module requires no modules outside of Drupal core.
 
 
-RECOMMENDED MODULES
--------------------
+## RECOMMENDED MODULES
 
  * BUEditor - https://www.drupal.org/project/bueditor
 
 
-INSTALLATION
-------------
+## INSTALLATION
 
  * Install the IMCE module as you would normally install a contributed
    Drupal module. Visit https://www.drupal.org/node/1897420 for further
    information.
 
 
-CKEDITOR INTEGRATION
---------------------
+## CKEDITOR INTEGRATION
 
     1. Go to Administration > Configuration >
        Content Authoring > Text formats and editors >
@@ -56,15 +53,13 @@ dialog. There is also an image button provided by Imce but it can't be used for
 editing existing images.
 
 
-BUEDITOR INTEGRATION
---------------------
+## BUEDITOR INTEGRATION
 
     1. Edit your editor at /admin/config/content/bueditor.
     2. Select Imce File Manager as the File browser under Settings.
 
 
-FILE/IMAGE FIELD INTEGRATION
-----------------------------
+## FILE/IMAGE FIELD INTEGRATION
 
     1. Go to form settings of your content type.
        Ex: /admin/structure/types/manage/article/form-display
@@ -78,5 +73,5 @@ FILE/IMAGE FIELD INTEGRATION
 MAINTAINERS
 -----------
 
- * ufku - https://www.drupal.org/u/ufku - https://git.drupalcode.org/ufku
- * thalles - https://www.drupal.org/u/thalles - https://git.drupalcode.org/thallesvf
+ * ufku - https://www.drupal.org/user/9910 - https://git.drupalcode.org/ufku
+ * thalles - https://www.drupal.org/user/3589086 - https://git.drupalcode.org/thallesvf
