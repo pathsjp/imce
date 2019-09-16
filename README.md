@@ -69,21 +69,6 @@ editing existing images.
     4. You should now see the "Open File Browser" link above the upload widget
        in the content form.
 
-## Tests
-
-* Before of run tests you needs create a shortcut for core/phpunit.xml.dist in your root project.
-
-### Executing UnitTest
-
-```
-vendor/bin/phpunit modules/imce
-```
-
-### Executing KernelTest with Lando
-
-```
-lando php core/scripts/run-tests.sh --php /usr/local/bin/php --url http://example.lndo.site --dburl mysql://drupal8:drupal8@database/drupal8 --sqlite simpletest.sqlite --module imce --verbose --color
-```
 
 MAINTAINERS
 -----------
