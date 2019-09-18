@@ -136,15 +136,7 @@ class ImceSettingsForm extends ConfigFormBase {
     return $options;
   }
 
-  /**
-   * Returns roles-profiles table.
-   */
-  public function buildRolesProfilesTable(array $roles_profiles) {
-    $rp_table = ['#type' => 'table'];
-    // Prepare roles.
-    $roles = user_roles();
-    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
-
+  public function buildHeaderProfilesTable($wrappers) {
     // Build header.
     $imce_url = Url::fromRoute('imce.page')->toString();
     $rp_table['#header'] = [$this->t('Role')];
@@ -153,6 +145,23 @@ class ImceSettingsForm extends ConfigFormBase {
       $url = $scheme === $default ? $imce_url : $imce_url . '/' . $scheme;
       $rp_table['#header'][]['data'] = ['#markup' => '<a href="' . $url . '">' . Html::escape($name) . '</a>'];
     }
+    // var_dump($rp_table);
+    return $rp_table;
+  }
+
+  /**
+   * Returns roles-profiles table.
+   */
+  public function buildRolesProfilesTable(array $roles_profiles) {
+    $rp_table = ['#type' => 'table'];
+
+    // Prepare roles.
+    $roles = user_roles();
+    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
+
+    $imce_url = Url::fromRoute('imce.page')->toString();
+
+    $rp_table += $this->buildHeaderProfilesTable($wrappers);
 
     // Build rows.
     foreach ($roles as $rid => $role) {
