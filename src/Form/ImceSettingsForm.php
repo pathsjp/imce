@@ -149,21 +149,8 @@ class ImceSettingsForm extends ConfigFormBase {
     return $rp_table;
   }
 
-  /**
-   * Returns roles-profiles table.
-   */
-  public function buildRolesProfilesTable(array $roles_profiles) {
-    $rp_table = ['#type' => 'table'];
-
+  public function buildRowsProfilesTables($roles, $roles_profiles, $wrappers) {
     // Prepare roles.
-    $roles = user_roles();
-    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
-
-    $imce_url = Url::fromRoute('imce.page')->toString();
-
-    $rp_table += $this->buildHeaderProfilesTable($wrappers);
-
-    // Build rows.
     foreach ($roles as $rid => $role) {
       $rp_table[$rid]['role_name'] = [
         '#plain_text' => $role->label(),
@@ -176,6 +163,24 @@ class ImceSettingsForm extends ConfigFormBase {
         ];
       }
     }
+
+    return $rp_table;
+  }
+
+  /**
+   * Returns roles-profiles table.
+   */
+  public function buildRolesProfilesTable(array $roles_profiles) {
+    $rp_table = ['#type' => 'table'];
+
+    $roles = user_roles();
+    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
+
+    $imce_url = Url::fromRoute('imce.page')->toString();
+
+    $rp_table += $this->buildHeaderProfilesTable($wrappers);
+    $rp_table += $this->buildRowsProfilesTables($roles, $roles_profiles, $wrappers);
+
     // Add description.
     $rp_table['#prefix'] = '<h3>' . $this->t('Role-profile assignments') . '</h3>';
     $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. Users with multiple roles get the bottom most profile.') . ' ' . $this->t('The default file system %name is accessible at :url path.', ['%name' => $wrappers[file_default_scheme()], ':url' => $imce_url]) . '</div>';
