@@ -42,4 +42,9 @@ class ImceSettingsFormTest extends KernelTestBase {
     $this->assertArraySubset($options, ['' => '-' . $this->t('None') . '-']);
   }
 
+  public function testBuildHeaderProfilesTable() {
+    $headerProfiles = $this->imceSettingsForm->buildHeaderProfilesTable();
+    $this->assertTrue(is_array($headerProfiles));
+  }
+
 }
