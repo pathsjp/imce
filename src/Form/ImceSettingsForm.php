@@ -145,7 +145,7 @@ class ImceSettingsForm extends ConfigFormBase {
       $url = $scheme === $default ? $imce_url : $imce_url . '/' . $scheme;
       $rp_table['#header'][]['data'] = ['#markup' => '<a href="' . $url . '">' . Html::escape($name) . '</a>'];
     }
-    // var_dump($rp_table);
+
     return $rp_table;
   }
 
