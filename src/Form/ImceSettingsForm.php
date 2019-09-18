@@ -127,6 +127,15 @@ class ImceSettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
   }
 
+  public function getProfileOptions() {
+    // Prepare profile options.
+    $options = ['' => '-' . $this->t('None') . '-'];
+    foreach ($this->entityTypeManager->getStorage('imce_profile')->loadMultiple() as $pid => $profile) {
+      $options[$pid] = $profile->label();
+    }
+    return $options;
+  }
+
   /**
    * Returns roles-profiles table.
    */
@@ -135,11 +144,7 @@ class ImceSettingsForm extends ConfigFormBase {
     // Prepare roles.
     $roles = user_roles();
     $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
-    // Prepare profile options.
-    $options = ['' => '-' . $this->t('None') . '-'];
-    foreach ($this->entityTypeManager->getStorage('imce_profile')->loadMultiple() as $pid => $profile) {
-      $options[$pid] = $profile->label();
-    }
+
     // Build header.
     $imce_url = Url::fromRoute('imce.page')->toString();
     $rp_table['#header'] = [$this->t('Role')];
@@ -148,6 +153,7 @@ class ImceSettingsForm extends ConfigFormBase {
       $url = $scheme === $default ? $imce_url : $imce_url . '/' . $scheme;
       $rp_table['#header'][]['data'] = ['#markup' => '<a href="' . $url . '">' . Html::escape($name) . '</a>'];
     }
+
     // Build rows.
     foreach ($roles as $rid => $role) {
       $rp_table[$rid]['role_name'] = [
@@ -156,7 +162,7 @@ class ImceSettingsForm extends ConfigFormBase {
       foreach ($wrappers as $scheme => $name) {
         $rp_table[$rid][$scheme] = [
           '#type' => 'select',
-          '#options' => $options,
+          '#options' => $this->getProfileOptions(),
           '#default_value' => isset($roles_profiles[$rid][$scheme]) ? $roles_profiles[$rid][$scheme] : '',
         ];
       }
@@ -166,5 +172,6 @@ class ImceSettingsForm extends ConfigFormBase {
     $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. Users with multiple roles get the bottom most profile.') . ' ' . $this->t('The default file system %name is accessible at :url path.', ['%name' => $wrappers[file_default_scheme()], ':url' => $imce_url]) . '</div>';
     return $rp_table;
   }
+
 
 }
