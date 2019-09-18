@@ -136,8 +136,14 @@ class ImceSettingsForm extends ConfigFormBase {
     return $options;
   }
 
-  public function buildHeaderProfilesTable($wrappers) {
-    // Build header.
+  /**
+   * Build header.
+   *
+   * @return array
+   *   Array of headers items.
+   */
+  public function buildHeaderProfilesTable() : array {
+    $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
     $imce_url = Url::fromRoute('imce.page')->toString();
     $rp_table['#header'] = [$this->t('Role')];
     $default = file_default_scheme();
