@@ -157,6 +157,7 @@ class ImceSettingsForm extends ConfigFormBase {
 
   public function buildRowsProfilesTables($roles, $roles_profiles, $wrappers) {
     // Prepare roles.
+    $rp_table = [];
     foreach ($roles as $rid => $role) {
       $rp_table[$rid]['role_name'] = [
         '#plain_text' => $role->label(),
@@ -192,6 +193,5 @@ class ImceSettingsForm extends ConfigFormBase {
     $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. Users with multiple roles get the bottom most profile.') . ' ' . $this->t('The default file system %name is accessible at :url path.', ['%name' => $wrappers[file_default_scheme()], ':url' => $imce_url]) . '</div>';
     return $rp_table;
   }
-
 
 }
