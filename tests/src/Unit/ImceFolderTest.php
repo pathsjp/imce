@@ -12,13 +12,24 @@ use Drupal\Tests\UnitTestCase;
  */
 class ImceFolderTest extends UnitTestCase {
 
+  /**
+   * The Imce Folder.
+   *
+   * @var \Drupal\imce\ImceFolder
+   */
   protected $imceFolder;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
     $this->imceFolder = $this->createMock(ImceFolder::class);
   }
 
+  /**
+   * Test type.
+   */
   public function testType() {
     $this->assertNotEmpty($this->imceFolder->type);
     $this->assertTrue(is_string($this->imceFolder->type));

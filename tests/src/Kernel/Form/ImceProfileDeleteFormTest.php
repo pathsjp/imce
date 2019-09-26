@@ -33,11 +33,17 @@ class ImceProfileDeleteFormTest extends KernelTestBase {
     'imce',
   ];
 
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp() {
     parent::setUp();
     $this->profileDeleteForm = new ImceProfileDeleteForm();
   }
 
+  /**
+   * Test the method getCancelUrl().
+   */
   public function testCancelUrl() {
     $url = $this->profileDeleteForm->getCancelUrl();
     $this->assertInstanceOf(Url::class, $url);
@@ -46,6 +52,9 @@ class ImceProfileDeleteFormTest extends KernelTestBase {
     $this->assertEquals('/admin/config/media/imce', $url->toString());
   }
 
+  /**
+   * Test the method getConfirmText().
+   */
   public function testConfirmText() {
     $confirmText = $this->profileDeleteForm->getConfirmText();
     $this->assertInstanceOf(TranslatableMarkup::class, $confirmText);
