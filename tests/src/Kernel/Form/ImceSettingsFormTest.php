@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Form;
 
+use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\imce\Form\ImceSettingsForm;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -17,13 +18,17 @@ class ImceSettingsFormTest extends KernelTestBase {
 
   protected $imceSettingsForm;
 
+  protected $imceConfig;
+
   public static $modules = [
     'system',
+    'user',
     'imce',
   ];
 
   protected function setUp() {
     parent::setUp();
+    $this->imceConfig = $this->container->get('config.factory')->get('imce.settings');
     $this->imceSettingsForm = new ImceSettingsForm(
       $this->container->get('config.factory'),
       $this->container->get('entity_type.manager'),
@@ -45,6 +50,12 @@ class ImceSettingsFormTest extends KernelTestBase {
   public function testBuildHeaderProfilesTable() {
     $headerProfiles = $this->imceSettingsForm->buildHeaderProfilesTable();
     $this->assertTrue(is_array($headerProfiles));
+  }
+
+  public function testBuildRolesProfilesTable() {
+    $this->assertTrue(is_array(
+      $this->imceSettingsForm->buildRolesProfilesTable($this->imceConfig->get('roles_profiles')  ?: [])
+    ));
   }
 
 }
