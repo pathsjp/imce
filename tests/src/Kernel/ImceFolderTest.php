@@ -38,12 +38,18 @@ class ImceFolderTest extends KernelTestBase {
     parent::setUp();
     $this->installConfig(['imce']);
     $this->installEntitySchema('imce_profile');
-    $this->imceFolder = new ImceFolder('Folder');
+    $this->imceFolder = new ImceFolder('js');
   }
 
   public function testName() {
     $this->assertTrue(is_string($this->imceFolder->name));
-    $this->assertEqual($this->imceFolder->name, 'Folder');
+    $this->assertEqual($this->imceFolder->name, 'js');
+  }
+
+  public function testPath() {
+    $this->imceFolder->setPath('js');
+    $path = $this->imceFolder->getPath();
+    $this->assertTrue(is_string($path));
   }
 
 }
