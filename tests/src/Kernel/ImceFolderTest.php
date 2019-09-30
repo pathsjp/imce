@@ -45,7 +45,7 @@ class ImceFolderTest extends KernelTestBase {
     $this->installEntitySchema('imce_profile');
     $this->setUpCurrentUser();
     $this->imceFolder = new ImceFolder('js', $this->getConf());
-    $this->imceFolder->setFm(new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/")));
+    $this->imceFolder->setFm(new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce")));
     $this->imceFolder->scan();
   }
 
@@ -63,6 +63,11 @@ class ImceFolderTest extends KernelTestBase {
   public function testItem() {
     $items = $this->imceFolder->items;
     $this->assertTrue(is_array(($items)));
+  }
+
+  public function testScanned() {
+    $this->assertTrue(is_bool($this->imceFolder->scanned));
+    $this->assertTrue($this->imceFolder->scanned);
   }
 
   public function getConf() {
