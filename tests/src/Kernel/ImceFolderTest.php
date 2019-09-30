@@ -55,6 +55,11 @@ class ImceFolderTest extends KernelTestBase {
     $this->assertTrue(is_array(($files)));
   }
 
+  public function testSubfolders() {
+    $subfolders = $this->imceFolder->subfolders;
+    $this->assertTrue(is_array(($subfolders)));
+  }
+
   public function testName() {
     $this->assertTrue(is_string($this->imceFolder->name));
     $this->assertEqual($this->imceFolder->name, 'js');
