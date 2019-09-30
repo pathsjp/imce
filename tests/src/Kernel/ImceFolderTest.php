@@ -60,6 +60,11 @@ class ImceFolderTest extends KernelTestBase {
     $this->assertTrue(is_string($path));
   }
 
+  public function testItem() {
+    $items = $this->imceFolder->items;
+    $this->assertTrue(is_array(($items)));
+  }
+
   public function getConf() {
     return [
       "extensions" => "*",
