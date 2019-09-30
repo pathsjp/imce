@@ -33,6 +33,7 @@ class ImceFolderTest extends KernelTestBase {
    */
   public static $modules = [
     'user',
+    'system',
     'imce',
   ];
 
@@ -47,6 +48,11 @@ class ImceFolderTest extends KernelTestBase {
     $this->imceFolder = new ImceFolder('js', $this->getConf());
     $this->imceFolder->setFm(new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce")));
     $this->imceFolder->scan();
+  }
+
+  public function testFiles() {
+    $files = $this->imceFolder->files;
+    $this->assertTrue(is_array(($files)));
   }
 
   public function testName() {
