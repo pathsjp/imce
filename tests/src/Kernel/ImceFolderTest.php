@@ -44,6 +44,7 @@ class ImceFolderTest extends KernelTestBase {
     parent::setUp();
     $this->installConfig(['imce']);
     $this->installEntitySchema('imce_profile');
+    $this->installEntitySchema('user');
     $this->setUpCurrentUser();
     $this->imceFolder = new ImceFolder('js', $this->getConf());
     $this->imceFolder->setFm(new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce")));
