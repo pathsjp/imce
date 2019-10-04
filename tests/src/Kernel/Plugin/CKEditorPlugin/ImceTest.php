@@ -64,4 +64,9 @@ class ImceTest extends KernelTestBase {
     ];
   }
 
+  public function testGetButtons() {
+    $buttons = $this->imce->getButtons();
+    $this->assertTrue(is_array($buttons));
+  }
+
 }
