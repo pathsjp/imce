@@ -45,6 +45,12 @@ class ImceTest extends KernelTestBase {
     $this->imce = new Imce([], "text_textarea_with_summary", $this->getPluginDefinations());
   }
 
+  public function testGetDependencies() {
+    $dependencies = $this->imce->getDependencies($this->createMock(Editor::class));
+    $this->assertTrue(is_array($dependencies));
+    $this->assertArraySubset(['drupalimage', 'drupalimagecaption'], $dependencies);;
+  }
+
   public function getPluginDefinations() {
     return [
       "field_types" => [
