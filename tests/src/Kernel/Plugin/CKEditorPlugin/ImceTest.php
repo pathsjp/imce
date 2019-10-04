@@ -69,4 +69,9 @@ class ImceTest extends KernelTestBase {
     $this->assertTrue(is_array($buttons));
   }
 
+  public function testGetFile() {
+    $pathFile = $this->imce->getFile();
+    $this->assertTrue(is_string($pathFile));
+  }
+
 }
