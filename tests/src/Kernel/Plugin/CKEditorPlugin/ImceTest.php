@@ -80,4 +80,10 @@ class ImceTest extends KernelTestBase {
     $this->assertCount(2, $config);
   }
 
+  public function testImageIcon() {
+    $imageIcon = $this->imce->imageIcon();
+    $this->assertTrue(is_string($imageIcon));
+    $this->assertTrue(file_exists($imageIcon));
+  }
+
 }
