@@ -74,4 +74,10 @@ class ImceTest extends KernelTestBase {
     $this->assertTrue(is_string($pathFile));
   }
 
+  public function testGetConfig() {
+    $config = $this->imce->getConfig($this->createMock(Editor::class));
+    $this->assertTrue(is_array($config));
+    $this->assertCount(2, $config);
+  }
+
 }
