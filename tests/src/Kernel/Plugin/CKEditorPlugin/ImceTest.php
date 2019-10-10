@@ -45,12 +45,21 @@ class ImceTest extends KernelTestBase {
     $this->imce = new Imce([], "text_textarea_with_summary", $this->getPluginDefinations());
   }
 
+  /**
+   * Test getDependencies().
+   */
   public function testGetDependencies() {
     $dependencies = $this->imce->getDependencies($this->createMock(Editor::class));
     $this->assertTrue(is_array($dependencies));
     $this->assertArraySubset(['drupalimage', 'drupalimagecaption'], $dependencies);;
   }
 
+  /**
+   * Get plugins definations.
+   *
+   * @return array
+   *   Return plugins definations.
+   */
   public function getPluginDefinations() {
     return [
       "field_types" => [
@@ -64,28 +73,43 @@ class ImceTest extends KernelTestBase {
     ];
   }
 
+  /**
+   * Test getButtons().
+   */
   public function testGetButtons() {
     $buttons = $this->imce->getButtons();
     $this->assertTrue(is_array($buttons));
   }
 
+  /**
+   * Test getFile().
+   */
   public function testGetFile() {
     $pathFile = $this->imce->getFile();
     $this->assertTrue(is_string($pathFile));
   }
 
+  /**
+   * Test getConfig().
+   */
   public function testGetConfig() {
     $config = $this->imce->getConfig($this->createMock(Editor::class));
     $this->assertTrue(is_array($config));
     $this->assertCount(2, $config);
   }
 
+  /**
+   * Test imageIcon().
+   */
   public function testImageIcon() {
     $imageIcon = $this->imce->imageIcon();
     $this->assertTrue(is_string($imageIcon));
     $this->assertTrue(file_exists($imageIcon));
   }
 
+  /**
+   * Test linkIcon().
+   */
   public function testLinkIcon() {
     $linkIcon = $this->imce->linkIcon();
     $this->assertTrue(is_string($linkIcon));
