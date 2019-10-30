@@ -70,4 +70,11 @@ class CoreTest extends KernelTestBase {
     ];
   }
 
+  public function testPermissiomInfo() {
+    $permissionInfo = $this->core->permissionInfo();
+    $this->assertTrue(is_array($permissionInfo));
+    $this->assertTrue(in_array('Browse files', $permissionInfo));
+    $this->assertTrue(in_array('Browse subfolders', $permissionInfo));
+  }
+
 }
