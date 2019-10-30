@@ -41,18 +41,7 @@ class CoreTest extends KernelTestBase {
    */
   protected function setUp() {
     parent::setUp();
-    $this->core = new Core([], "text_textarea_with_summary",
-      [
-        "field_types" => [
-          0 => "text_with_summary",
-        ],
-        "multiple_values" => FALSE,
-        "id" => "text_textarea_with_summary",
-        "label" => $this->t("Text area with a summary"),
-        "class" => TextareaWithSummaryWidget::class,
-        "provider" => "text",
-      ]
-    );
+    $this->core = new Core([], "text_textarea_with_summary", $this->getPluginDefinations());
   }
 
   /**
@@ -60,6 +49,25 @@ class CoreTest extends KernelTestBase {
    */
   public function test() {
     $this->assertEquals('test', 'test');
+  }
+
+  /**
+   * Get plugins definations.
+   *
+   * @return array
+   *   Return plugins definations.
+   */
+  public function getPluginDefinations() {
+    return [
+      "field_types" => [
+        0 => "text_with_summary",
+      ],
+      "multiple_values" => FALSE,
+      "id" => "text_textarea_with_summary",
+      "label" => $this->t("Text area with a summary"),
+      "class" => TextareaWithSummaryWidget::class,
+      "provider" => "text",
+    ];
   }
 
 }
