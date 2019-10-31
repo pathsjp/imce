@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
@@ -6,7 +5,7 @@ namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
-use Drupal\imce\Plugin\ImcePlugin\Core;
+use Drupal\imce\Plugin\ImcePlugin\Delete;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -50,7 +49,7 @@ class DeleteTest extends KernelTestBase {
    */
   protected function setUp() {
     parent::setUp();
-    // $this->core = new Core([], "text_textarea_with_summary", $this->getPluginDefinations());
+    $this->delete = new Delete([], "text_textarea_with_summary", $this->getPluginDefinations());
     // $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
   }
 
@@ -59,6 +58,25 @@ class DeleteTest extends KernelTestBase {
    */
   public function test() {
     $this->assertEquals('test', 'test');
+  }
+
+  /**
+   * Get plugins definations.
+   *
+   * @return array
+   *   Return plugins definations.
+   */
+  public function getPluginDefinations() {
+    return [
+      "field_types" => [
+        0 => "text_with_summary",
+      ],
+      "multiple_values" => FALSE,
+      "id" => "text_textarea_with_summary",
+      "label" => $this->t("Text area with a summary"),
+      "class" => TextareaWithSummaryWidget::class,
+      "provider" => "text",
+    ];
   }
 
 }
