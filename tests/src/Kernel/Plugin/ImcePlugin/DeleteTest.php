@@ -103,4 +103,12 @@ class DeleteTest extends KernelTestBase {
     ];
   }
 
+
+  public function testPermissiomInfo() {
+    $permissionInfo = $this->delete->permissionInfo();
+    $this->assertTrue(is_array($permissionInfo));
+    $this->assertTrue(in_array('Delete files', $permissionInfo));
+    $this->assertTrue(in_array('Delete subfolders', $permissionInfo));
+  }
+
 }
