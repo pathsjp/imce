@@ -6,6 +6,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
 use Drupal\imce\Plugin\ImcePlugin\Delete;
+use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,6 +52,8 @@ class DeleteTest extends KernelTestBase {
     parent::setUp();
     $this->delete = new Delete([], "text_textarea_with_summary", $this->getPluginDefinations());
     $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
+    $this->imceFM->getPost('newFolder', 'test-1');
+    $this->createNewFoder();
   }
 
   /**
@@ -58,6 +61,23 @@ class DeleteTest extends KernelTestBase {
    */
   public function test() {
     $this->assertEquals('test', 'test');
+  }
+
+  public function createNewFoder() {
+    $array = [
+      'weight' => -99,
+      'operations' => [
+        'browse' => "opBrowse",
+        'uuid' => "opUuid",
+      ],
+      'id' => "core",
+      'label' => "Core",
+      'class' => "Drupal\imce\Plugin\ImcePlugin\Core",
+      'provider' => "imce",
+    ];
+
+    $newFolder = new Newfolder([], 'core', $array);
+    $newFolder->opNewfolder($this->imceFM);
   }
 
   /**
@@ -102,7 +122,6 @@ class DeleteTest extends KernelTestBase {
       "token" => "Vof6182Y9jbV1jFfCU0arR2XDI8qs-OfO8c-R-IbkTg",
     ];
   }
-
 
   public function testPermissiomInfo() {
     $permissionInfo = $this->delete->permissionInfo();
