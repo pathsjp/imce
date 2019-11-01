@@ -2,12 +2,9 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
-use Drupal\KernelTests\KernelTestBase;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\editor\Entity\Editor;
 use Drupal\imce\ImceFM;
 use Drupal\imce\Plugin\ImcePlugin\Core;
-use Drupal\Tests\user\Traits\UserCreationTrait;
+use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,10 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @group imce
  */
-class CoreTest extends KernelTestBase {
-
-  use StringTranslationTrait;
-  use UserCreationTrait;
+class CoreTest extends KernelTestBasePlugin {
 
   /**
    * The Imce ckeditor plugin.
