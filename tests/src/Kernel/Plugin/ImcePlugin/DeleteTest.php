@@ -2,11 +2,9 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
-use Drupal\KernelTests\KernelTestBase;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
 use Drupal\imce\Plugin\ImcePlugin\Delete;
-use Drupal\Tests\user\Traits\UserCreationTrait;
+use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,10 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @group imce
  */
-class DeleteTest extends KernelTestBase {
-
-  use StringTranslationTrait;
-  use UserCreationTrait;
+class DeleteTest extends KernelTestBasePlugin {
 
   /**
    * The Imce ckeditor plugin.
@@ -59,50 +54,6 @@ class DeleteTest extends KernelTestBase {
   public function test() {
     $this->assertEquals('test', 'test');
   }
-
-  /**
-   * Get plugins definations.
-   *
-   * @return array
-   *   Return plugins definations.
-   */
-  public function getPluginDefinations() {
-    return [
-      "field_types" => [
-        0 => "text_with_summary",
-      ],
-      "multiple_values" => FALSE,
-      "id" => "text_textarea_with_summary",
-      "label" => $this->t("Text area with a summary"),
-      "class" => TextareaWithSummaryWidget::class,
-      "provider" => "text",
-    ];
-  }
-
-  public function getConf() {
-    return [
-      "extensions" => "*",
-      "maxsize" => '104857600.0',
-      "quota" => 0,
-      "maxwidth" => 0,
-      "maxheight" => 0,
-      "replace" => 0,
-      "thumbnail_style" => "",
-      "folders" => [
-        "." => [
-          "permissions" => [
-            "all" => TRUE,
-          ],
-        ],
-      ],
-      "pid" => "admin",
-      "scheme" => "public",
-      "root_uri" => "public://",
-      "root_url" => "/sites/default/files",
-      "token" => "Vof6182Y9jbV1jFfCU0arR2XDI8qs-OfO8c-R-IbkTg",
-    ];
-  }
-
 
   public function testPermissiomInfo() {
     $permissionInfo = $this->delete->permissionInfo();
