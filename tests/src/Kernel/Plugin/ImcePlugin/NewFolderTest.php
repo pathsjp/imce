@@ -51,4 +51,18 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  public function getPluginDefinations() {
+    return [
+      'weight' => '-15',
+      'operations' => [
+        'newfolder' => "opNewfolder",
+      ],
+      'id' => "newfolder",
+      'label' => "New Folder",
+      'class' => "Drupal\imce\Plugin\ImcePlugin\Newfolder",
+      'provider' => "imce",
+    ];
+
+  }
+
 }
