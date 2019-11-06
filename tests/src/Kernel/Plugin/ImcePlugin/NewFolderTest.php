@@ -44,11 +44,16 @@ class NewFolderTest extends KernelTestBasePlugin {
   protected function setUp() {
     parent::setUp();
     $this->newFolder = new Newfolder([], 'newfolder', $this->getPluginDefinations());
-    // $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
   }
 
   public function test() {
     $this->assertEquals('test', 'test');
+  }
+
+  public function getConf() {
+    return [
+      'permissions' => ['all' => TRUE],
+    ];
   }
 
   public function setParametersRequest() {
