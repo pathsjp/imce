@@ -56,6 +56,12 @@ class NewFolderTest extends KernelTestBasePlugin {
     ];
   }
 
+  public function setActiveFolder() {
+    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
+    $this->imceFM->activeFolder->setPath('.');
+    $this->imceFM->activeFolder->setFm($this->imceFM);
+  }
+
   public function setParametersRequest() {
     $this->imceFM->request->request->add([
       'jsop' => 'newfolder',
