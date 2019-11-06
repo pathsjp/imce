@@ -35,6 +35,8 @@ class NewFolderTest extends KernelTestBasePlugin {
    */
   public static $modules = [
     'user',
+    'config',
+    'file',
     'system',
     'imce',
   ];
@@ -43,6 +45,11 @@ class NewFolderTest extends KernelTestBasePlugin {
    */
   protected function setUp() {
     parent::setUp();
+    $this->installSchema('system', ['sequences']);
+    $this->installConfig('imce');
+    $this->installEntitySchema('user');
+    $this->installEntitySchema('file');
+    $this->installSchema('file', ['file_usage']);
     $this->newFolder = new Newfolder([], 'newfolder', $this->getPluginDefinations());
   }
 
