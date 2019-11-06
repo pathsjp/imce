@@ -51,6 +51,15 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  public function setParametersRequest() {
+    $this->imceFM->request->request->add([
+      'jsop' => 'newfolder',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'newfolder' => 'folder-test',
+    ]);
+  }
+
   public function getPluginDefinations() {
     return [
       'weight' => '-15',
@@ -62,7 +71,6 @@ class NewFolderTest extends KernelTestBasePlugin {
       'class' => "Drupal\imce\Plugin\ImcePlugin\Newfolder",
       'provider' => "imce",
     ];
-
   }
 
 }
