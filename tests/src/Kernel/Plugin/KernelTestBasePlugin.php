@@ -3,9 +3,10 @@
 namespace Drupal\Tests\imce\Kernel\Plugin;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\imce\ImceFM;
+use Drupal\imce\Imce;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+use Symfony\Component\HttpFoundation\Request;
 
 abstract class KernelTestBasePlugin extends KernelTestBase {
 
@@ -30,9 +31,13 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
     'imce',
   ];
 
-  public function setRootFolder() {
-    $this->imceFM->setConf("root_uri", "public://");
-    $this->imceFM->setConf("root_url", "/sites/default/files");
+  public function getImceFM() {
+    $imceFM = Imce::userFM(
+      $this->container->get('current_user'), NULL, Request::create("/imce")
+    );
+    $imceFM->setConf("root_uri", "public://");
+    $imceFM->setConf("root_url", "/sites/default/files");
+    return $imceFM;
   }
 
   public function getConf() {
