@@ -96,4 +96,10 @@ class NewFolderTest extends KernelTestBasePlugin {
     ];
   }
 
+  public function testPermissiomInfo() {
+    $permissionInfo = $this->newFolder->permissionInfo();
+    $this->assertTrue(is_array($permissionInfo));
+    $this->assertTrue(in_array('Create subfolders', $permissionInfo));
+  }
+
 }
