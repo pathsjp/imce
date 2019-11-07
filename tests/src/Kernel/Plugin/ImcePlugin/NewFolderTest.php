@@ -2,7 +2,9 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
+use Drupal\imce\Imce;
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImceFolder;
 use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,17 +42,20 @@ class NewFolderTest extends KernelTestBasePlugin {
     'system',
     'imce',
   ];
+
   /**
    * {@inheritdoc}
    */
   protected function setUp() {
     parent::setUp();
-    $this->installSchema('system', ['sequences']);
-    $this->installConfig('imce');
-    $this->installEntitySchema('user');
-    $this->installEntitySchema('file');
-    $this->installSchema('file', ['file_usage']);
+
+    $this->imceFM = $this->getImceFM();
+
     $this->newFolder = new Newfolder([], 'newfolder', $this->getPluginDefinations());
+    $this->setParametersRequest();
+    $this->setActiveFolder();
+
+    $this->newFolder->opNewfolder($this->imceFM);
   }
 
   public function test() {
