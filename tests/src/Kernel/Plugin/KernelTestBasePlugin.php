@@ -27,9 +27,27 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
    */
   public static $modules = [
     'user',
+    'config',
+    'file',
     'system',
     'imce',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+    $this->installSchema('system', ['sequences']);
+    $this->installConfig('imce');
+    $this->installEntitySchema('user');
+    $this->installEntitySchema('file');
+    $this->installSchema('file', ['file_usage']);
+
+    $this->setUpCurrentUser(['uid' => 1], [
+      'access user profiles', 'administer imce', 'access files overview',
+    ], TRUE);
+  }
 
   public function getImceFM() {
     $imceFM = Imce::userFM(
