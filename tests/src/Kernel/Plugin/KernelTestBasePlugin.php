@@ -30,6 +30,11 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
     'imce',
   ];
 
+  public function setRootFolder() {
+    $this->imceFM->setConf("root_uri", "public://");
+    $this->imceFM->setConf("root_url", "/sites/default/files");
+  }
+
   public function getConf() {
     return [
       "extensions" => "*",
