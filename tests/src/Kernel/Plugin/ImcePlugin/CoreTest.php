@@ -74,6 +74,12 @@ class CoreTest extends KernelTestBasePlugin {
     ];
   }
 
+  /**
+   * The get settings.
+   *
+   * @return array
+   *   Return settings array.
+   */
   public function getConf() {
     return [
       "extensions" => "*",
@@ -98,7 +104,10 @@ class CoreTest extends KernelTestBasePlugin {
     ];
   }
 
-  public function testPermissiomInfo() {
+  /**
+   * Test Core::permissionInfo()
+   */
+  public function testPermissionInfo() {
     $permissionInfo = $this->core->permissionInfo();
     $this->assertTrue(is_array($permissionInfo));
     $this->assertTrue(in_array('Browse files', $permissionInfo));
