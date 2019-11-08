@@ -102,4 +102,14 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertTrue(in_array('Create subfolders', $permissionInfo));
   }
 
+  public function testFolderCreate() {
+    $uriFolder = Imce::joinPaths(
+      $this->imceFM->activeFolder->getUri(), $this->imceFM->getPost('newfolder')
+    );
+
+    $this->assertTrue(is_string($uriFolder));
+    $this->assertTrue(file_exists($uriFolder));
+
+  }
+
 }
