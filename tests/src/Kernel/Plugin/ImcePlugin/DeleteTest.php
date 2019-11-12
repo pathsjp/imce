@@ -55,6 +55,9 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  /**
+   * Test Delete::permissionInfo()
+   */
   public function testPermissiomInfo() {
     $permissionInfo = $this->delete->permissionInfo();
     $this->assertTrue(is_array($permissionInfo));
