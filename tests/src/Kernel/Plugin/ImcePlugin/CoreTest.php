@@ -49,13 +49,6 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
-   * This method will be removed.
-   */
-  public function test() {
-    $this->assertEquals('test', 'test');
-  }
-
-  /**
    * Get plugins definations.
    *
    * @return array
