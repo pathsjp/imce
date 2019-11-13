@@ -58,10 +58,6 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->newFolder->opNewfolder($this->imceFM);
   }
 
-  public function test() {
-    $this->assertEquals('test', 'test');
-  }
-
   /**
    * Get permissions settings.
    *
