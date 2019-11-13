@@ -49,6 +49,17 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Set the request parameters to browser operation.
+   */
+  public function setParametersRequest() {
+    $this->imceFM->request->request->add([
+      'jsop' => 'browser',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+    ]);
+  }
+
+  /**
    * Get plugins definations.
    *
    * @return array
