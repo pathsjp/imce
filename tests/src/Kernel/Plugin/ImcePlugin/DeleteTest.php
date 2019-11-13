@@ -49,6 +49,18 @@ class DeleteTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Set the request parameters.
+   */
+  public function setParametersRequest() {
+    $this->imceFM->request->request->add([
+      'jsop' => 'delete',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'selection' => ['folder-test-delete'],
+    ]);
+  }
+
+  /**
    * Test Delete::permissionInfo()
    */
   public function testPermissiomInfo() {
