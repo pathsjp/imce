@@ -62,18 +62,30 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  /**
+   * Get permissions settings.
+   *
+   * @return array
+   *   Return the array with permissions.
+   */
   public function getConf() {
     return [
       'permissions' => ['all' => TRUE],
     ];
   }
 
+  /**
+   * Set the active folder.
+   */
   public function setActiveFolder() {
     $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
     $this->imceFM->activeFolder->setPath('.');
     $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
+  /**
+   * Set the request parameters.
+   */
   public function setParametersRequest() {
     $this->imceFM->request->request->add([
       'jsop' => 'newfolder',
@@ -83,6 +95,9 @@ class NewFolderTest extends KernelTestBasePlugin {
     ]);
   }
 
+  /**
+   * Get plugins definations to new folder.
+   */
   public function getPluginDefinations() {
     return [
       'weight' => '-15',
@@ -96,12 +111,18 @@ class NewFolderTest extends KernelTestBasePlugin {
     ];
   }
 
+  /**
+   * Test to NewFolder::permissionInfo().
+   */
   public function testPermissiomInfo() {
     $permissionInfo = $this->newFolder->permissionInfo();
     $this->assertTrue(is_array($permissionInfo));
     $this->assertTrue(in_array('Create subfolders', $permissionInfo));
   }
 
+  /**
+   * Test if folder was created.
+   */
   public function testFolderCreate() {
     $uriFolder = Imce::joinPaths(
       $this->imceFM->activeFolder->getUri(), $this->imceFM->getPost('newfolder')
@@ -109,7 +130,6 @@ class NewFolderTest extends KernelTestBasePlugin {
 
     $this->assertTrue(is_string($uriFolder));
     $this->assertTrue(file_exists($uriFolder));
-
   }
 
 }
