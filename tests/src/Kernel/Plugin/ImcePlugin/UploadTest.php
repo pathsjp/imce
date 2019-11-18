@@ -55,4 +55,13 @@ class UploadTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  /**
+   * Test Upload::permissionInfo()
+   */
+  public function testPermissionInfo() {
+    $permissionInfo = $this->upload->permissionInfo();
+    $this->assertTrue(is_array($permissionInfo));
+    $this->assertTrue(in_array('Upload files', $permissionInfo));
+  }
+
 }
