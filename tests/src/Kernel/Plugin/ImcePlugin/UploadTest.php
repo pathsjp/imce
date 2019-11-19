@@ -64,7 +64,6 @@ class UploadTest extends KernelTestBasePlugin {
     $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
-
   /**
    * Set the request parameters.
    */
