@@ -56,6 +56,15 @@ class UploadTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Set the active folder.
+   */
+  public function setActiveFolder() {
+    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
+    $this->imceFM->activeFolder->setPath('.');
+    $this->imceFM->activeFolder->setFm($this->imceFM);
+  }
+
+  /**
    * Test Upload::permissionInfo()
    */
   public function testPermissionInfo() {
