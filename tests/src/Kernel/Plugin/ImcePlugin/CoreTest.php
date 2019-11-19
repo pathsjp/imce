@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImceFolder;
 use Drupal\imce\Plugin\ImcePlugin\Core;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,8 +45,14 @@ class CoreTest extends KernelTestBasePlugin {
    */
   protected function setUp() {
     parent::setUp();
-    $this->core = new Core([], "text_textarea_with_summary", $this->getPluginDefinations());
-    $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
+
+    $this->imceFM = $this->getImceFM();
+
+    $this->core = new Core([], 'core', $this->getPluginDefinations());
+    $this->setParametersRequest();
+    $this->setActiveFolder();
+
+    $this->core->opBrowse($this->imceFM);
   }
 
   /**
