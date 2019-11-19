@@ -64,6 +64,19 @@ class UploadTest extends KernelTestBasePlugin {
     $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
+
+  /**
+   * Set the request parameters.
+   */
+  public function setParametersRequest() {
+    $this->imceFM->request->request->add([
+      'jsop' => 'uploaf',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'files[imce][]' => 'file.txt',
+    ]);
+  }
+
   /**
    * Test Upload::permissionInfo()
    */
