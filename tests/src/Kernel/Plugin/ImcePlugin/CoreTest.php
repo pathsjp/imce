@@ -49,6 +49,15 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Set the active folder.
+   */
+  public function setActiveFolder() {
+    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
+    $this->imceFM->activeFolder->setPath('.');
+    $this->imceFM->activeFolder->setFm($this->imceFM);
+  }
+
+  /**
    * Set the request parameters to browser operation.
    */
   public function setParametersRequest() {
