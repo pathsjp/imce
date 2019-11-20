@@ -36,6 +36,8 @@ class CoreTest extends KernelTestBasePlugin {
    */
   public static $modules = [
     'user',
+    'config',
+    'file',
     'system',
     'imce',
   ];
@@ -132,6 +134,14 @@ class CoreTest extends KernelTestBasePlugin {
     $this->assertTrue(is_array($permissionInfo));
     $this->assertTrue(in_array('Browse files', $permissionInfo));
     $this->assertTrue(in_array('Browse subfolders', $permissionInfo));
+  }
+
+  /**
+   * Test scan().
+   */
+  public function testScan() {
+    $this->assertTrue(is_bool($this->imceFM->activeFolder->scanned));
+    $this->assertTrue($this->imceFM->activeFolder->scanned);
   }
 
 }
