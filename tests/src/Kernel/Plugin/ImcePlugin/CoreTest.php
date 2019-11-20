@@ -85,14 +85,15 @@ class CoreTest extends KernelTestBasePlugin {
    */
   public function getPluginDefinations() {
     return [
-      "field_types" => [
-        0 => "text_with_summary",
+      'weight' => -99,
+      'operations' => [
+        'browse' => "opBrowse",
+        'uuid' => "opUuid",
       ],
-      "multiple_values" => FALSE,
-      "id" => "text_textarea_with_summary",
-      "label" => $this->t("Text area with a summary"),
-      "class" => TextareaWithSummaryWidget::class,
-      "provider" => "text",
+      'id' => "core",
+      'label' => "Core",
+      'class' => "Drupal\imce\Plugin\ImcePlugin\Core",
+      'provider' => "imce",
     ];
   }
 
