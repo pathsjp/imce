@@ -110,6 +110,14 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Test ImceFM::tree.
+   */
+  public function testTree() {
+    $this->assertTrue(is_array($this->imceFM->tree));
+    $this->assert((count($this->imceFM->tree) > 0));
+  }
+
+  /**
    * Test Core::permissionInfo()
    */
   public function testPermissionInfo() {
