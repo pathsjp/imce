@@ -118,6 +118,15 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Test subFolders.
+   */
+  public function testSubfolders() {
+    $subFolders = $this->imceFM->activeFolder->subfolders;
+    $this->assertTrue(is_array($subFolders));
+    $this->assert((count($subFolders) > 0));
+  }
+
+  /**
    * Test Core::permissionInfo()
    */
   public function testPermissionInfo() {
