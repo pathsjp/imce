@@ -105,25 +105,7 @@ class CoreTest extends KernelTestBasePlugin {
    */
   public function getConf() {
     return [
-      "extensions" => "*",
-      "maxsize" => '104857600.0',
-      "quota" => 0,
-      "maxwidth" => 0,
-      "maxheight" => 0,
-      "replace" => 0,
-      "thumbnail_style" => "",
-      "folders" => [
-        "." => [
-          "permissions" => [
-            "all" => TRUE,
-          ],
-        ],
-      ],
-      "pid" => "admin",
-      "scheme" => "public",
-      "root_uri" => "public://",
-      "root_url" => "/sites/default/files",
-      "token" => "Vof6182Y9jbV1jFfCU0arR2XDI8qs-OfO8c-R-IbkTg",
+      'permissions' => ['all' => TRUE],
     ];
   }
 
