@@ -8,6 +8,9 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * The abstract class base to imce kernel tests.
+ */
 abstract class KernelTestBasePlugin extends KernelTestBase {
 
   use StringTranslationTrait;
@@ -50,6 +53,12 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
     ], TRUE);
   }
 
+  /**
+   * The Imce file manager.
+   *
+   * @return \Drupal\imce\ImceFM
+   *   Return the file manager.
+   */
   public function getImceFM() {
     $imceFM = Imce::userFM(
       $this->container->get('current_user'), NULL, Request::create("/imce")
@@ -59,6 +68,12 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
     return $imceFM;
   }
 
+  /**
+   * The get conf.
+   *
+   * @return array
+   *   Return array conf.
+   */
   public function getConf() {
     return [
       "extensions" => "*",
