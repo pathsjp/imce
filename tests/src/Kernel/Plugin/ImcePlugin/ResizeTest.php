@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
 use Drupal\imce\Plugin\ImcePlugin\Core;
@@ -15,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @group imce
  */
 class ResizeTest extends KernelTestBasePlugin {
+
+  use StringTranslationTrait;
 
   /**
    * The Imce ckeditor plugin.
@@ -56,6 +59,15 @@ class ResizeTest extends KernelTestBasePlugin {
    */
   public function test() {
     $this->assertEquals('test', 'test');
+  }
+
+  /**
+   * Set the active folder.
+   */
+  public function setActiveFolder() {
+    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
+    $this->imceFM->activeFolder->setPath('.');
+    $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
 }
