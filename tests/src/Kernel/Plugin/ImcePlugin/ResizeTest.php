@@ -67,6 +67,17 @@ class ResizeTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Get permissions settings.
+   *
+   * @return array
+   *   Return the array with permissions.
+   */
+  public function getConf() {
+    return [
+      'permissions' => ['all' => TRUE],
+    ];
+  }
+  /**
    * Set the active folder.
    */
   public function setActiveFolder() {
