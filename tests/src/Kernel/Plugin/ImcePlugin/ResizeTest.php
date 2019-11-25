@@ -108,4 +108,13 @@ class ResizeTest extends KernelTestBasePlugin {
     ];
   }
 
+  /**
+   * Test Resize::permissionInfo()
+   */
+  public function testPermissiomInfo() {
+    $permissionInfo = $this->resize->permissionInfo();
+    $this->assertTrue(is_array($permissionInfo));
+    $this->assertTrue(in_array($this->t('Resize images'), $permissionInfo));
+  }
+
 }
