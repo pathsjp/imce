@@ -52,6 +52,11 @@ class ResizeTest extends KernelTestBasePlugin {
   protected function setUp() {
     parent::setUp();
     $this->imceFM = $this->getImceFM();
+    $this->resize = new Resize([], 'resize', $this->getPluginDefinations());
+    $this->setParametersRequest();
+    $this->setActiveFolder();
+
+    $this->resize->opResize($this->imceFM);
   }
 
   /**
