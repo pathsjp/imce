@@ -52,11 +52,6 @@ class ResizeTest extends KernelTestBasePlugin {
   protected function setUp() {
     parent::setUp();
     $this->imceFM = $this->getImceFM();
-    $this->resize = new Resize([], 'resize', $this->getPluginDefinations());
-    $this->setParametersRequest();
-    $this->setActiveFolder();
-
-    $this->resize->opResize($this->imceFM);
   }
 
   /**
@@ -90,22 +85,6 @@ class ResizeTest extends KernelTestBasePlugin {
       'height' => '281',
       'copy' => '1',
     ]);
-  }
-
-  /**
-   * Get plugins definations to new folder.
-   */
-  public function getPluginDefinations() {
-    return [
-      'weight' => 0,
-      'operations' => [
-        'resize' => 'opResize',
-      ],
-      'id' => 'resize',
-      'label' => 'Resize',
-      'class' => 'Drupal\imce\Plugin\ImcePlugin\Resize',
-      'provider' => 'imce',
-    ];
   }
 
 }
