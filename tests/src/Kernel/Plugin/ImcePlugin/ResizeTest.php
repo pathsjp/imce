@@ -87,4 +87,20 @@ class ResizeTest extends KernelTestBasePlugin {
     ]);
   }
 
+  /**
+   * Get plugins definations to new folder.
+   */
+  public function getPluginDefinations() {
+    return [
+      'weight' => 0,
+      'operations' => [
+        'resize' => 'opResize',
+      ],
+      'id' => 'resize',
+      'label' => 'Resize',
+      'class' => 'Drupal\imce\Plugin\ImcePlugin\Resize',
+      'provider' => 'imce',
+    ];
+  }
+
 }
