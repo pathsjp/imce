@@ -77,6 +77,7 @@ class ResizeTest extends KernelTestBasePlugin {
       'permissions' => ['all' => TRUE],
     ];
   }
+
   /**
    * Set the active folder.
    */
@@ -95,10 +96,10 @@ class ResizeTest extends KernelTestBasePlugin {
       'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
       'active_path' => '.',
       'selection' => [
-        './image-to-resize.png',
+        './ciandt.jpg',
       ],
-      'width' => '500',
-      'height' => '281',
+      'width' => '315',
+      'height' => '210',
       'copy' => '1',
     ]);
   }
