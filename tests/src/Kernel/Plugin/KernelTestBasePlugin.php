@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin;
 
+use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\Imce;
 use Drupal\KernelTests\KernelTestBase;
@@ -19,7 +20,7 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
   /**
    * The Imce file manager.
    *
-   * @var \Drupal\imce\ImceFM 
+   * @var \Drupal\imce\ImceFM
    */
   public $imceFM;
 
@@ -115,6 +116,17 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
       "class" => TextareaWithSummaryWidget::class,
       "provider" => "text",
     ];
+  }
+
+  /**
+   * Gets test image file.
+   *
+   * @return string
+   *   uri.
+   */
+  protected function getTestFileUri() {
+    \Drupal::service('file_system')->copy(drupal_get_path('module', 'imce') . '/tests/files/ciandt.jpg', PublicStream::basePath());
+    return 'public://ciandt.jpg';
   }
 
 }
