@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
+use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
@@ -111,8 +112,12 @@ class ResizeTest extends KernelTestBasePlugin {
       ],
       'width' => '315',
       'height' => '210',
-      'copy' => '1',
+      'copy' => '0',
     ]);
+  }
+
+  public function setParameterCopy($copy) {
+    $this->imceFM->request->request->add(['copy' => $copy]);
   }
 
   /**
