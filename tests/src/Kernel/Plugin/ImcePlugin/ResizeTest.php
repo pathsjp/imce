@@ -145,4 +145,12 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertTrue(in_array($this->t('Resize images'), $permissionInfo));
   }
 
+  public function testResizeImageWithCopy() {
+    $this->setParameterCopy(1);
+    $this->resize->opResize($this->imceFM);
+    list($width, $height) = getimagesize(PublicStream::basePath() . '/ciandt_0.jpg');
+    $this->assertEqual($width, 315);
+    $this->assertEqual($height, 210);
+  }
+
 }
