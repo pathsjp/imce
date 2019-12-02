@@ -58,8 +58,6 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->setParametersRequest();
     $this->setActiveFolder();
     $this->setSelection();
-
-    $this->resize->opResize($this->imceFM);
   }
 
   /**
