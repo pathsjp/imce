@@ -3,11 +3,9 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\Imce;
-use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
 use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin NewFolder.
