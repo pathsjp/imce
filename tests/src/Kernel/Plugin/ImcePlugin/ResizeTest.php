@@ -4,12 +4,9 @@ namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
-use Drupal\imce\Plugin\ImcePlugin\Core;
 use Drupal\imce\Plugin\ImcePlugin\Resize;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin Core.
