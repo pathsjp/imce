@@ -67,6 +67,9 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertEquals('test', 'test');
   }
 
+  /**
+   * Set the ImceFM::selection[].
+   */
   public function setSelection() {
     $this->imceFM->selection[] = $this->imceFM->createItem(
       'file', "ciandt.jpg", ['path' => '.']
@@ -114,6 +117,9 @@ class ResizeTest extends KernelTestBasePlugin {
     ]);
   }
 
+  /**
+   * Set the parameter copy.
+   */
   public function setParameterCopy($copy) {
     $this->imceFM->request->request->add(['copy' => $copy]);
   }
@@ -143,6 +149,9 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertTrue(in_array($this->t('Resize images'), $permissionInfo));
   }
 
+  /**
+   * Test resizing the image by making a image copy.
+   */
   public function testResizeImageWithCopy() {
     $this->setParameterCopy(1);
     $this->resize->opResize($this->imceFM);
@@ -151,6 +160,9 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertEqual($height, 210);
   }
 
+  /**
+   * Test image resizing without copy.
+   */
   public function testResizeImageWithoutCopy() {
     $this->setParameterCopy(0);
     $this->resize->opResize($this->imceFM);
