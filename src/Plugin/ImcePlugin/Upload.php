@@ -2,6 +2,7 @@
 
 namespace Drupal\imce\Plugin\ImcePlugin;
 
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\file\Entity\FileInterface;
 use Drupal\imce\ImcePluginBase;
 use Drupal\imce\ImceFM;
@@ -48,7 +49,7 @@ class Upload extends ImcePluginBase {
     }
     // Prepare save options.
     $destination = $folder->getUri();
-    $replace = $fm->getConf('replace', FILE_EXISTS_RENAME);
+    $replace = $fm->getConf('replace', FileSystemInterface::EXISTS_RENAME);
     $validators = [];
     // Extension validator.
     $exts = $fm->getConf('extensions', '');
