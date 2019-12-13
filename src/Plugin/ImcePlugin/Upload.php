@@ -3,7 +3,7 @@
 namespace Drupal\imce\Plugin\ImcePlugin;
 
 use Drupal\Core\File\FileSystemInterface;
-use Drupal\file\Entity\FileInterface;
+use Drupal\file\FileInterface;
 use Drupal\imce\ImcePluginBase;
 use Drupal\imce\ImceFM;
 
