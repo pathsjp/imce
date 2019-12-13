@@ -2,6 +2,7 @@
 
 namespace Drupal\imce;
 
+use Drupal\Component\Utility\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Render\BubbleableMetadata;
@@ -93,7 +94,7 @@ class Imce {
     $conf['maxsize'] *= 1048576;
     $conf['quota'] *= 1048576;
     // Check php max upload size.
-    $phpmaxsize = file_upload_max_size();
+    $phpmaxsize = Environment::getUploadMaxSize();
     if ($phpmaxsize && (!$conf['maxsize'] || $phpmaxsize < $conf['maxsize'])) {
       $conf['maxsize'] = $phpmaxsize;
     }

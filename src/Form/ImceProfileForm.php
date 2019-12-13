@@ -2,6 +2,7 @@
 
 namespace Drupal\imce\Form;
 
+use Drupal\Component\Utility\Environment;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -100,7 +101,7 @@ class ImceProfileForm extends EntityForm {
       '#weight' => -9,
     ];
     // File size.
-    $maxsize = file_upload_max_size();
+    $maxsize = Environment::getUploadMaxSize();
     $conf['maxsize'] = [
       '#type' => 'number',
       '#min' => 0,
