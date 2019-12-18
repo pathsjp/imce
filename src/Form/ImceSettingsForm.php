@@ -135,6 +135,12 @@ class ImceSettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
   }
 
+  /**
+   * Get the profile options.
+   *
+   * @return array
+   *   The profile options.
+   */
   public function getProfileOptions() {
     // Prepare profile options.
     $options = ['' => '-' . $this->t('None') . '-'];
@@ -163,6 +169,9 @@ class ImceSettingsForm extends ConfigFormBase {
     return $rp_table;
   }
 
+  /**
+   * Create tables profiles rows.
+   */
   public function buildRowsProfilesTables($roles, $roles_profiles, $wrappers) {
     // Prepare roles.
     $rp_table = [];
