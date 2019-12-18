@@ -42,7 +42,7 @@ class Imce {
   public static function userProfile(AccountProxyInterface $user = NULL, $scheme = NULL) {
     $profiles = &drupal_static(__METHOD__, []);
     $user = $user ?: \Drupal::currentUser();
-    $scheme = isset($scheme) ? $scheme : file_default_scheme();
+    $scheme = isset($scheme) ? $scheme : \Drupal::config('system.file')->get('default_scheme');
     $profile = &$profiles[$user->id()][$scheme];
 
     if (isset($profile)) {
@@ -77,7 +77,7 @@ class Imce {
    */
   public static function userConf(AccountProxyInterface $user = NULL, $scheme = NULL) {
     $user = $user ?: \Drupal::currentUser();
-    $scheme = isset($scheme) ? $scheme : file_default_scheme();
+    $scheme = isset($scheme) ? $scheme : \Drupal::config('system.file')->get('default_scheme');
     if ($profile = static::userProfile($user, $scheme)) {
       $conf = $profile->getConf();
       $conf['pid'] = $profile->id();
