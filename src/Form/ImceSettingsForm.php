@@ -26,6 +26,13 @@ class ImceSettingsForm extends ConfigFormBase {
   protected $entityTypeManager;
 
   /**
+   * The system file config.
+   *
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $configSystemFile;
+
+  /**
    * Provides a StreamWrapper manager.
    *
    * @var Drupal\Core\StreamWrapper\StreamWrapperManagerInterface
@@ -45,6 +52,7 @@ class ImceSettingsForm extends ConfigFormBase {
   public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, StreamWrapperManagerInterface $stream_wrapper_manager) {
     parent::__construct($config_factory);
 
+    $this->configSystemFile = $config_factory->get('system.file');
     $this->entityTypeManager = $entity_type_manager;
     $this->streamWrapperManager = $stream_wrapper_manager;
   }
@@ -146,7 +154,7 @@ class ImceSettingsForm extends ConfigFormBase {
     $wrappers = $this->streamWrapperManager->getNames(StreamWrapperInterface::WRITE_VISIBLE);
     $imce_url = Url::fromRoute('imce.page')->toString();
     $rp_table['#header'] = [$this->t('Role')];
-    $default = file_default_scheme();
+    $default = $this->configSystemFile->get('default_scheme');
     foreach ($wrappers as $scheme => $name) {
       $url = $scheme === $default ? $imce_url : $imce_url . '/' . $scheme;
       $rp_table['#header'][]['data'] = ['#markup' => '<a href="' . $url . '">' . Html::escape($name) . '</a>'];
@@ -190,7 +198,7 @@ class ImceSettingsForm extends ConfigFormBase {
 
     // Add description.
     $rp_table['#prefix'] = '<h3>' . $this->t('Role-profile assignments') . '</h3>';
-    $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. Users with multiple roles get the bottom most profile.') . ' ' . $this->t('The default file system %name is accessible at :url path.', ['%name' => $wrappers[file_default_scheme()], ':url' => $imce_url]) . '</div>';
+    $rp_table['#suffix'] = '<div class="description">' . $this->t('Assign configuration profiles to user roles for available file systems. Users with multiple roles get the bottom most profile.') . ' ' . $this->t('The default file system %name is accessible at :url path.', ['%name' => $wrappers[$this->configSystemFile->get('default_scheme')], ':url' => $imce_url]) . '</div>';
     return $rp_table;
   }
 
