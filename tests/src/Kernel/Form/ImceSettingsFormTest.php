@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Form;
 
 use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Form\FormInterface;
 use Drupal\imce\Form\ImceSettingsForm;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -86,6 +87,17 @@ class ImceSettingsFormTest extends KernelTestBase {
     $this->assertTrue(is_array(
       $this->imceSettingsForm->buildRolesProfilesTable($this->imceConfig->get('roles_profiles')  ?: [])
     ));
+  }
+
+  /**
+   * Test editable config name.
+   */
+  public function testEditableConfigName() {
+    $method = new \ReflectionMethod(ImceSettingsForm::class, 'getEditableConfigNames');
+    $method->setAccessible(TRUE);
+
+    $configName = $method->invoke($this->imceSettingsForm);
+    $this->assertEquals(['imce.settings'], $configName);
   }
 
 }
