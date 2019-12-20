@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\imce\Kernel\Form;
 
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Form\FormInterface;
 use Drupal\imce\Form\ImceSettingsForm;
 use Drupal\KernelTests\KernelTestBase;
@@ -98,6 +97,13 @@ class ImceSettingsFormTest extends KernelTestBase {
 
     $configName = $method->invoke($this->imceSettingsForm);
     $this->assertEquals(['imce.settings'], $configName);
+  }
+
+  /**
+   * Test imce settings form.
+   */
+  public function testImceSettingsForm() {
+    $this->assertInstanceOf(FormInterface::class, $this->imceSettingsForm);
   }
 
 }
