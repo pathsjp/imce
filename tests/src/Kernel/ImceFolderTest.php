@@ -2,19 +2,17 @@
 
 namespace Drupal\Tests\imce\Kernel;
 
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
+use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Drupal\Tests\user\Traits\UserCreationTrait;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Kernel tests for ImceFolder.
  *
  * @group imce
  */
-class ImceFolderTest extends KernelTestBase {
+class ImceFolderTest extends KernelTestBasePlugin {
 
   use StringTranslationTrait;
   use UserCreationTrait;
@@ -42,12 +40,8 @@ class ImceFolderTest extends KernelTestBase {
    */
   protected function setUp() {
     parent::setUp();
-    $this->installConfig(['imce']);
-    $this->installEntitySchema('imce_profile');
-    $this->installEntitySchema('user');
-    $this->setUpCurrentUser();
     $this->imceFolder = new ImceFolder('js', $this->getConf());
-    $this->imceFolder->setFm(new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce")));
+    $this->imceFolder->setFm($this->getImceFM());
     $this->imceFolder->scan();
   }
 
