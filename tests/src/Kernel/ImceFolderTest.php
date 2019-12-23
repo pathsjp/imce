@@ -2,12 +2,9 @@
 
 namespace Drupal\Tests\imce\Kernel;
 
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
-use Drupal\Tests\user\Traits\UserCreationTrait;
-
 
 /**
  * Kernel tests for ImceFolder.
@@ -15,9 +12,6 @@ use Drupal\Tests\user\Traits\UserCreationTrait;
  * @group imce
  */
 class ImceFolderTest extends KernelTestBasePlugin {
-
-  use StringTranslationTrait;
-  use UserCreationTrait;
 
   /**
    * The form delete profile.
