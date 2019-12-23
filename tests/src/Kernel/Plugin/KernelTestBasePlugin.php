@@ -43,8 +43,7 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
     $this->installSchema('system', ['sequences']);
-    $this->installConfig('system');
-    $this->installConfig('imce');
+    $this->installConfig(static::$modules);
     $this->installEntitySchema('user');
     $this->installEntitySchema('file');
     $this->installSchema('file', ['file_usage']);
