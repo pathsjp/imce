@@ -7,6 +7,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\Imce;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+use Drupal\text\Plugin\Field\FieldWidget\TextareaWithSummaryWidget;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
