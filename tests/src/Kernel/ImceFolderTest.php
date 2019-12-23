@@ -45,37 +45,58 @@ class ImceFolderTest extends KernelTestBasePlugin {
     $this->imceFolder->scan();
   }
 
+  /**
+   * Test variable ImceFolder::files after scan.
+   */
   public function testFiles() {
     $files = $this->imceFolder->files;
     $this->assertTrue(is_array(($files)));
   }
 
+  /**
+   * Test variable ImceFolder::subfolders after scan.
+   */
   public function testSubfolders() {
     $subfolders = $this->imceFolder->subfolders;
     $this->assertTrue(is_array(($subfolders)));
   }
 
+  /**
+   * Test variable ImceFolder::name after scan.
+   */
   public function testName() {
     $this->assertTrue(is_string($this->imceFolder->name));
     $this->assertEqual($this->imceFolder->name, 'js');
   }
 
+  /**
+   * Test method ImceFolder::getPath().
+   */
   public function testPath() {
     $this->imceFolder->setPath('js');
     $path = $this->imceFolder->getPath();
     $this->assertTrue(is_string($path));
   }
 
+  /**
+   * Test variable ImceFolder::items after scan.
+   */
   public function testItem() {
     $items = $this->imceFolder->items;
     $this->assertTrue(is_array(($items)));
   }
 
+  /**
+   * Test variable ImceFolder::scanned after scan.
+   */
   public function testScanned() {
     $this->assertTrue(is_bool($this->imceFolder->scanned));
     $this->assertTrue($this->imceFolder->scanned);
   }
 
+  /**
+   * Settings needed to run tests.
+   */
   public function getConf() {
     return [
       "extensions" => "*",
