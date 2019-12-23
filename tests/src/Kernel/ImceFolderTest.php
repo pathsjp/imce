@@ -3,9 +3,11 @@
 namespace Drupal\Tests\imce\Kernel;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+
 
 /**
  * Kernel tests for ImceFolder.
@@ -43,6 +45,13 @@ class ImceFolderTest extends KernelTestBasePlugin {
     $this->imceFolder = new ImceFolder('js', $this->getConf());
     $this->imceFolder->setFm($this->getImceFM());
     $this->imceFolder->scan();
+  }
+
+  /**
+   * Test inherited method ImceFolder::fm().
+   */
+  public function testFM() {
+    $this->assertInstanceOf(ImceFM::class, $this->imceFolder->fm());
   }
 
   /**
