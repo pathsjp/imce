@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImceFolder;
 use Drupal\imce\Plugin\ImcePlugin\Delete;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,15 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->imceFM->selection[0]->parent = new ImceFolder('.', $this->getConf());
     $this->imceFM->selection[0]->parent->setFm($this->imceFM);
     $this->imceFM->selection[0]->parent->setPath('.');
+  }
+
+  /**
+   * Set the active folder.
+   */
+  public function setActiveFolder() {
+    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
+    $this->imceFM->activeFolder->setPath('.');
+    $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
   /**
