@@ -45,7 +45,7 @@ class DeleteTest extends KernelTestBasePlugin {
   protected function setUp() {
     parent::setUp();
     $this->delete = new Delete([], "text_textarea_with_summary", $this->getPluginDefinations());
-    $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
+    $this->imceFM = $this->getImceFM();
   }
 
   /**
