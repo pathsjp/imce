@@ -47,11 +47,7 @@ class ImceSettingsFormTest extends KernelTestBase {
   protected function setUp() {
     parent::setUp();
     $this->imceConfig = $this->container->get('config.factory')->get('imce.settings');
-    $this->imceSettingsForm = new ImceSettingsForm(
-      $this->container->get('config.factory'),
-      $this->container->get('entity_type.manager'),
-      $this->container->get('stream_wrapper_manager')
-    );
+    $this->imceSettingsForm = ImceSettingsForm::create($this->container);
   }
 
   /**
