@@ -40,32 +40,14 @@ class ImceSettingsForm extends ConfigFormBase {
   protected $streamWrapperManager;
 
   /**
-   * Constructs a \Drupal\system\ConfigFormBase object.
-   *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The factory for configuration objects.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   Manages entity type plugin definitions.
-   * @param \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface $stream_wrapper_manager
-   *   Provides a StreamWrapper manager.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, StreamWrapperManagerInterface $stream_wrapper_manager) {
-    parent::__construct($config_factory);
-
-    $this->configSystemFile = $config_factory->get('system.file');
-    $this->entityTypeManager = $entity_type_manager;
-    $this->streamWrapperManager = $stream_wrapper_manager;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory'),
-      $container->get('entity_type.manager'),
-      $container->get('stream_wrapper_manager')
-    );
+    $instance = parent::create($container);
+    $instance->configSystemFile = $container->get('config.factory')->get('system.file');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->streamWrapperManager = $container->get('stream_wrapper_manager');
+    return $instance;
   }
 
   /**
