@@ -168,4 +168,13 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertEqual($height, 210);
   }
 
+  /**
+   * Teste messages on context ImcePlugin\Resize.
+   */
+  public function testMessages() {
+    $messages = $this->imceFM->getMessages();
+    $this->assertTrue(is_array($messages));
+    $this->assertEquals([], $messages);
+  }
+
 }
