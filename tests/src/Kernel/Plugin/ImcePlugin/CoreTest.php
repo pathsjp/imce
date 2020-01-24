@@ -142,4 +142,13 @@ class CoreTest extends KernelTestBasePlugin {
     $this->assertTrue($this->imceFM->activeFolder->scanned);
   }
 
+  /**
+   * Teste messages on context ImcePlugin\Core.
+   */
+  public function testMessages() {
+    $messages = $this->imceFM->getMessages();
+    $this->assertTrue(is_array($messages));
+    $this->assertEquals([], $messages);
+  }
+
 }
