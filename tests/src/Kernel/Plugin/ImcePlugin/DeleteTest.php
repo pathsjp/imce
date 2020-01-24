@@ -90,4 +90,13 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->assertTrue(in_array('Delete subfolders', $permissionInfo));
   }
 
+  /**
+   * Teste messages on context ImcePlugin\Delete.
+   */
+  public function testMessages() {
+    $messages = $this->imceFM->getMessages();
+    $this->assertTrue(is_array($messages));
+    $this->assertEquals([], $messages);
+  }
+
 }
