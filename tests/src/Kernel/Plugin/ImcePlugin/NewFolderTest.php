@@ -126,4 +126,13 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertTrue(file_exists($uriFolder));
   }
 
+  /**
+   * Teste messages on context ImcePlugin\NewFolder.
+   */
+  public function testMessages() {
+    $messages = $this->imceFM->getMessages();
+    $this->assertTrue(is_array($messages));
+    $this->assertEquals([], $messages);
+  }
+
 }
