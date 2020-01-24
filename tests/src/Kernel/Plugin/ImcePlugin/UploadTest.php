@@ -85,4 +85,13 @@ class UploadTest extends KernelTestBasePlugin {
     $this->assertTrue(in_array('Upload files', $permissionInfo));
   }
 
+  /**
+   * Teste messages on context ImcePlugin\Upload.
+   */
+  public function testMessages() {
+    $messages = $this->imceFM->getMessages();
+    $this->assertTrue(is_array($messages));
+    $this->assertEquals([], $messages);
+  }
+
 }
