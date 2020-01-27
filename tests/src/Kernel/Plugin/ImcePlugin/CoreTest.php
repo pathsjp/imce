@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\ImceFolder;
+use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Core;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 
@@ -105,6 +106,13 @@ class CoreTest extends KernelTestBasePlugin {
     return [
       'permissions' => ['all' => TRUE],
     ];
+  }
+
+  /**
+   * Test core type.
+   */
+  public function testCore() {
+    $this->assertInstanceOf(ImcePluginInterface::class, $this->core);
   }
 
   /**
