@@ -5,6 +5,7 @@ namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\imce\ImceFolder;
+use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Resize;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 
@@ -175,6 +176,13 @@ class ResizeTest extends KernelTestBasePlugin {
     $messages = $this->imceFM->getMessages();
     $this->assertTrue(is_array($messages));
     $this->assertEquals([], $messages);
+  }
+
+  /**
+   * Test Resize type.
+   */
+  public function testCore() {
+    $this->assertInstanceOf(ImcePluginInterface::class, $this->resize);
   }
 
 }
