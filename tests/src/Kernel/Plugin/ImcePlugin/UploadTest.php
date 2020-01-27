@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Upload;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,13 @@ class UploadTest extends KernelTestBasePlugin {
     $messages = $this->imceFM->getMessages();
     $this->assertTrue(is_array($messages));
     $this->assertEquals([], $messages);
+  }
+
+  /**
+   * Test Upload type.
+   */
+  public function testCore() {
+    $this->assertInstanceOf(ImcePluginInterface::class, $this->upload);
   }
 
 }
