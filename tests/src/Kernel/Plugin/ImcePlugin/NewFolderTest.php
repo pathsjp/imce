@@ -4,6 +4,7 @@ namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\Imce;
 use Drupal\imce\ImceFolder;
+use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 
@@ -133,6 +134,13 @@ class NewFolderTest extends KernelTestBasePlugin {
     $messages = $this->imceFM->getMessages();
     $this->assertTrue(is_array($messages));
     $this->assertEquals([], $messages);
+  }
+
+  /**
+   * Test NewFolder type.
+   */
+  public function testCore() {
+    $this->assertInstanceOf(ImcePluginInterface::class, $this->newFolder);
   }
 
 }
