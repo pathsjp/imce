@@ -159,4 +159,11 @@ class CoreTest extends KernelTestBasePlugin {
     $this->assertEquals([], $messages);
   }
 
+  /**
+   * Test operation of delete.
+   */
+  public function testOperation() {
+    $this->assertEquals($this->imceFM->getOp(), 'browser');
+  }
+
 }
