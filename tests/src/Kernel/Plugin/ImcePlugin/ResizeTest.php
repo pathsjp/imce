@@ -185,4 +185,11 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->assertInstanceOf(ImcePluginInterface::class, $this->resize);
   }
 
+  /**
+   * Test resize operation.
+   */
+  public function testOperation() {
+    $this->assertEquals($this->imceFM->getOp(), 'resize');
+  }
+
 }
