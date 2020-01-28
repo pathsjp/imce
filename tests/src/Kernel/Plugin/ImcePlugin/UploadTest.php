@@ -3,6 +3,7 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Upload;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
@@ -45,8 +46,11 @@ class UploadTest extends KernelTestBasePlugin {
    */
   protected function setUp() {
     parent::setUp();
-    $this->upload = new Upload([], "text_textarea_with_summary", $this->getPluginDefinations());
-    $this->imceFM = new ImceFM($this->getConf(), \Drupal::currentUser(), Request::create("/imce"));
+    $this->imceFM = $this->getImceFM();
+    $this->upload = new Upload([], "upload", $this->getPluginDefinations());
+
+    $this->setParametersRequest();
+    $this->setActiveFolder();
   }
 
   /**
@@ -70,7 +74,7 @@ class UploadTest extends KernelTestBasePlugin {
    */
   public function setParametersRequest() {
     $this->imceFM->request->request->add([
-      'jsop' => 'uploaf',
+      'jsop' => 'upload',
       'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
       'active_path' => '.',
       'files[imce][]' => 'file.txt',
@@ -100,6 +104,13 @@ class UploadTest extends KernelTestBasePlugin {
    */
   public function testCore() {
     $this->assertInstanceOf(ImcePluginInterface::class, $this->upload);
+  }
+
+  /**
+   * Test upload operation.
+   */
+  public function testOperation() {
+    $this->assertEquals($this->imceFM->getOp(), 'upload');
   }
 
 }
