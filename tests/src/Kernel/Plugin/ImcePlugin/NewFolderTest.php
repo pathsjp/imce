@@ -143,4 +143,11 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->assertInstanceOf(ImcePluginInterface::class, $this->newFolder);
   }
 
+  /**
+   * Test operation of newFolder.
+   */
+  public function testOperation() {
+    $this->assertEquals($this->imceFM->getOp(), 'newfolder');
+  }
+
 }
