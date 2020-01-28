@@ -35,6 +35,8 @@ class DeleteTest extends KernelTestBasePlugin {
    */
   public static $modules = [
     'user',
+    'config',
+    'file',
     'system',
     'imce',
   ];
@@ -44,8 +46,41 @@ class DeleteTest extends KernelTestBasePlugin {
    */
   protected function setUp() {
     parent::setUp();
-    $this->delete = new Delete([], "text_textarea_with_summary", $this->getPluginDefinations());
+    $this->delete = new Delete([], "delete", $this->getPluginDefinations());
     $this->imceFM = $this->getImceFM();
+    $this->setParametersRequest();
+    $this->delete->opDelete($this->imceFM);
+  }
+
+  /**
+   * Get plugins definations.
+   *
+   * @return array
+   *   Return plugins definations.
+   */
+  public function getPluginDefinations() {
+    return [
+      'weight' => -5,
+      'operations' => [
+        'delete' => "opDelete",
+      ],
+      'id' => 'delete',
+      'label' => 'Delete',
+      'class' => 'Drupal\imce\Plugin\ImcePlugin\Delete',
+      'provider' => 'imce',
+    ];
+  }
+
+  /**
+   * Set the request parameters.
+   */
+  public function setParametersRequest() {
+    $this->imceFM->request->request->add([
+      'jsop' => 'delete',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'selection' => ['folder-test-delete'],
+    ]);
   }
 
   /**
@@ -67,18 +102,6 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
     $this->imceFM->activeFolder->setPath('.');
     $this->imceFM->activeFolder->setFm($this->imceFM);
-  }
-
-  /**
-   * Set the request parameters.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'delete',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-      'selection' => ['folder-test-delete'],
-    ]);
   }
 
   /**
@@ -105,6 +128,13 @@ class DeleteTest extends KernelTestBasePlugin {
    */
   public function testCore() {
     $this->assertInstanceOf(ImcePluginInterface::class, $this->delete);
+  }
+
+  /**
+   * Test operation of delete.
+   */
+  public function testOperation() {
+    $this->assertEquals($this->imceFM->getOp(), 'delete');
   }
 
 }
