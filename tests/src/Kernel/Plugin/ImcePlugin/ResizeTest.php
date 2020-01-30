@@ -8,6 +8,8 @@ use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Resize;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin Core.
