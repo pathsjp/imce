@@ -66,6 +66,31 @@ class ResizeTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Get the request parameter.
+   *
+   * @return \Symfony\Component\HttpFoundation\Request
+   *   The request object.
+   */
+  public function getResquest() {
+    $request = Request::create("/imce", 'POST', [
+      'jsop' => 'resize',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'selection' => [
+        './ciandt.jpg',
+      ],
+      'width' => '315',
+      'height' => '210',
+      'copy' => '0',
+    ]);
+    $session = new Session();
+    $session->set('imce_active_path', '.');
+    $request->setSession($session);
+
+    return $request;
+  }
+
+  /**
    * Set the ImceFM::selection[].
    */
   public function setSelection() {
