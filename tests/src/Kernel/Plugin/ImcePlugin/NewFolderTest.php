@@ -7,6 +7,8 @@ use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin NewFolder.
@@ -55,6 +57,26 @@ class NewFolderTest extends KernelTestBasePlugin {
     $this->setActiveFolder();
 
     $this->newFolder->opNewfolder($this->imceFM);
+  }
+
+  /**
+   * Getter the request parameter.
+   *
+   * @return \Symfony\Component\HttpFoundation\Request
+   *   The request object.
+   */
+  public function getResquest() {
+    $request = Request::create("/imce", 'POST', [
+      'jsop' => 'newfolder',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'newfolder' => 'folder-test',
+    ]);
+    $session = new Session();
+    $session->set('imce_active_path', '.');
+    $request->setSession($session);
+
+    return $request;
   }
 
   /**
