@@ -8,6 +8,7 @@ use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Upload;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin Core.
@@ -51,6 +52,26 @@ class UploadTest extends KernelTestBasePlugin {
 
     $this->setParametersRequest();
     $this->setActiveFolder();
+  }
+
+  /**
+   * Get the request parameter.
+   *
+   * @return \Symfony\Component\HttpFoundation\Request
+   *   The request object.
+   */
+  public function getResquest() {
+    $request = Request::create("/imce", 'POST', [
+      'jsop' => 'upload',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'files[imce][]' => 'file.txt',
+    ]);
+    $session = new Session();
+    $session->set('imce_active_path', '.');
+    $request->setSession($session);
+
+    return $request;
   }
 
   /**
