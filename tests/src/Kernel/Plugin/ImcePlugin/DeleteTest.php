@@ -6,6 +6,8 @@ use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Delete;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Kernel tests for Imce plugins for Imce Plugin Core.
@@ -50,6 +52,26 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->imceFM = $this->getImceFM();
     $this->setParametersRequest();
     $this->delete->opDelete($this->imceFM);
+  }
+
+  /**
+   * Get the request parameter.
+   *
+   * @return \Symfony\Component\HttpFoundation\Request
+   *   The request object.
+   */
+  public function getResquest() {
+    $request = Request::create("/imce", 'POST', [
+      'jsop' => 'delete',
+      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
+      'active_path' => '.',
+      'selection' => ['folder-test-delete'],
+    ]);
+    $session = new Session();
+    $session->set('imce_active_path', '.');
+    $request->setSession($session);
+
+    return $request;
   }
 
   /**
