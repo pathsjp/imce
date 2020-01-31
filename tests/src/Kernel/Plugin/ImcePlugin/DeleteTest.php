@@ -60,7 +60,7 @@ class DeleteTest extends KernelTestBasePlugin {
    * @return \Symfony\Component\HttpFoundation\Request
    *   The request object.
    */
-  public function getResquest() {
+  public function getRequest() {
     $request = Request::create("/imce", 'POST', [
       'jsop' => 'delete',
       'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',

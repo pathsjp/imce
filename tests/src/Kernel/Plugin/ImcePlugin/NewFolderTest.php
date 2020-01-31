@@ -65,7 +65,7 @@ class NewFolderTest extends KernelTestBasePlugin {
    * @return \Symfony\Component\HttpFoundation\Request
    *   The request object.
    */
-  public function getResquest() {
+  public function getRequest() {
     $request = Request::create("/imce", 'POST', [
       'jsop' => 'newfolder',
       'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
