@@ -54,9 +54,8 @@ class ResizeTest extends KernelTestBasePlugin {
     parent::setUp();
     $this->imceFM = $this->getImceFM();
     $this->getTestFileUri();
-    $this->resize = new Resize([], 'resize', $this->getPluginDefinations());
-    $this->setParametersRequest();
-    $this->setActiveFolder();
+    $this->resize = new Resize([], 'resize', []);
+
     $this->setSelection();
   }
 
@@ -96,6 +95,7 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->imceFM->selection[] = $this->imceFM->createItem(
       'file', "ciandt.jpg", ['path' => '.']
     );
+    // $this->imceFM->getConf()
     $this->imceFM->selection[0]->parent = new ImceFolder('.', $this->getConf());
     $this->imceFM->selection[0]->parent->setFm($this->imceFM);
     $this->imceFM->selection[0]->parent->setPath('.');
@@ -111,32 +111,6 @@ class ResizeTest extends KernelTestBasePlugin {
     return [
       'permissions' => ['all' => TRUE],
     ];
-  }
-
-  /**
-   * Set the active folder.
-   */
-  public function setActiveFolder() {
-    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
-    $this->imceFM->activeFolder->setPath('.');
-    $this->imceFM->activeFolder->setFm($this->imceFM);
-  }
-
-  /**
-   * Set the request parameters.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'resize',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-      'selection' => [
-        './ciandt.jpg',
-      ],
-      'width' => '315',
-      'height' => '210',
-      'copy' => '0',
-    ]);
   }
 
   /**
