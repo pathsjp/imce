@@ -51,10 +51,7 @@ class NewFolderTest extends KernelTestBasePlugin {
     parent::setUp();
 
     $this->imceFM = $this->getImceFM();
-
-    $this->newFolder = new Newfolder([], 'newfolder', $this->getPluginDefinations());
-    $this->setParametersRequest();
-    $this->setActiveFolder();
+    $this->newFolder = new Newfolder([], 'newfolder', []);
 
     $this->newFolder->opNewfolder($this->imceFM);
   }
@@ -86,27 +83,6 @@ class NewFolderTest extends KernelTestBasePlugin {
     return [
       'permissions' => ['all' => TRUE],
     ];
-  }
-
-  /**
-   * Set the active folder.
-   */
-  public function setActiveFolder() {
-    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
-    $this->imceFM->activeFolder->setPath('.');
-    $this->imceFM->activeFolder->setFm($this->imceFM);
-  }
-
-  /**
-   * Set the request parameters.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'newfolder',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-      'newfolder' => 'folder-test',
-    ]);
   }
 
   /**
