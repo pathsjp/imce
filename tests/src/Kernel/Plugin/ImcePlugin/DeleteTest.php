@@ -48,9 +48,9 @@ class DeleteTest extends KernelTestBasePlugin {
    */
   protected function setUp() {
     parent::setUp();
-    $this->delete = new Delete([], "delete", $this->getPluginDefinations());
     $this->imceFM = $this->getImceFM();
-    $this->setParametersRequest();
+    $this->delete = new Delete([], "delete", []);
+
     $this->delete->opDelete($this->imceFM);
   }
 
@@ -69,58 +69,6 @@ class DeleteTest extends KernelTestBasePlugin {
     $request->setSession($session);
 
     return $request;
-  }
-
-  /**
-   * Get plugins definations.
-   *
-   * @return array
-   *   Return plugins definations.
-   */
-  public function getPluginDefinations() {
-    return [
-      'weight' => -5,
-      'operations' => [
-        'delete' => "opDelete",
-      ],
-      'id' => 'delete',
-      'label' => 'Delete',
-      'class' => 'Drupal\imce\Plugin\ImcePlugin\Delete',
-      'provider' => 'imce',
-    ];
-  }
-
-  /**
-   * Set the request parameters.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'delete',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-      'selection' => ['folder-test-delete'],
-    ]);
-  }
-
-  /**
-   * Set the ImceFM::selection[].
-   */
-  public function setSelection() {
-    $this->imceFM->selection[] = $this->imceFM->createItem(
-      'file', "ciandt.jpg", ['path' => '.']
-    );
-    $this->imceFM->selection[0]->parent = new ImceFolder('.', $this->getConf());
-    $this->imceFM->selection[0]->parent->setFm($this->imceFM);
-    $this->imceFM->selection[0]->parent->setPath('.');
-  }
-
-  /**
-   * Set the active folder.
-   */
-  public function setActiveFolder() {
-    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
-    $this->imceFM->activeFolder->setPath('.');
-    $this->imceFM->activeFolder->setFm($this->imceFM);
   }
 
   /**
