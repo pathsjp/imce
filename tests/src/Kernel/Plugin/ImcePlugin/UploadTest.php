@@ -49,9 +49,6 @@ class UploadTest extends KernelTestBasePlugin {
     parent::setUp();
     $this->imceFM = $this->getImceFM();
     $this->upload = new Upload([], "upload", $this->getPluginDefinations());
-
-    $this->setParametersRequest();
-    $this->setActiveFolder();
   }
 
   /**
@@ -76,27 +73,6 @@ class UploadTest extends KernelTestBasePlugin {
    */
   public function test() {
     $this->assertEquals('test', 'test');
-  }
-
-  /**
-   * Set the active folder.
-   */
-  public function setActiveFolder() {
-    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
-    $this->imceFM->activeFolder->setPath('.');
-    $this->imceFM->activeFolder->setFm($this->imceFM);
-  }
-
-  /**
-   * Set the request parameters.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'upload',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-      'files[imce][]' => 'file.txt',
-    ]);
   }
 
   /**
