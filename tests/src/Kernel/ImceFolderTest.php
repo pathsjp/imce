@@ -5,6 +5,8 @@ namespace Drupal\Tests\imce\Kernel;
 use Drupal\imce\ImceFM;
 use Drupal\imce\ImceFolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Kernel tests for ImceFolder.
@@ -39,6 +41,18 @@ class ImceFolderTest extends KernelTestBasePlugin {
     $this->imceFolder = new ImceFolder('js', $this->getConf());
     $this->imceFolder->setFm($this->getImceFM());
     $this->imceFolder->scan();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function getRequest() {
+    $request = Request::create("/imce", 'POST', []);
+    $session = new Session();
+    $session->set('imce_active_path', '.');
+    $request->setSession($session);
+
+    return $request;
   }
 
   /**
