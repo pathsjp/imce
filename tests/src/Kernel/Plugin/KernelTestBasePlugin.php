@@ -62,12 +62,20 @@ abstract class KernelTestBasePlugin extends KernelTestBase {
    */
   public function getImceFM() {
     $imceFM = Imce::userFM(
-      $this->container->get('current_user'), NULL, Request::create("/imce")
+      $this->container->get('current_user'), NULL, $this->getRequest()
     );
     $imceFM->setConf("root_uri", "public://");
     $imceFM->setConf("root_url", "/sites/default/files");
     return $imceFM;
   }
+
+  /**
+   * Get the request parameter.
+   *
+   * @return \Symfony\Component\HttpFoundation\Request
+   *   The request object.
+   */
+  abstract public function getRequest();
 
   /**
    * The get conf.

@@ -59,10 +59,7 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
-   * Getter the request parameter.
-   *
-   * @return \Symfony\Component\HttpFoundation\Request
-   *   The request object.
+   * {@inheritDoc}
    */
   public function getRequest() {
     $request = Request::create("/imce", 'POST', [
