@@ -50,10 +50,7 @@ class CoreTest extends KernelTestBasePlugin {
     parent::setUp();
 
     $this->imceFM = $this->getImceFM();
-
-    $this->core = new Core([], 'core', $this->getPluginDefinations());
-    $this->setParametersRequest();
-    $this->setActiveFolder();
+    $this->core = new Core([], 'core', []);
 
     $this->core->opBrowse($this->imceFM);
   }
@@ -72,46 +69,6 @@ class CoreTest extends KernelTestBasePlugin {
     $request->setSession($session);
 
     return $request;
-  }
-
-  /**
-   * Set the active folder.
-   */
-  public function setActiveFolder() {
-    $this->imceFM->activeFolder = new ImceFolder('.', $this->getConf());
-    $this->imceFM->activeFolder->setPath('.');
-    $this->imceFM->activeFolder->setFm($this->imceFM);
-  }
-
-  /**
-   * Set the request parameters to browser operation.
-   */
-  public function setParametersRequest() {
-    $this->imceFM->request->request->add([
-      'jsop' => 'browser',
-      'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
-      'active_path' => '.',
-    ]);
-  }
-
-  /**
-   * Get plugins definations.
-   *
-   * @return array
-   *   Return plugins definations.
-   */
-  public function getPluginDefinations() {
-    return [
-      'weight' => -99,
-      'operations' => [
-        'browse' => "opBrowse",
-        'uuid' => "opUuid",
-      ],
-      'id' => "core",
-      'label' => "Core",
-      'class' => "Drupal\imce\Plugin\ImcePlugin\Core",
-      'provider' => "imce",
-    ];
   }
 
   /**
@@ -151,7 +108,7 @@ class CoreTest extends KernelTestBasePlugin {
   }
 
   /**
-   * Test Core::permissionInfo()
+   * Test Core::permissionInfo().
    */
   public function testPermissionInfo() {
     $permissionInfo = $this->core->permissionInfo();
@@ -181,7 +138,7 @@ class CoreTest extends KernelTestBasePlugin {
    * Test operation of delete.
    */
   public function testOperation() {
-    $this->assertEquals($this->imceFM->getOp(), 'browser');
+    $this->assertEquals($this->imceFM->getOp(), 'browse');
   }
 
 }
