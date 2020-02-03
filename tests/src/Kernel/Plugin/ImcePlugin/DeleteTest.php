@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
+use Drupal\imce\ImceFile;
 use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Delete;
@@ -69,6 +70,21 @@ class DeleteTest extends KernelTestBasePlugin {
     $request->setSession($session);
 
     return $request;
+  }
+
+  /**
+   * Set the ImceFM::selection[].
+   */
+  public function setSelectionFile() {
+    $this->imceFM->selection[] = $this->imceFM->createItem(
+      'file', "ciandt.jpg", ['path' => '.']
+    );
+    // $this->imceFM->getConf()
+    $this->imceFM->selection[0] = new ImceFile('ciandt.jpg');
+    $this->imceFM->selection[0]->setFm($this->imceFM);
+    $this->imceFM->selection[0]->parent = new ImceFolder('.', $this->getConf());
+    $this->imceFM->selection[0]->parent->setFm($this->imceFM);
+    $this->imceFM->selection[0]->parent->setPath('.');
   }
 
   /**
