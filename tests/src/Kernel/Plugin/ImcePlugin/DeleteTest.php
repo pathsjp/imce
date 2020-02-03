@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
+use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\imce\ImceFile;
 use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
@@ -98,6 +99,15 @@ class DeleteTest extends KernelTestBasePlugin {
     return [
       'permissions' => ['all' => TRUE],
     ];
+  }
+
+  /**
+   * Test file delete.
+   */
+  public function testFileDelete() {
+    $this->assertTrue(file_exists(PublicStream::basePath() . '/ciandt.jpg'));
+    $this->delete->opDelete($this->imceFM);
+    $this->assertTrue(!file_exists(PublicStream::basePath() . '/ciandt.jpg'));
   }
 
   /**
