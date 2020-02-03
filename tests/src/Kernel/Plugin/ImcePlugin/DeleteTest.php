@@ -64,7 +64,7 @@ class DeleteTest extends KernelTestBasePlugin {
       'jsop' => 'delete',
       'token' => 'LLuA1R0aUOzoduSJkJxN5aoHVdJnQk8LbTBgdivOU4Y',
       'active_path' => '.',
-      'selection' => ['folder-test-delete'],
+      'selection' => ['ciandt.jpg'],
     ]);
     $session = new Session();
     $session->set('imce_active_path', '.');
