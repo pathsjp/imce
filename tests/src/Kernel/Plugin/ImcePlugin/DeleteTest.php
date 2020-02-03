@@ -52,7 +52,8 @@ class DeleteTest extends KernelTestBasePlugin {
     $this->imceFM = $this->getImceFM();
     $this->delete = new Delete([], "delete", []);
 
-    $this->delete->opDelete($this->imceFM);
+    $this->getTestFileUri();
+    $this->setSelectionFile();
   }
 
   /**
