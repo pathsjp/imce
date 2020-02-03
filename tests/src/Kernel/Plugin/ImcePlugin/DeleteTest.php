@@ -88,6 +88,18 @@ class DeleteTest extends KernelTestBasePlugin {
   }
 
   /**
+   * Get permissions settings.
+   *
+   * @return array
+   *   Return the array with permissions.
+   */
+  public function getConf() {
+    return [
+      'permissions' => ['all' => TRUE],
+    ];
+  }
+
+  /**
    * Test Delete::permissionInfo()
    */
   public function testPermissiomInfo() {
