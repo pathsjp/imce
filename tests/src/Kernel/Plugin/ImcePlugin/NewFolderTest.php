@@ -3,7 +3,6 @@
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
 use Drupal\imce\Imce;
-use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Newfolder;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;

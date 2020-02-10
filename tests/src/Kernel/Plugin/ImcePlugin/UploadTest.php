@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\imce\Kernel\Plugin\ImcePlugin;
 
-use Drupal\imce\ImceFM;
-use Drupal\imce\ImceFolder;
 use Drupal\imce\ImcePluginInterface;
 use Drupal\imce\Plugin\ImcePlugin\Upload;
 use Drupal\Tests\imce\Kernel\Plugin\KernelTestBasePlugin;

@@ -8,7 +8,6 @@ use Drupal\imce\Imce;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\text\Plugin\Field\FieldWidget\TextareaWithSummaryWidget;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * The abstract class base to imce kernel tests.
