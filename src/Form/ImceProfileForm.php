@@ -171,7 +171,7 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
     ];
-    // Image thumbnails
+    // Image thumbnails.
     if (function_exists('image_style_options')) {
       $conf['thumbnail_style'] = [
         '#type' => 'select',

@@ -71,7 +71,8 @@ editing existing images.
 
 ## Tests
 
-* Before of run tests you needs create a shortcut for core/phpunit.xml.dist in your root project.
+* Before of run tests you needs create a shortcut for 
+core/phpunit.xml.dist in your root project.
 
 ### Executing UnitTest
 
