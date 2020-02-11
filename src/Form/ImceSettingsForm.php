@@ -40,6 +40,9 @@ class ImceSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
+    /**
+     * @var \Drupal\imce\Form\ImceSettingsForm
+     */
     $instance = parent::create($container);
     $instance->configSystemFile = $container->get('config.factory')->get('system.file');
     $instance->entityTypeManager = $container->get('entity_type.manager');
