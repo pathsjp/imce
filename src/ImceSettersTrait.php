@@ -1,5 +1,7 @@
 <?php
 
+namespace Drupal\imce;
+
 use Drupal\Core\Config\ImmutableConfig;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
