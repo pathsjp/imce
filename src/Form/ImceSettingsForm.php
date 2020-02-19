@@ -7,6 +7,7 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperInterface;
 use Drupal\Core\Url;
+use Drupal\imce\ImceSettersTrait;
 use Drupal\user\RoleInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -14,6 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Imce settings form.
  */
 class ImceSettingsForm extends ConfigFormBase {
+
+  use ImceSettersTrait;
 
   /**
    * Manages entity type plugin definitions.
@@ -44,9 +47,10 @@ class ImceSettingsForm extends ConfigFormBase {
      * @var \Drupal\imce\Form\ImceSettingsForm
      */
     $instance = parent::create($container);
-    $instance->configSystemFile = $container->get('config.factory')->get('system.file');
-    $instance->entityTypeManager = $container->get('entity_type.manager');
-    $instance->streamWrapperManager = $container->get('stream_wrapper_manager');
+    $instance->setConfigSystemFile($container->get('config.factory')->get('system.file'));
+    $instance->setEntityTypeManager($container->get('entity_type.manager'));
+    $instance->setStreamWrapperManager($container->get('stream_wrapper_manager'));
+
     return $instance;
   }
 
