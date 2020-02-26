@@ -39,7 +39,8 @@ trait ImceSettersTrait {
    *   The entity type manager.
    */
   protected function setEntityTypeManager(EntityTypeManagerInterface $entityTypeManager) {
-    $this->entityTypeManager = $entityTypeManager;;
+    $this->entityTypeManager = $entityTypeManager;
+    return $this;
   }
 
   /**
@@ -50,6 +51,7 @@ trait ImceSettersTrait {
    */
   protected function setConfigSystemFile(ImmutableConfig $configSystemFile) {
     $this->configSystemFile = $configSystemFile;
+    return $this;
   }
 
   /**
@@ -60,6 +62,7 @@ trait ImceSettersTrait {
    */
   protected function setStreamWrapperManager(StreamWrapperManagerInterface $streamWrapperManager) {
     $this->streamWrapperManager = $streamWrapperManager;
+    return $this;
   }
 
 }
