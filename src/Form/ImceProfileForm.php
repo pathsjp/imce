@@ -188,6 +188,12 @@ class ImceProfileForm extends EntityForm {
       'description' => ['#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', ['@tokens' => '[user:uid], [user:name]']) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'],
       '#weight' => 10,
     ];
+    $conf['folders']['token_tree'] = [
+      '#theme' => 'token_tree_link',
+      '#token_types' => ['user'],
+      '#show_restricted' => TRUE,
+      '#global_types' => FALSE,
+    ];
     $folders = $imce_profile->getConf('folders', []);
     $index = 0;
     foreach ($folders as $folder) {
