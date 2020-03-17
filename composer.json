@@ -1,7 +1,14 @@
 {
-  "name": "drupal/imce",
-  "description": "Provides a file manager supporting personal folders.",
-  "type": "drupal-module",
-  "homepage": "https://drupal.org/project/imce",
-  "license": "GPL-2.0+"
+    "name": "drupal/imce",
+    "description": "Provides a file manager supporting personal folders.",
+    "type": "drupal-module",
+    "homepage": "https://drupal.org/project/imce",
+    "authors": [
+        {
+            "name": "See contributors",
+            "homepage": "https://www.drupal.org/node/2841111/committers",
+            "role": "Developer"
+        }
+    ],
+    "license": "GPL-2.0+"
 }
