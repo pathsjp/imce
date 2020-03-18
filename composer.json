@@ -10,5 +10,9 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/imce?version=8.x",
+        "source": "https://git.drupalcode.org/project/imce"
+    },
     "license": "GPL-2.0+"
 }
