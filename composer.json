@@ -2,6 +2,7 @@
     "name": "drupal/imce",
     "description": "Provides a file manager supporting personal folders.",
     "type": "drupal-module",
+    "minimum-stability": "dev",
     "homepage": "https://drupal.org/project/imce",
     "authors": [
         {
