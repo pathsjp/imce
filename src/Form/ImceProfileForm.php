@@ -180,6 +180,13 @@ class ImceProfileForm extends EntityForm {
         '#default_value' => $imce_profile->getConf('thumbnail_style'),
         '#description' => $this->t('Select a thumbnail style from the list to make the file browser display inline image previews. Note that this could reduce the performance of the file browser drastically.'),
       ];
+
+      $conf['thumbnail_grid_style'] = [
+        '#type' => 'checkbox',
+        '#title' => $this->t('Thumbnail grid style'),
+        '#default_value' => $imce_profile->getConf('thumbnail_grid_style'),
+        '#description' => $this->t('Check it if you want to display the thumbnail in a grid. If not checked it will display the thumbnail in a list.'),
+      ];
     }
     // Folders.
     $conf['folders'] = [
