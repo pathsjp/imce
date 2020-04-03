@@ -27,6 +27,7 @@ class ImceProfileForm extends EntityForm {
    *
    * @param \Drupal\imce\ImcePluginManager $plugin_manager_imce
    *   Plugin manager for Imce Plugins.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    */
   public function __construct(ImcePluginManager $plugin_manager_imce) {
     $this->pluginManagerImce = $plugin_manager_imce;
@@ -198,12 +199,15 @@ class ImceProfileForm extends EntityForm {
       'description' => ['#markup' => '<div class="description">' . $this->t('You can use user tokens in folder paths, e.g. @tokens.', ['@tokens' => '[user:uid], [user:name]']) . ' ' . $this->t('Subfolders inherit parent permissions when subfolder browsing is enabled.') . '</div>'],
       '#weight' => 10,
     ];
-    $conf['folders']['token_tree'] = [
-      '#theme' => 'token_tree_link',
-      '#token_types' => ['user'],
-      '#show_restricted' => TRUE,
-      '#global_types' => FALSE,
-    ];
+
+    if ($this->moduleHandler->moduleExists('token')) {
+      $conf['folders']['token_tree'] = [
+        '#theme' => 'token_tree_link',
+        '#token_types' => ['user'],
+        '#show_restricted' => TRUE,
+        '#global_types' => FALSE,
+      ];
+    }
     $folders = $imce_profile->getConf('folders', []);
     $index = 0;
     foreach ($folders as $folder) {
