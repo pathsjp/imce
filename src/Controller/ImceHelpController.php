@@ -74,7 +74,8 @@ class ImceHelpController extends ControllerBase {
 
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
-    $admin_tasks = system_get_module_admin_tasks($name, system_get_info('module', $name));
+    $extension_info = \Drupal::service('extension.list.module')->getExtensionInfo($name);
+    $admin_tasks = system_get_module_admin_tasks($name, $extension_info);
     if (!empty($admin_tasks)) {
       $links = [];
       foreach ($admin_tasks as $task) {
