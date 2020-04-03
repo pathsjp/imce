@@ -52,6 +52,9 @@ class ImceProfileForm extends EntityForm {
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
+    /**
+     * @var \Drupal\imce\Entity\ImceProfile
+     */
     $imce_profile = $this->getEntity();
     // Check duplication.
     if ($this->getOperation() === 'duplicate') {
@@ -292,6 +295,9 @@ class ImceProfileForm extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
+    /**
+     * @var \Drupal\imce\Entity\ImceProfile
+     */
     $imce_profile = $this->getEntity();
     $status = $imce_profile->save();
     if ($status == SAVED_NEW) {
