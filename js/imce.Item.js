@@ -323,6 +323,7 @@
     if (Item.parent) {
       Item.parent.onItemNameChange(Item, oldname);
     }
+    Item.nameEl.title = Item.formatName();
   };
 
   /**
@@ -344,6 +345,7 @@
    */
   Item.onSizeChange = function (oldval) {
     this.sizeEl.innerHTML = this.formatSize();
+    this.sizeEl.title = this.formatSize();
   };
 
   /**
@@ -359,6 +361,7 @@
    */
   Item.onWidthChange = function (oldval) {
     this.widthEl.innerHTML = this.formatWidth();
+    this.widthEl.title = this.formatWidth();
   };
 
   /**
@@ -366,6 +369,7 @@
    */
   Item.onHeightChange = function (oldval) {
     this.heightEl.innerHTML = this.formatHeight();
+    this.heightEl.title = this.formatHeight();
   };
 
 
