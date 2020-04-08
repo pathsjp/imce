@@ -29,11 +29,12 @@
     // Append or prepend the element.
     var el = Tbb.createEl();
     var parent = imce.toolbarEl;
-    if (Tbb.prepend && parent.firstChild) {
-      parent.insertBefore(el, parent.firstChild);
+    if (Tbb.prepend && parent.childNodes[1]) {
+      parent.childNodes[1].insertBefore(el, parent.childNodes[1].firstChild);
     }
     else {
-      parent.appendChild(el);
+      let childs = parent.childNodes;
+      childs[1].appendChild(el);
     }
     // Add shortcut
     if (Tbb.shortcut) {
@@ -49,15 +50,15 @@
     var el = Tbb.el;
     var icon;
     if (!el) {
-      el = Tbb.el = imce.createEl('<span class="imce-tbb imce-ficon" role="button"><span class="imce-tbb-title"></span></span>');
+      el = Tbb.el = imce.createEl('<li><span class="imce-tbb imce-ficon" role="button"><span class="imce-tbb-title"></span></span></li>');
       if (icon = Tbb.icon) {
-        el.className += ' imce-ficon-' + icon;
+        el.firstChild.className += ' imce-ficon-' + icon;
       }
-      el.className += ' imce-tbb--' + Tbb.id;
-      el.title = (Tbb.tooltip || Tbb.title) + (Tbb.shortcut ? ' (' + Tbb.shortcut + ')' : '');
-      el.onclick = imce.eTbbClick;
-      el.Tbb = Tbb;
-      el.firstChild.innerHTML = Tbb.title;
+      el.firstChild.className += ' imce-tbb--' + Tbb.id;
+      el.firstChild.title = (Tbb.tooltip || Tbb.title) + (Tbb.shortcut ? ' (' + Tbb.shortcut + ')' : '');
+      el.firstChild.onclick = imce.eTbbClick;
+      el.firstChild.Tbb = Tbb;
+      el.firstChild.firstChild.innerHTML = Tbb.title;      
     }
     return el;
   };
