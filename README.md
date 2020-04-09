@@ -48,7 +48,7 @@ You should also make sure that in each configuration profile all of the defined 
 And also if "safe mode restriction" is active in your server, don't expect IMCE to run flawlessly.
 
 - Disappearing images after node submission:
-Having nothing to do with IMCE, it appeared many times in issue queues. This is an input filtering issue that can be resolved by adding <img> tag into the default input format. Using Full HTML is another solution. See admin/config/content/formats.
+Having nothing to do with IMCE, it appeared many times in issue queues. This is an input filtering issue that can be resolved by adding `<img>` tag into the default input format. Using Full HTML is another solution. See admin/config/content/formats.
 
 - Upload does not work in Opera
 Jquery form plugin before version 2.09 has problems with Opera 9.2+. Replace Drupal's misc/jquery.form.js with the one at http://jquery.malsup.com/form/#download
