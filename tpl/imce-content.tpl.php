@@ -54,10 +54,11 @@ $imce =& $imce_ref['imce'];
     </ul>
     <h4><?php print t('Limitations'); ?>:</h4>
     <ul class="tips">
-      <li><?php print t('Maximum file size per upload') . ': ' . ($imce['filesize'] ? format_size($imce['filesize']) : t('unlimited')); ?></li>
-      <li><?php print t('Permitted file extensions') . ': ' . ($imce['extensions'] != '*' ? $imce['extensions'] : t('all')); ?></li>
-      <li><?php print t('Maximum image resolution') . ': ' . ($imce['dimensions'] ? $imce['dimensions'] : t('unlimited')); ?></li>
-      <li><?php print t('Maximum number of files per operation') . ': ' . ($imce['filenum'] ? $imce['filenum'] : t('unlimited')); ?></li>
+      <?php ;?>
+      <li><?php print t('Maximum file size per upload: @file_size', ['@file_size' => ($imce['filesize'] ? format_size($imce['filesize']) : 'unlimited')]) ?></li>
+      <li><?php print t('Permitted file extensions: @extensions', ['@extensions' => ($imce['extensions'] != '*' ? $imce['extensions'] : 'all')]); ?></li>
+      <li><?php print t('Maximum image resolution: @dimensions', ['@dimensions' => ($imce['dimensions'] ? $imce['dimensions'] : 'unlimited')]); ?></li>
+      <li><?php print t('Maximum number of files per operation: @filenum', ['@filenum' => ($imce['filenum'] ? $imce['filenum'] : t('unlimited'))]); ?></li>
     </ul>
   </div>
 </div>
