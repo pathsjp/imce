@@ -177,8 +177,13 @@ imce.opEnable(name), imce.opDisable(name): enable/disable operation tabs.
 Miscellaneous
 imce.setMessage(msg, type): logs a message of the type(status, warning, error)
 
-### NOTES:
+## NOTES:
 - All URL strings in the examples start with "/" considering the base path is "/".
 In case your drupal is running on a sub directory e.g, http://localhost/drupal, these URLs should start with "/drupal/".
 There is a safer solution that does not require manual URL fixing: If the Drupal javascript object is available in your page you can use Drupal.settings.basePath at the beginning of URLs (Drupal.settings.basePath+'?q=imce....'). Note that, this won't work with multilingual paths with language prefixes.
 - file and directory ids(names) used in imce.js are url encoded forms of original names. They are decoded using imce.decode and displayed in the lists.
+
+## MAINTAINERS
+
+ * ufku - https://www.drupal.org/user/9910 - https://git.drupalcode.org/ufku
+ * thalles - https://www.drupal.org/user/3589086 - https://git.drupalcode.org/thallesvf
