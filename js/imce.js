@@ -151,7 +151,7 @@
     // Content
     el = imce.contentEl = createEl('<div id="imce-content"></div>');
     if (imce.conf.thumbnail_grid_style) {
-      el = imce.contentEl = createEl('<div id="imce-content" class="thumbnail-grid"></div>');
+      el.className = 'thumbnail-grid';
     }
     el.onmousedown = imce.eContentMousedown;
     el.ontouchstart = imce.eContentTouchstart;
