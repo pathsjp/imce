@@ -80,7 +80,6 @@
     imce.addShortcut('LEFT', imce.eContentArrow, 'content');
     imce.addShortcut('RIGHT', imce.eContentArrow, 'content');
     imce.addShortcut('Ctrl+A', imce.eContentCtrlA, 'content');
-
     // Add refresh button
     imce.addTbb('refresh', {
       title: Drupal.t('Refresh'),
@@ -134,7 +133,7 @@
     el.onkeydown = imce.eFmKeydown;
     el.tabIndex = 0;
     // Toolbar
-    el.appendChild(imce.toolbarEl = createEl('<div id="imce-toolbar"><h3 title="Operations">Operations: </h3><ul></ul></div>'));
+    el.appendChild(imce.toolbarEl = createEl('<div id="imce-toolbar"></div>'));
     // Body
     el.appendChild(imce.bodyEl = createEl('<div id="imce-body"></div>'));
     // Tree

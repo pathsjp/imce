@@ -36,16 +36,6 @@
   margin-bottom: 4px;
 }
 
-#imce-toolbar > h3{
-  float: left;
-  padding: 6px 7px;
-  margin: 0;
-}
-
-#imce-toolbar > ul{
-  list-style: none;
-}
-
 #imce-body {
   height: 300px;
   overflow: hidden;
