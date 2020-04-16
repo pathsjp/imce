@@ -133,7 +133,7 @@
     el.onkeydown = imce.eFmKeydown;
     el.tabIndex = 0;
     // Toolbar
-    el.appendChild(imce.toolbarEl = createEl('<div id="imce-toolbar"></div>'));
+    el.appendChild(imce.toolbarEl = createEl('<div id="imce-toolbar" aria-label="Operations" role="toolbar"></div>'));
     // Body
     el.appendChild(imce.bodyEl = createEl('<div id="imce-body"></div>'));
     // Tree
