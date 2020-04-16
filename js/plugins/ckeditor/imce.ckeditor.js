@@ -39,7 +39,7 @@
      * Returns image button label.
      */
     imageLabel: function () {
-      return Drupal.t('Insert images using Imce File Manager');
+      return Drupal.t('Images - Imce File Browser');
     },
 
     /**
@@ -53,7 +53,7 @@
      * Returns link button label.
      */
     linkLabel: function () {
-      return Drupal.t('Insert file links using Imce File Manager');
+      return Drupal.t('Links - Imce File Browser');
     },
 
     /**
