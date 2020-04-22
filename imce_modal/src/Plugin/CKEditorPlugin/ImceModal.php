@@ -8,10 +8,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\editor\Entity\Editor;
 
 /**
- * Defines the "IMCE Modal" plugin.
+ * Defines the "imceModal" plugin.
  *
  * @CKEditorPlugin(
- *   id = "imce_modal",
+ *   id = "imceModal",
  *   label = @Translation("IMCE Modal")
  * )
  */
