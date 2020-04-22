@@ -39,6 +39,10 @@ class ImceRouteSubscriber extends RouteSubscriberBase {
         $route->setOption('_admin_route', TRUE);
       }
     }
+    // Prevent user to change file with image settings form.
+    if ($route = $collection->get('editor.image_dialog')) {
+      $route->setDefault('_form', '\Drupal\imce\Form\ImceEditorImageDialog');
+    }
   }
 
 }
