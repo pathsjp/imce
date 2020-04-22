@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains imce_modal.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function imce_modal_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the imce_modal module.
+    case 'help.page.imce_modal':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The modal to IMCE') . '</p>';
+      return $output;
+
+    default:
+  }
+}

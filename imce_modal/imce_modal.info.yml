@@ -1,0 +1,5 @@
+name: 'IMCE Modal'
+type: module
+description: 'The modal ui for IMCE File Manager'
+package: 'Media'
+core_version_requirement: ^8.8 || ^9
