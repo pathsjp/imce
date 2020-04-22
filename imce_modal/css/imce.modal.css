@@ -1,9 +1,0 @@
-iframe {
-    min-width: 100%;
-    min-height: 800px;
-    border: 0;
-}
-
-.ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.dialog-imce.ui-dialog--narrow {
-    min-width: 92%;
-}
