@@ -39,7 +39,9 @@ class ImceModal extends CKEditorPluginBase implements CKEditorPluginConfigurable
    * {@inheritdoc}
    */
   public function getConfig(Editor $editor) {
-    return [];
+    return [
+      'imceDialogTitle' => 'IMCE Browser File',
+    ];
   }
 
   /**
