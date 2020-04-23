@@ -1,5 +1,5 @@
 imce_modal.imce_modal_dialog:
-  path: '/imce_modal/form/imce_modal_dialog'
+  path: '/imce_modal/form/imce_modal_dialog/{filter_format}'
   defaults:
     _form: '\Drupal\imce_modal\Form\ImceModalDialog'
     _title: 'ImceModalDialog'
