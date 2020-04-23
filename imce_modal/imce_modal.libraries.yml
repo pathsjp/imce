@@ -1,0 +1,5 @@
+imce_modal:
+  version: VERSION
+  css:
+    component:
+      css/imce_modal.css: {}
