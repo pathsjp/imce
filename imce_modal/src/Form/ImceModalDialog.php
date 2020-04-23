@@ -21,6 +21,7 @@ class ImceModalDialog extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = 'imce_modal/imce_modal';
     $form['iframeModal'] = [
       '#type' => 'inline_template',
       '#template' => '<iframe with="100%" src="{{ url }}"></iframe>',
