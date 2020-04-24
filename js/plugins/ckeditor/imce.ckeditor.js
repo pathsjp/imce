@@ -73,6 +73,15 @@
       editor.popup(url, width, height);
     },
 
+    close: function(win) {
+      if ($('.ui-dialog-titlebar-close').length) {
+        $('.ui-dialog-titlebar-close').click();
+        console.log(111);
+        return;
+      }
+      win.close();
+    },
+
     /**
      * Imce sendto handler for image/link dialog.
      */
@@ -80,7 +89,7 @@
       var imce = win.imce;
       var editor = CKEDITOR.instances[imce.getQuery('ck_id')];
       if (!editor) {
-        win.close();
+        CKEDITOR.imce.close(win);
         return;
       }
       var selection = imce.getSelection();
@@ -106,7 +115,7 @@
           }
         }
         editor.insertHtml(lines.join('<br />'));
-        win.close();
+        CKEDITOR.imce.close(win);
       };
       // Process after loading the uuids.
       if (is_img) {
