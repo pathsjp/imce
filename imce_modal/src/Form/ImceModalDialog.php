@@ -24,7 +24,7 @@ class ImceModalDialog extends FormBase {
     $form['#attached']['library'][] = 'imce_modal/imce_modal';
     $form['iframeModal'] = [
       '#type' => 'inline_template',
-      '#template' => '<iframe with="100%" src="{{ url }}"></iframe>',
+      '#template' => '<iframe class="imce-modal-iframe" src="{{ url }}"></iframe>',
       '#context' => [
         'url' => '/imce?sendto=CKEDITOR.imce.sendto&type=image&ck_id=edit-body-0-value',
       ],
