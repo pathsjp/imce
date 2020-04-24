@@ -20,6 +20,14 @@ class ImceModal extends CKEditorPluginBase implements CKEditorPluginConfigurable
   /**
    * {@inheritdoc}
    */
+  public function getDependencies(Editor $editor) {
+    // Need drupalimage for drupallink support. See #2666596 .
+    return ['drupalimage', 'drupalimagecaption'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFile() {
     if ($module_path = drupal_get_path('module', 'imce_modal')) {
       return $module_path . '/js/plugin.js';
