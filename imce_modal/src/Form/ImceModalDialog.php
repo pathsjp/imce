@@ -26,7 +26,7 @@ class ImceModalDialog extends FormBase {
       '#type' => 'inline_template',
       '#template' => '<iframe with="100%" src="{{ url }}"></iframe>',
       '#context' => [
-        'url' => '/en/imce?sendto=CKEDITOR.imce.sendto&type=image&ck_id=edit-body-0-value',
+        'url' => '/imce?sendto=CKEDITOR.imce.sendto&type=image&ck_id=edit-body-0-value',
       ],
     ];
 
