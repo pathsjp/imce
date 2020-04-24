@@ -46,7 +46,7 @@ class ImceEditorImageDialog extends EditorImageDialog {
       if (isset($settings['toolbar'], $settings['toolbar']['rows'])) {
         foreach ($settings['toolbar']['rows'] as $row) {
           foreach ($row as $section) {
-            if (!empty($section['items']) && in_array('ImceImage', $section['items'])) {
+            if (!empty($section['items']) && (in_array('ImceImage', $section['items']) || in_array('imceModal', $section['items']))) {
 
               return TRUE;
             }
