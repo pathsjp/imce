@@ -3,3 +3,6 @@ imce_modal:
   css:
     component:
       css/imce_modal.css: {}
+  dependencies:
+    - imce/drupal.imce
+    - imce/drupal.imce.ckeditor
