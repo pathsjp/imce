@@ -5,8 +5,14 @@ imce.settings:
   base_route: imce.admin
   weight: 2
 
+imce.file_browser:
+  route_name: imce.file_browser
+  title: IMCE File Browser
+  base_route: imce.admin
+  weight: 3
+
 imce.help:
   route_name: imce.help
   title: IMCE Help
   base_route: imce.admin
-  weight: 3
+  weight: 4
