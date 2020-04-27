@@ -54,3 +54,11 @@ entity.imce_profile.duplicate_form:
     _title: 'Duplicate configuration profile'
   requirements:
     _entity_create_access: 'imce_profile'
+
+imce.file_browser:
+  path: '/admin/imce/browser'
+  defaults:
+    _controller: '\Drupal\imce\Controller\ImceBrowserController::browser'
+    _title: 'IMCE File Browser'
+  requirements:
+    _permission: 'administer imce'
