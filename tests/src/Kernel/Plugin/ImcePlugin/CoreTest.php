@@ -94,7 +94,7 @@ class CoreTest extends KernelTestBasePlugin {
    */
   public function testTree() {
     $this->assertIsArray($this->imceFM->tree);
-    $this->assert((count($this->imceFM->tree) > 0));
+    $this->assertTrue((count($this->imceFM->tree) > 0));
   }
 
   /**
@@ -103,7 +103,7 @@ class CoreTest extends KernelTestBasePlugin {
   public function testSubfolders() {
     $subFolders = $this->imceFM->activeFolder->subfolders;
     $this->assertIsArray($subFolders);
-    $this->assert((count($subFolders) > 0));
+    $this->assertTrue((count($subFolders) > 0));
   }
 
   /**
