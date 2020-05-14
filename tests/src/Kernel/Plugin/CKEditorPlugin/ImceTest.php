@@ -50,7 +50,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testGetDependencies() {
     $dependencies = $this->imce->getDependencies($this->createMock(Editor::class));
-    $this->assertTrue(is_array($dependencies));
+    $this->assertIsArray($dependencies);
     $this->assertArraySubset(['drupalimage', 'drupalimagecaption'], $dependencies);;
   }
 
@@ -78,7 +78,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testGetButtons() {
     $buttons = $this->imce->getButtons();
-    $this->assertTrue(is_array($buttons));
+    $this->assertIsArray($buttons);
   }
 
   /**
@@ -94,7 +94,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testGetConfig() {
     $config = $this->imce->getConfig($this->createMock(Editor::class));
-    $this->assertTrue(is_array($config));
+    $this->assertIsArray($config);
     $this->assertCount(2, $config);
   }
 
