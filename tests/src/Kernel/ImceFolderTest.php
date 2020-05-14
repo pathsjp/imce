@@ -82,7 +82,7 @@ class ImceFolderTest extends KernelTestBasePlugin {
    * Test variable ImceFolder::name after scan.
    */
   public function testName() {
-    $this->assertTrue(is_string($this->imceFolder->name));
+    $this->assertIsString($this->imceFolder->name);
     $this->assertEqual($this->imceFolder->name, 'js');
   }
 
@@ -92,7 +92,7 @@ class ImceFolderTest extends KernelTestBasePlugin {
   public function testPath() {
     $this->imceFolder->setPath('js');
     $path = $this->imceFolder->getPath();
-    $this->assertTrue(is_string($path));
+    $this->assertIsString($path);
   }
 
   /**

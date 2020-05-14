@@ -117,7 +117,7 @@ class NewFolderTest extends KernelTestBasePlugin {
       $this->imceFM->activeFolder->getUri(), $this->imceFM->getPost('newfolder')
     );
 
-    $this->assertTrue(is_string($uriFolder));
+    $this->assertIsString($uriFolder);
     $this->assertTrue(file_exists($uriFolder));
   }
 
