@@ -54,7 +54,7 @@ class ImceSettingsFormTest extends KernelTestBase {
    * Test formId().
    */
   public function testFormId() {
-    $this->assertTrue(is_string($this->imceSettingsForm->getFormId()));
+    $this->assertIsString($this->imceSettingsForm->getFormId());
     $this->assertEquals('imce_settings_form', $this->imceSettingsForm->getFormId());
   }
 

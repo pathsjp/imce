@@ -86,7 +86,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testGetFile() {
     $pathFile = $this->imce->getFile();
-    $this->assertTrue(is_string($pathFile));
+    $this->assertIsString($pathFile);
   }
 
   /**
@@ -103,7 +103,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testImageIcon() {
     $imageIcon = $this->imce->imageIcon();
-    $this->assertTrue(is_string($imageIcon));
+    $this->assertIsString($imageIcon);
     $this->assertTrue(file_exists($imageIcon));
   }
 
@@ -112,7 +112,7 @@ class ImceTest extends KernelTestBase {
    */
   public function testLinkIcon() {
     $linkIcon = $this->imce->linkIcon();
-    $this->assertTrue(is_string($linkIcon));
+    $this->assertIsString($linkIcon);
     $this->assertTrue(file_exists($linkIcon));
   }
 
