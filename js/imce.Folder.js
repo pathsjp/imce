@@ -58,6 +58,9 @@
       toggleEl.onclick = imce.eBranchToggleClick;
       nameEl = Folder.branchNameEl = branchEl.children[1];
       nameEl.onclick = imce.eBranchNameClick;
+      //Drag and Drop Folder
+      nameEl.ondrop = imce.drop;
+      nameEl.ondragover = imce.allowDrop;
       branchEl.Folder = nameEl.Folder = toggleEl.Folder = Folder;
     }
   };
@@ -788,5 +791,22 @@
       Folder.expand();
     }
   };
+
+  /**
+   * Drop on folder's tree
+   */
+  imce.drop = function (e) {
+    e.preventDefault();
+    var folderPath = this.Folder.path;
+    var fileName = imce.getLastSelected().name;
+    var fileUri = imce.getLastSelected().getUri();
+    var filePath = imce.getLastSelected().getPath();
+    imce.ajax('dropfile', { data: { fileUri: fileUri, fileName: fileName, filePath: filePath, folderPath: folderPath } });
+  }
+
+  imce.allowDrop = function (e) {
+    e.preventDefault();
+  }
+
 
 })(jQuery, Drupal, imce);
