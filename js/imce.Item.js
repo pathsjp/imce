@@ -35,9 +35,11 @@
     var children;
     var Item = this;
     if (!Item.el) {
-      el = Item.el = imce.createEl('<div class="imce-item"><div class="imce-item-date"></div><div class="imce-item-height"></div><div class="imce-item-width"></div><div class="imce-item-size"></div><div class="imce-item-icon imce-ficon"></div><div class="imce-item-name"></div></div>');
+      el = Item.el = imce.createEl('<div class="imce-item" draggable="true"><div class="imce-item-date"></div><div class="imce-item-height"></div><div class="imce-item-width"></div><div class="imce-item-size"></div><div class="imce-item-icon imce-ficon"></div><div class="imce-item-name"></div></div>');
       el.onmousedown = imce.eItemMousedown;
       el.ondblclick = imce.eItemDblclick;
+      el.ondrop = Item.drop;
+      el.ondragover = Item.allowDrop;
       el.Item = Item;
       children = el.children;
       Item.dateEl = children[0];
@@ -502,5 +504,22 @@
     }
     return false;
   };
+
+  /**
+   * Drop on folder
+   */
+  Item.drop = function (e) {
+    e.preventDefault();
+    var folderUri = this.Item.getUri();
+    var folderPath = this.Item.getPath();
+    var fileName = imce.getLastSelected().name;
+    var fileUri = imce.getLastSelected().getUri();
+    var filePath = imce.getLastSelected().getPath();
+    imce.ajax('dropfile', { data: { fileUri: fileUri, fileName: fileName, filePath: filePath, folderPath: folderPath } });
+  }
+
+  Item.allowDrop = function (e) {
+    e.preventDefault();
+  }
 
 })(jQuery, Drupal, imce);
