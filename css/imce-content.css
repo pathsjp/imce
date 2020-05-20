@@ -91,6 +91,7 @@ body.imce {
 #preview-wrapper {
   height: 180px;
   overflow: auto;
+  background: url(preview-bg.png);
 }
 
 /*columns of browse-wrapper*/
