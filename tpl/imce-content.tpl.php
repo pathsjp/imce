@@ -83,11 +83,11 @@ $imce =& $imce_ref['imce'];
 
     <div id="file-header-wrapper">
       <table id="file-header" class="files"><tbody><tr>
-        <td class="name"><?php print t('File name'); ?></td>
-        <td class="size"><?php print t('Size'); ?></td>
-        <td class="width"><?php print t('Width'); ?></td>
-        <td class="height"><?php print t('Height'); ?></td>
-        <td class="date"><?php print t('Date'); ?></td>
+        <td class="name"><a href="#"><?php print t('File name'); ?></a></td>
+        <td class="size"><a href="#"><?php print t('Size'); ?></a></td>
+        <td class="width"><a href="#"><?php print t('Width'); ?></a></td>
+        <td class="height"><a href="#"><?php print t('Height'); ?></a></td>
+        <td class="date"><a href="#"><?php print t('Date'); ?></a></td>
       </tr></tbody></table>
     </div>
 

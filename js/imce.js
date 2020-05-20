@@ -262,7 +262,7 @@ setUploadOp: function () {
     if (el = form.elements.html_response) {
       el.value = 0;
     }
-  } 
+  }
   imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form});//add op
 },
 
@@ -696,7 +696,7 @@ getURL: function (fid, uncached) {
   return url;
 },
 
-//get encoded file path relative to root. 
+//get encoded file path relative to root.
 getRelpath: function (fid) {
   var dir = imce.conf.dir;
   return (dir === '.' ? '' : dir + '/') + fid;
@@ -732,11 +732,13 @@ highlight: function (fid) {
 
 //process a row
 processRow: function (row) {
-  row.cells[0].innerHTML = '<span>' + imce.decodePlain(row.id) + '</span>';
-  row.onmousedown = function(e) {
-    var e = e||window.event;
-    imce.fileClick(this, e.ctrlKey, e.shiftKey);
-    return !(e.ctrlKey || e.shiftKey);
+  row.cells[0].innerHTML = '<a href="#" class="file-name">' + imce.decodePlain(row.id) + '</a>';
+  row.onmousedown = row.cells[0].childNodes[0].onkeydown = function(e) {
+    if (e.keyCode == 0 || e.keyCode == 13) {
+      var e = e||window.event;
+      imce.fileClick(row, e.ctrlKey, e.shiftKey);
+      return !(e.ctrlKey || e.shiftKey);
+    }
   };
   row.ondblclick = function(e) {
     imce.send(this.id);
