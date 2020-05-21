@@ -101,6 +101,7 @@ function imce_admin_form($form, &$form_state) {
       FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
       FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
       FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
+      IMCE_RENAME_REPLACE => t('Let the user decide which option to choose'),
     ),
   );
   $form['common']['thumb_method'] = array(

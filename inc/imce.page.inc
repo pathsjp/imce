@@ -144,6 +144,20 @@ function imce_upload_form($form, &$form_state, $ref) {
       '#options' => imce_thumbnail_options($imce['thumbnails']),
     );
   }
+  $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+  // In case the user can decide, show options
+  if ($replace == IMCE_RENAME_REPLACE) {
+    $form['replace'] = array(
+      '#type' => 'radios',
+      '#title' => t('Behaviour for existing files'),
+      '#default_value' => variable_get('imce_settings_replace', FILE_EXISTS_RENAME),
+      '#options' => array(
+        FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
+        FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
+        FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
+      ),
+    );
+  }
   $form['upload'] = array(
     '#type' => 'submit',
     '#value' => t('Upload'),
@@ -305,6 +319,10 @@ function imce_upload_submit($form, &$form_state) {
 
     // Save uploaded file.
     $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+    // Retrieve the user option when the option is set for the user to decide.
+    if ($replace == IMCE_RENAME_REPLACE) {
+      $replace = $form_state['values']['replace'];
+    }
     if ($file = file_save_upload($i, $validators, $diruri, $replace)) {
 
       // Core bug #54223.
