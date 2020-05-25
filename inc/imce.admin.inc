@@ -60,6 +60,22 @@ function imce_admin() {
 }
 
 /**
+ * Admin file browser.
+ */
+function imce_admin_file_browser() {
+  $output = [
+    'title' => [
+      '#markup' => '<h2 class="title">' . t('IMCE File Browser') . '</h2>',
+    ],
+    'content' => [
+      '#markup' => '<iframe width="100%" height="500" class="imce-modal-iframe" src="/imce"></iframe>',
+    ],
+  ];
+
+  return $output;
+}
+
+/**
  * Admin form.
  */
 function imce_admin_form($form, &$form_state) {
@@ -124,6 +140,12 @@ function imce_admin_form($form, &$form_state) {
     '#title' => t('Use admin theme for IMCE paths'),
     '#default_value' => variable_get('imce_settings_admin_theme', FALSE),
     '#description' => t('If you have user interface issues with the active theme you may consider switching to admin theme.'),
+  );
+  $form['common']['imce_link'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Provide a menu link to IMCE'),
+    '#description' => t('Provide menu link so the user can just manager the files in admin/content/imce.'),
+    '#default_value' => variable_get('imce_settings_menu_link', 1),
   );
 
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save configuration'));
@@ -200,6 +222,7 @@ function imce_admin_submit($form, &$form_state) {
   variable_set('imce_settings_thumb_method', $form_state['values']['thumb_method']);
   variable_set('imce_settings_disable_private', $form_state['values']['disable_private']);
   variable_set('imce_settings_admin_theme', $form_state['values']['admin_theme']);
+  variable_set('imce_settings_menu_link', $form_state['values']['imce_link']);
   drupal_set_message(t('Changes have been saved.'));
 }
 

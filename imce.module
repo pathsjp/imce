@@ -42,6 +42,17 @@ function imce_menu() {
     'access arguments' => $access,
     'file' => 'inc/imce.admin.inc',
   );
+
+  if (variable_get('imce_settings_menu_link')) {
+    $items['admin/content/imce'] = array(
+      'title' => 'IMCE File Browser',
+      'description' => 'Admin File Browser',
+      'page callback' => 'imce_admin_file_browser',
+      'access arguments' => $access,
+      'file' => 'inc/imce.admin.inc',
+    );
+  }
+
   $items['admin/config/media/imce/profile'] = array(
     'title' => 'Add new profile',
     'page callback' => 'imce_profile_operations',
