@@ -262,7 +262,7 @@ setUploadOp: function () {
     if (el = form.elements.html_response) {
       el.value = 0;
     }
-  } 
+  }
   imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form});//add op
 },
 
@@ -304,15 +304,14 @@ opAdd: function (op) {
   }
   Op.a = imce.newEl('a');
   Op.li = imce.newEl('li');
-  $(Op.a).attr({href: '#', name: name, title: title}).html('<span>' + title +'</span>').click(imce.opClickEvent);
-  $(Op.li).attr('id', 'op-item-'+ name).append(Op.a).appendTo(oplist);
+  $(Op.a).attr({ href: '#', id: name, title: title }).html('<span>' + title + '</span>').click(imce.opClickEvent);  $(Op.li).attr('id', 'op-item-'+ name).append(Op.a).appendTo(oplist);
   Op.func = op.func || imce.opVoid;
   return Op;
 },
 
 //click event for file operations
 opClickEvent: function(e) {
-  imce.opClick(this.name);
+  imce.opClick(this.id);
   return false;
 },
 
@@ -696,7 +695,7 @@ getURL: function (fid, uncached) {
   return url;
 },
 
-//get encoded file path relative to root. 
+//get encoded file path relative to root.
 getRelpath: function (fid) {
   var dir = imce.conf.dir;
   return (dir === '.' ? '' : dir + '/') + fid;
