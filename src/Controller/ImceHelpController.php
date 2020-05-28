@@ -72,6 +72,9 @@ class ImceHelpController extends ControllerBase {
     $build['#videos'][2]['title'] = 'Integration IMCE with image/file field in Drupal 8';
     $build['#videos'][2]['video'] = 'https://www.youtube.com/embed/MAHonUyKVc0';
 
+    $build['#videos'][3]['title'] = 'How to drag files from local machine and drop on server';
+    $build['#videos'][3]['video'] = 'https://www.youtube.com/embed/KDXJtnYhNnA';
+
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
     $extension_info = $this->extensionListModule->getExtensionInfo($name);
