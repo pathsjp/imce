@@ -75,6 +75,9 @@ class ImceHelpController extends ControllerBase {
     $build['#videos'][3]['title'] = 'How to drag files from local machine and drop on server';
     $build['#videos'][3]['video'] = 'https://www.youtube.com/embed/KDXJtnYhNnA';
 
+    $build['#videos'][4]['title'] = 'Drag and Drop in Server Side Files ';
+    $build['#videos'][4]['video'] = 'https://www.youtube.com/embed/nw-5id75YGA';
+
     // Only print list of administration pages if the module in question has
     // any such pages associated with it.
     $extension_info = $this->extensionListModule->getExtensionInfo($name);
