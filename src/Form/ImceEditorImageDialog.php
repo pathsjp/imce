@@ -13,8 +13,12 @@ use Drupal\editor\Form\EditorImageDialog;
 class ImceEditorImageDialog extends EditorImageDialog {
 
   /**
-   * {@inheritdoc}
+   * Build ImceEditorImageDialog form.
    *
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    * @param \Drupal\editor\Entity\Editor $editor
    *   The text editor to which this dialog corresponds.
    */
@@ -32,7 +36,7 @@ class ImceEditorImageDialog extends EditorImageDialog {
   /**
    * Checks does requested editor have ImceImage button.
    *
-   * @param \Drupal\editor\EditorInterface|NULL $editor
+   * @param \Drupal\editor\EditorInterface|null $editor
    *   Editor to check.
    *
    * @return bool
