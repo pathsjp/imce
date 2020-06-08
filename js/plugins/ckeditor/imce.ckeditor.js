@@ -77,7 +77,6 @@
     close: function(win) {
       if ($('.ui-dialog-titlebar-close').length) {
         $('.ui-dialog-titlebar-close').click();
-        console.log(111);
         return;
       }
       win.close();
