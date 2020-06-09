@@ -205,6 +205,12 @@ function imce_fileop_form($form, &$form_state, $ref) {
     ) + imce_resize_form($imce);
   }
 
+  // Download.
+  $form['fset_download'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Download'),
+  ) + imce_download_form($imce);;
+
   $form['#action'] = $imce['url'];
   return $form;
 }
@@ -266,6 +272,18 @@ function imce_resize_form(&$imce) {
     '#type' => 'checkbox',
     '#title' => t('Create a new image'),
     '#default_value' => 1,
+  );
+  return $form;
+}
+
+/**
+ * Download form.
+ */
+function imce_download_form(&$imce) {
+  $form['download'] = array(
+    '#type' => 'submit',
+    '#value' => t('Download'),
+    '#submit' => NULL,
   );
   return $form;
 }
