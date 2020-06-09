@@ -15,7 +15,7 @@ use Drupal\editor\Entity\Editor;
  *   label = @Translation("IMCE Modal")
  * )
  */
-class ImceModal extends CKEditorPluginBase implements CKEditorPluginConfigurableInterface {
+class ImceModal extends CKEditorPluginBase {
 
   /**
    * {@inheritdoc}
@@ -73,9 +73,9 @@ class ImceModal extends CKEditorPluginBase implements CKEditorPluginConfigurable
   public function settingsForm(array $form, FormStateInterface $form_state, Editor $editor) {
     $form['iframeModal'] = [
       '#type' => 'inline_template',
-      '#template' => '<iframe with="100%" src="{{ url }}"></iframe>',
+      '#template' => '<iframe with="800px" src="{{ url }}"></iframe>',
       '#context' => [
-        'url' => '/en/imce?sendto=CKEDITOR.imce.sendto&type=image&ck_id=edit-body-0-value',
+        'url' => '/imce',
       ],
     ];
 
