@@ -15,7 +15,7 @@ use Drupal\editor\Entity\Editor;
  *   label = @Translation("IMCE Modal")
  * )
  */
-class ImceModal extends CKEditorPluginBase {
+class ImceModal extends CKEditorPluginBase implements CKEditorPluginConfigurableInterface {
 
   /**
    * {@inheritdoc}
