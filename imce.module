@@ -17,6 +17,9 @@ use Drupal\imce\Imce;
  */
 function imce_theme() {
   return [
+    'imce_page' => [
+      'render element' => 'page',
+    ],
     'imce_help' => [
       'variables' => [
         'videos' => [],
