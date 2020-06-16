@@ -768,13 +768,34 @@ if (variable_get('imce_disable_image_info', 0)) {
 elseif (variable_get('imce_image_get_info', 0)) {
 
   function imce_image_info($file) {
+    // Use APC to cache the file's data if available.
+    if (function_exists('apcu_fetch')) {
+      $cache = apcu_fetch($file);
+      if ($cache) {
+        return $cache;
+      }
+    }
+
     $mimes = array(
       'image/jpeg' => IMAGETYPE_JPEG,
       'image/gif'  => IMAGETYPE_GIF,
       'image/png'  => IMAGETYPE_PNG,
     );
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @image_get_info($file)) && isset($mimes[$info['mime_type']]) ) {
-      return array('width' => $info['width'], 'height' => $info['height'], 'type' => $mimes[$info['mime_type']], 'mime' => $info['mime_type']);
+      $result = array(
+        'width' => $info['width'],
+        'height' => $info['height'],
+        'type' => $mimes[$info['mime_type']],
+        'mime' => $info['mime_type'],
+      );
+
+      // Use APC to cache the file's data if available, so future requests of
+      // this file will be quicker.
+      if (function_exists('apcu_add')) {
+        apcu_add($file, $result);
+      }
+
+      return $result;
     }
     return FALSE;
   }
@@ -782,7 +803,27 @@ elseif (variable_get('imce_image_get_info', 0)) {
 else {
   function imce_image_info($file) {
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
-      return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
+      // Use APC to cache the file's data if available.
+      if (function_exists('apcu_fetch')) {
+        $cache = apcu_fetch($file);
+        if ($cache) {
+          return $cache;
+        }
+      }
+      $result = array(
+        'width' => $info[0],
+        'height' => $info[1],
+        'type' => $info[2],
+        'mime' => $info['mime']
+      );
+
+      // Use APC to cache the file's data if available, so future requests of
+      // this file will be quicker.
+      if (function_exists('apcu_add')) {
+        apcu_add($file,$result);
+      }
+
+      return $result;
     }
     return FALSE;
   }
