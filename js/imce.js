@@ -278,7 +278,7 @@ setFileOps: function () {
     var func = function() {imce.fopSubmit(Op.name); return false;};
     $sbmt.click(func);
     Op.title = $(this).children('legend').remove().text() || $sbmt.val();
-    Op.name == 'delete' || 'download' ? (Op.func = func) : (Op.content = this.childNodes);
+    Op.name == 'delete' || Op.name == 'download' ? (Op.func = func) : (Op.content = this.childNodes);
     imce.opAdd(Op);
   }).remove();
   imce.vars.opform = $(form).serialize();//serialize remaining parts.
