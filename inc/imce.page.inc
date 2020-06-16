@@ -1084,8 +1084,8 @@ function imce_scan_directory($dirname, $imce) {
 
   while (($file = readdir($handle)) !== FALSE) {
 
-    // Do not include dot files and folders.
-    if (substr($file, 0, 1) === '.') {
+    // Do not include dot files or folders, or the UNIX lost+found directory.
+    if ((substr($file, 0, 1) === '.') || ($file == 'lost+found')) {
       continue;
     }
 
