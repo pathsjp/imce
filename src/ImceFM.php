@@ -458,15 +458,44 @@ class ImceFM {
    */
   public function getFileProperties($uri) {
     $properties = ['date' => filemtime($uri), 'size' => filesize($uri)];
-    if (preg_match('/\.(jpe?g|png|gif)$/i', $uri) && $info = getimagesize($uri)) {
-      $properties['width'] = $info[0];
-      $properties['height'] = $info[1];
-      $style = $this->getThumbnailStyle();
-      if ($style && strpos($uri, '/styles/') === FALSE) {
-        $properties['thumbnail'] = $style->buildUrl($uri);
+    if (preg_match('/\.(jpe?g|png|gif)$/i', $uri)) {
+      $properties = array_merge($properties, $this->getImageProperties($uri));
+    }
+
+    return $properties;
+  }
+
+  /**
+   * Returns js properties of a image file.
+   */
+  public function getImageProperties($uri) {
+    // Use APC to cache the file's data if available.
+    if (function_exists('apcu_fetch')) {
+      $cache = apcu_fetch($uri);
+      if ($cache) {
+        $style = $this->getThumbnailStyle();
+        if ($style && strpos($uri, '/styles/') === FALSE) {
+          $cache['thumbnail'] = $style->buildUrl($uri);
+        }
+        return $cache;
       }
     }
-    return $properties;
+
+    if ($info = getimagesize($uri)) {
+      $imageProperties['width'] = $info[0];
+      $imageProperties['height'] = $info[1];
+      $style = $this->getThumbnailStyle();
+      if ($style && strpos($uri, '/styles/') === FALSE) {
+        $imageProperties['thumbnail'] = $style->buildUrl($uri);
+      }
+    }
+
+    // Use APC to cache the file's data if available.
+    if (function_exists('apcu_add')) {
+      apcu_add($uri, $imageProperties);
+    }
+
+    return $imageProperties;
   }
 
   /**
