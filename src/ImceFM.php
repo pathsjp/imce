@@ -669,6 +669,7 @@ class ImceFM {
   public function buildPage() {
     $page = [];
     $page['#attached']['library'][] = 'imce/drupal.imce';
+    $page['#attached']['library'][] = 'imce/drupal.imce.download';
     // Add meta for robots.
     $robots = [
       '#tag' => 'meta',
