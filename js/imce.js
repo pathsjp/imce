@@ -762,7 +762,7 @@ highlight: function (fid) {
 
 //process a row
 processRow: function (row) {
-  row.cells[0].innerHTML = '<a href="#">' + imce.decodePlain(row.id) + '</a>';
+  row.cells[0].innerHTML = '<a href="#" onclick="return false;">' + imce.decodePlain(row.id) + '</a>';
   row.onmousedown = function(e) {
     var e = e||window.event;
     imce.fileClick(this, e.ctrlKey, e.shiftKey);
