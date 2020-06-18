@@ -109,6 +109,12 @@ function imce_admin_form($form, &$form_state) {
     '#default_value' => variable_get('imce_settings_absurls', 0),
     '#description' => t('Check if you want IMCE to return absolute file URLs.'),
   );
+  $form['common']['image_metadata'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable image metada'),
+    '#default_value' => variable_get('imce_disable_image_info', 0),
+    '#description' => t('Disabling the metadata fetch may speed up IMCE on S3 or slow NFS sites with lots of files in the initial directory.'),
+  );
   $form['common']['replace'] = array(
     '#type' => 'radios',
     '#title' => t('Default behaviour for existing files during file uploads'),
@@ -223,6 +229,7 @@ function imce_admin_submit($form, &$form_state) {
   variable_set('imce_settings_disable_private', $form_state['values']['disable_private']);
   variable_set('imce_settings_admin_theme', $form_state['values']['admin_theme']);
   variable_set('imce_settings_menu_link', $form_state['values']['imce_link']);
+  variable_set('imce_disable_image_info', $form_state['values']['image_metadata']);
   drupal_set_message(t('Changes have been saved.'));
 }
 
