@@ -253,6 +253,9 @@
    * Formats item width.
    */
   Item.formatWidth = function () {
+    if (this.width == '-') {
+      return '-';
+    }
     return this.width ? this.width * 1 + '' : '';
   };
 
@@ -260,6 +263,9 @@
    * Formats item height.
    */
   Item.formatHeight = function () {
+    if (this.height == '-') {
+      return '-';
+    }
     return this.height ? this.height * 1 + '' : '';
   };
 
@@ -269,6 +275,20 @@
   Item.formatDimensions = function () {
     return this.width ? this.width * 1 + 'x' + this.height * 1 : '';
   };
+
+  /**
+   * Formats item dimensions with img metadata disable.
+   */
+  Item.formatDimensionsImgDataDisable = async function (url) {
+    var img;
+    var imageLoadPromise = new Promise(resolve => {
+      img = new Image();
+      img.src = url;
+      img.onload = resolve;
+    });
+    await imageLoadPromise;
+    return img.naturalWidth + 'X' + img.naturalHeight;
+  }
 
   /**
    * Adds new item properties.
@@ -406,7 +426,7 @@
     }
     // Dimensions
     if (Item.width) {
-      infoEl.appendChild(imce.createEl('<div class="dimensions">' + Item.formatDimensions() + '</div>'));
+      infoEl.appendChild(imce.createEl('<div class="dimensions"></div>'));
     }
     // Date
     if (Item.date) {
@@ -418,6 +438,13 @@
       prvEl.appendChild(el);
       prvEl.className += ' image';
       el.firstChild.onclick = imce.ePrvImgClick;
+      //Get image dimensions
+      if (Item.width == "-"){
+        Item.formatDimensionsImgDataDisable(url).then(function (result) {
+          infoEl.children[2].innerHTML = result;
+        });
+      }else
+        infoEl.children[2].innerHTML = Item.formatDimensions();
     }
     return prvEl;
   };

@@ -95,8 +95,12 @@
         var isWidth = els.width === el;
         var value = els[isWidth ? 'height' : 'width'].value * 1;
         var Item = imce.previewingItem;
-        if (Item && Item.width && value) {
+        if (Item && Item.width != '-' && Item.width && value) {
           ratio = Item.width / Item.height;
+          el.value = Math.round(isWidth ? value * ratio : value / ratio);
+        } else if (Item && Item.width == '-' && Item.width && value) {
+          var img = $('.imce-preview-image').find('img');
+          ratio = img[0].naturalWidth / img[0].naturalHeight;
           el.value = Math.round(isWidth ? value * ratio : value / ratio);
         }
         el = null;

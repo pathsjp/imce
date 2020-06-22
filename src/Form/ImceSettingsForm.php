@@ -91,6 +91,12 @@ class ImceSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('admin_theme'),
       '#description' => $this->t('If you have user interface issues with the active theme you may consider switching to admin theme.'),
     ];
+    $form['common']['disable_imagesize_calculation'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable image size calculation'),
+      '#default_value' => $config->get('disable_imagesize_calculation'),
+      '#description' => $this->t('If you have large number of images into your file directory then please disable image size calculation to render the images on IMCE browser.'),
+    ];
     $form['#attached']['library'][] = 'imce/drupal.imce.admin';
     return parent::buildForm($form, $form_state);
   }
@@ -104,6 +110,9 @@ class ImceSettingsForm extends ConfigFormBase {
     $config->set('abs_urls', $form_state->getValue('abs_urls'));
     // Admin theme.
     $config->set('admin_theme', $form_state->getValue('admin_theme'));
+    // Disable image size calculation.
+    $config->set('disable_imagesize_calculation', $form_state->getValue('disable_imagesize_calculation'));
+
     $roles_profiles = $form_state->getValue('roles_profiles');
     // Filter empty values.
     foreach ($roles_profiles as $rid => &$profiles) {

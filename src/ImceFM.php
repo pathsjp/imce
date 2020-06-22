@@ -469,6 +469,14 @@ class ImceFM {
    * Returns js properties of a image file.
    */
   public function getImageProperties($uri) {
+
+    $imce_settings = \Drupal::config('imce.settings');
+    $disable_imagesize_calculation = $imce_settings->get('disable_imagesize_calculation');
+    if($disable_imagesize_calculation) {
+      $imageProperties['width'] = '-';
+      $imageProperties['height'] = '-';
+      return $imageProperties;
+    }
     // Use APC to cache the file's data if available.
     if (function_exists('apcu_fetch')) {
       $cache = apcu_fetch($uri);

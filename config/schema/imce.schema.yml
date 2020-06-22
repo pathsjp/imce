@@ -9,6 +9,9 @@ imce.settings:
     admin_theme:
       type: boolean
       label: 'Use admin theme for IMCE paths'
+    disable_imagesize_calculation:
+      type: boolean
+      label: 'Use disable image size calculation'
     roles_profiles:
       type: sequence
       label: 'Role-profile assignments'
