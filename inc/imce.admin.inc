@@ -126,6 +126,17 @@ function imce_admin_form($form, &$form_state) {
       IMCE_RENAME_REPLACE => t('Let the user decide which option to choose'),
     ),
   );
+  $form['common']['sort'] = array(
+    '#type' => 'radios',
+    '#title' => t('Default file sort when IMCE is opened'),
+    '#default_value' => variable_get('imce_settings_sort', 'default'),
+    '#options' => array(
+      'default' => t('First sort by name and then will sort by the last option the user used'),
+      'by_name' => t('Sort by name'),
+      'by_size' => t('Sort by size'),
+      'by_date' => t('Sort by date'),
+    ),
+  );
   $form['common']['thumb_method'] = array(
     '#type' => 'radios',
     '#title' => t('Default method for creating thumbnails'),
@@ -225,6 +236,7 @@ function imce_admin_submit($form, &$form_state) {
   variable_set('imce_settings_textarea', $form_state['values']['textarea']);
   variable_set('imce_settings_absurls', $form_state['values']['absurls']);
   variable_set('imce_settings_replace', $form_state['values']['replace']);
+  variable_set('imce_settings_sort', $form_state['values']['sort']);
   variable_set('imce_settings_thumb_method', $form_state['values']['thumb_method']);
   variable_set('imce_settings_disable_private', $form_state['values']['disable_private']);
   variable_set('imce_settings_admin_theme', $form_state['values']['admin_theme']);
