@@ -5,6 +5,7 @@ body.imce {
   background: none;
   text-align: left;
   height: auto;
+  min-width: auto;
 }
 
 /*Main container*/
