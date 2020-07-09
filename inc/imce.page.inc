@@ -11,7 +11,7 @@
 function imce($scheme = NULL) {
   // Suppress admin_menu.
   module_invoke('admin_menu', 'suppress');
-  $jsop = isset($_GET['jsop']) ? $_GET['jsop'] : NULL;
+  $jsop = isset($_GET['jsop']) ? filter_xss($_GET['jsop']) : NULL;
   drupal_add_http_header('Content-Type', 'text/html; charset=utf-8');
   print imce_page($GLOBALS['user'], $scheme, $jsop);
   exit();
@@ -858,7 +858,7 @@ function imce_initiate_profile($user, $scheme = NULL) {
     imce_process_directories($imce, $user);
     if (!empty($imce['directories'])) {
       $imce['uid'] = (int) $user->uid;
-      $imce['url'] = url($_GET['q']);
+      $imce['url'] = check_url(url($_GET['q']));
       $imce['clean'] = variable_get('clean_url', 0) == 1;
       $imce['absurls'] = variable_get('imce_settings_absurls', 0) == 1;
       $imce['furl'] = file_create_url($imce['scheme'] . '://');
@@ -959,8 +959,9 @@ function imce_working_directory(&$imce) {
   }
   // Check GET.
   if (isset($_GET['dir'])) {
-    if ($info = imce_directory_info($_GET['dir'], $imce)) {
-      if (imce_check_directory($_GET['dir'], $imce)) {
+    $selected_dir = filter_xss($_GET['dir']);
+    if ($info = imce_directory_info($selected_dir, $imce)) {
+      if (imce_check_directory($selected_dir, $imce)) {
         if ($sess) {
           $_SESSION['imce_directory'] = rawurlencode($info['name']);
         }
@@ -970,14 +971,14 @@ function imce_working_directory(&$imce) {
       }
     }
     else {
-      imce_inaccessible_directory($_GET['dir'], $imce);
+      imce_inaccessible_directory($selected_dir, $imce);
     }
     return $info;
   }
 
   // Check session.
   if ($sess && isset($_SESSION['imce_directory'])) {
-    $dirname = rawurldecode($_SESSION['imce_directory']);
+    $dirname = check_url(rawurldecode($_SESSION['imce_directory']));
     if ($info = imce_directory_info($dirname, $imce)) {
       if (imce_check_directory($dirname, $imce)) {
         return $info;
