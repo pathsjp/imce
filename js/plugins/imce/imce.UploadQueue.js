@@ -196,7 +196,15 @@
       data: formData,
       processData: false,
       contentType: false,
-      custombeforeSend: imce.xUqItemBeforeSend,
+      xhr: function() {
+        var xhr = $.ajaxSettings.xhr();
+        xhr.upload.onprogress = function (e) {
+          if (e.lengthComputable) {
+            Item.progress(parseInt(e.loaded * 100 / e.total));
+          }
+        };
+        return xhr;
+      },
       customComplete: imce.xUqItemComplete,
       itemId: Item.id,
       activeFolder: Folder
@@ -365,20 +373,6 @@
    */
   imce.eUqItemFadeout = function () {
     $(this).remove();
-  };
-
-  /**
-   * Ajax beforeSend handler of upload queue.
-   */
-  imce.xUqItemBeforeSend = function (xhr) {
-    var id = this.itemId;
-    xhr.upload.onprogress = function (e) {
-      var Item = imce.activeUq.getItem(id);
-      if (Item) {
-        Item.progress(parseInt(e.loaded * 100 / e.total));
-      }
-    };
-    xhr = null;
   };
 
   /**
