@@ -1302,12 +1302,6 @@
   imce.ajaxBeforeSend = function (xhr, opt) {
     var handler;
     var Folder;
-    if (handler = opt.customBeforeSend) {
-      if (handler.apply(this, arguments) === false) {
-        opt.activeFolder = null;
-        return false;
-      }
-    }
     if (Folder = opt.activeFolder) {
       Folder.setBusy(true);
     }
@@ -1347,7 +1341,9 @@
    * Default ajax error handler.
    */
   imce.ajaxError = function (xhr, status, e) {
-    imce.setMessage('<pre class="imce-ajax-error">' + Drupal.checkPlain(imce.ajaxErrorMessage(xhr, this.url)) + '</pre>');
+    if (status != 'abort') {
+      imce.setMessage('<pre class="imce-ajax-error">' + Drupal.checkPlain(imce.ajaxErrorMessage(xhr, this.url)) + '</pre>');
+    }
   };
 
   /**
