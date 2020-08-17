@@ -95,29 +95,6 @@ class ImceProfileForm extends EntityForm {
     $conf = [
       '#tree' => TRUE,
     ];
-    // Extensions.
-    $conf['extensions'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Allowed file extensions'),
-      '#default_value' => $imce_profile->getConf('extensions'),
-      '#maxlength' => 255,
-      '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
-      '#weight' => -9,
-    ];
-    // File size.
-    $maxsize = Environment::getUploadMaxSize();
-    $conf['maxsize'] = [
-      '#type' => 'number',
-      '#min' => 0,
-      '#max' => ceil($maxsize / 1024 / 1024),
-      '#step' => 'any',
-      '#size' => 8,
-      '#title' => $this->t('Maximum file size'),
-      '#default_value' => $imce_profile->getConf('maxsize'),
-      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . $this->t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
-      '#field_suffix' => $this->t('MB'),
-      '#weight' => -8,
-    ];
     // Quota.
     $conf['quota'] = [
       '#type' => 'number',
@@ -130,40 +107,12 @@ class ImceProfileForm extends EntityForm {
       '#field_suffix' => $this->t('MB'),
       '#weight' => -7,
     ];
-    // Image dimensions.
-    $conf['dimensions'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['dimensions-wrapper form-item']],
-      '#weight' => -6,
-    ];
-    $conf['dimensions']['label'] = [
-      '#markup' => '<label>' . $this->t('Maximum image dimensions') . '</label>',
-    ];
-    $conf['dimensions']['maxwidth'] = [
-      '#type' => 'number',
-      '#default_value' => $imce_profile->getConf('maxwidth'),
-      '#maxlength' => 5,
-      '#min' => 0,
-      '#size' => 8,
-      '#placeholder' => $this->t('Width'),
-      '#field_suffix' => ' x ',
-      '#parents' => ['conf', 'maxwidth'],
-    ];
-    $conf['dimensions']['maxheight'] = [
-      '#type' => 'number',
-      '#default_value' => $imce_profile->getConf('maxheight'),
-      '#maxlength' => 5,
-      '#min' => 0,
-      '#size' => 8,
-      '#placeholder' => $this->t('Height'),
-      '#field_suffix' => $this->t('pixels'),
-      '#parents' => ['conf', 'maxheight'],
-    ];
-    $conf['dimensions']['description'] = [
-      '#markup' => '<div class="description">' . $this->t('Images exceeding the limit will be scaled down.') . '</div>',
+    $conf['upload_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Upload settings'),
     ];
     // Replace method.
-    $conf['replace'] = [
+    $conf['upload_settings']['replace'] = [
       '#type' => 'radios',
       '#title' => $this->t('Upload replace method'),
       '#default_value' => $imce_profile->getConf('replace', FileSystemInterface::EXISTS_RENAME),
@@ -175,9 +124,73 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
     ];
+    // Extensions.
+    $conf['upload_settings']['extensions'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Allowed file extensions'),
+      '#default_value' => $imce_profile->getConf('extensions'),
+      '#maxlength' => 255,
+      '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
+      '#weight' => -9,
+    ];
+    // File size.
+    $maxsize = Environment::getUploadMaxSize();
+    $conf['upload_settings']['maxsize'] = [
+      '#type' => 'number',
+      '#min' => 0,
+      '#max' => ceil($maxsize / 1024 / 1024),
+      '#step' => 'any',
+      '#size' => 8,
+      '#title' => $this->t('Maximum file size'),
+      '#default_value' => $imce_profile->getConf('maxsize'),
+      '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . $this->t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
+      '#field_suffix' => $this->t('MB'),
+      '#weight' => -8,
+    ];
+
+    $conf['image_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Image settings'),
+    ];
+    // Image dimensions.
+    $conf['image_settings']['dimensions'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['dimensions-wrapper form-item']],
+      '#weight' => -6,
+    ];
+    $conf['image_settings']['dimensions']['label'] = [
+      '#markup' => '<label>' . $this->t('Maximum image dimensions') . '</label>',
+    ];
+    $conf['image_settings']['dimensions']['maxwidth'] = [
+      '#type' => 'number',
+      '#default_value' => $imce_profile->getConf('maxwidth'),
+      '#maxlength' => 5,
+      '#min' => 0,
+      '#size' => 8,
+      '#placeholder' => $this->t('Width'),
+      '#field_suffix' => ' x ',
+      '#parents' => ['conf', 'maxwidth'],
+    ];
+    $conf['image_settings']['dimensions']['maxheight'] = [
+      '#type' => 'number',
+      '#default_value' => $imce_profile->getConf('maxheight'),
+      '#maxlength' => 5,
+      '#min' => 0,
+      '#size' => 8,
+      '#placeholder' => $this->t('Height'),
+      '#field_suffix' => $this->t('pixels'),
+      '#parents' => ['conf', 'maxheight'],
+    ];
+    $conf['image_settings']['dimensions']['description'] = [
+      '#markup' => '<div class="description">' . $this->t('Images exceeding the limit will be scaled down.') . '</div>',
+    ];
     // Image thumbnails.
     if (function_exists('image_style_options')) {
-      $conf['thumbnail_style'] = [
+      $conf['thumbnail_settings'] = [
+        '#type' => 'details',
+        '#title' => $this->t('Thumbnail settings'),
+      ];
+      $conf['thumbnail_settings']['thumbnail_style'] = [
         '#type' => 'select',
         '#title' => $this->t('Thumbnail style'),
         '#options' => image_style_options(),
@@ -185,7 +198,7 @@ class ImceProfileForm extends EntityForm {
         '#description' => $this->t('Select a thumbnail style from the list to make the file browser display inline image previews. Note that this could reduce the performance of the file browser drastically.'),
       ];
 
-      $conf['thumbnail_grid_style'] = [
+      $conf['thumbnail_settings']['thumbnail_grid_style'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Thumbnail grid style'),
         '#default_value' => $imce_profile->getConf('thumbnail_grid_style'),
