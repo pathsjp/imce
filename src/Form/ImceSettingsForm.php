@@ -97,6 +97,44 @@ class ImceSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('disable_imagesize_calculation'),
       '#description' => $this->t('If you have large number of images into your file directory then please disable image size calculation to render the images on IMCE browser.'),
     ];
+
+    $form['image'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Image compression on upload'),
+    ];
+
+    $form['image']['compress_type'] = [
+      '#type' => 'radios',
+      '#default_value' => $config->get('compress_type'),
+      '#options' => [
+        'GD_Library' => 'GD Library',
+        'Imagick' => 'Imagick',
+        'Tinify' => 'Tinify',
+      ],
+      'Tinify' => [
+        '#disabled' => !function_exists('\Tinify\setkey'),
+        '#description' => $this->t('Require <b>Tinify API client for PHP</b> to allow this option.<br>To install run: <b>composer require tinify/tinify</b>'),
+      ],
+
+    ];
+
+    $form['image']['tinify_api_key'] = [
+      '#type' => 'textfield',
+      '#default_value' => $config->get('tinify_api_key'),
+      '#placeholder' => 'Enter with Tinify API key.',
+      '#attributes' => [
+        'id' => 'tinify_api_key',
+      ],
+      '#states' => [
+        'visible' => [
+          ':input[name="compress_type"]' => ['value' => 'Tinify'],
+        ],
+        'required' => [
+          ':input[name="compress_type"]' => ['value' => 'Tinify'],
+        ],
+      ],
+    ];
+
     $form['#attached']['library'][] = 'imce/drupal.imce.admin';
     return parent::buildForm($form, $form_state);
   }
@@ -112,6 +150,10 @@ class ImceSettingsForm extends ConfigFormBase {
     $config->set('admin_theme', $form_state->getValue('admin_theme'));
     // Disable image size calculation.
     $config->set('disable_imagesize_calculation', $form_state->getValue('disable_imagesize_calculation'));
+    // Set library compression.
+    $config->set('compress_type', $form_state->getValue('compress_type'));
+    // Set key to Tiify API.
+    $config->set('tinify_api_key', $form_state->getValue('tinify_api_key'));
 
     $roles_profiles = $form_state->getValue('roles_profiles');
     // Filter empty values.
