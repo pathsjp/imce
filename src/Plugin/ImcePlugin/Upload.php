@@ -6,6 +6,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\file\FileInterface;
 use Drupal\imce\ImcePluginBase;
 use Drupal\imce\ImceFM;
+use Drupal\imce\ImceImageCompressTrait;
 
 /**
  * Defines Imce Upload plugin.
@@ -20,6 +21,8 @@ use Drupal\imce\ImceFM;
  * )
  */
 class Upload extends ImcePluginBase {
+
+  use ImceImageCompressTrait;
 
   /**
    * {@inheritdoc}
@@ -76,8 +79,14 @@ class Upload extends ImcePluginBase {
         $item = $folder->addFile($name);
         $item->uuid = $file->uuid();
         $item->addToJs();
+        $this->imageCompress($file->getFileUri());
       }
     }
+  }
+
+  public function imageCompress($uri) {
+    $compressType = \Drupal::config('imce.settings')->get('compress_type');
+    $this->$compressType($uri);
   }
 
   /**

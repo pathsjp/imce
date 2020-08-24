@@ -107,11 +107,11 @@ class ImceSettingsForm extends ConfigFormBase {
       '#type' => 'radios',
       '#default_value' => $config->get('compress_type'),
       '#options' => [
-        'GD_Library' => 'GD Library',
-        'Imagick' => 'Imagick',
-        'Tinify' => 'Tinify',
+        'compressGd' => 'GD Library',
+        'compressImagick' => 'Imagick',
+        'compressTinify' => 'Tinify',
       ],
-      'Tinify' => [
+      'compressTinify' => [
         '#disabled' => !function_exists('\Tinify\setkey'),
         '#description' => $this->t('Require <b>Tinify API client for PHP</b> to allow this option.<br>To install run: <b>composer require tinify/tinify</b>'),
       ],
@@ -127,10 +127,10 @@ class ImceSettingsForm extends ConfigFormBase {
       ],
       '#states' => [
         'visible' => [
-          ':input[name="compress_type"]' => ['value' => 'Tinify'],
+          ':input[name="compress_type"]' => ['value' => 'compressTinify'],
         ],
         'required' => [
-          ':input[name="compress_type"]' => ['value' => 'Tinify'],
+          ':input[name="compress_type"]' => ['value' => 'compressTinify'],
         ],
       ],
     ];

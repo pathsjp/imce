@@ -8,8 +8,8 @@ namespace Drupal\imce;
 trait ImceImageCompressTrait {
 
 
-  public static function compressTinify($uri, $tinifyKey) {
-    \Tinify\setkey($tinifyKey);
+  public static function compressTinify($uri) {
+    \Tinify\setkey(\Drupal::config('imce.settings')->get('tinify_api_key'));
     \Tinify\fromFile($uri)->toFile($uri);
   }
 
@@ -46,4 +46,5 @@ trait ImceImageCompressTrait {
     $img->stripImage();
     $img->writeImage($imagePath);
   }
+
 }
