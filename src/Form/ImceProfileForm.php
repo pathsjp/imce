@@ -123,6 +123,7 @@ class ImceProfileForm extends EntityForm {
       ],
       '#description' => $this->t('Select the replace method for existing files during uploads.'),
       '#weight' => -5,
+      '#parents' => ['conf', 'replace'],
     ];
     // Extensions.
     $conf['upload_settings']['extensions'] = [
@@ -132,6 +133,7 @@ class ImceProfileForm extends EntityForm {
       '#maxlength' => 255,
       '#description' => $this->t('Separate extensions with a space, and do not include the leading dot.') . ' ' . $this->t('Set to * to allow all extensions.'),
       '#weight' => -9,
+      '#parents' => ['conf', 'extensions'],
     ];
     // File size.
     $maxsize = Environment::getUploadMaxSize();
@@ -146,6 +148,7 @@ class ImceProfileForm extends EntityForm {
       '#description' => $this->t('Maximum allowed file size per upload.') . ' ' . $this->t('Your PHP settings limit the upload size to %size.', ['%size' => format_size($maxsize)]),
       '#field_suffix' => $this->t('MB'),
       '#weight' => -8,
+      '#parents' => ['conf', 'maxsize'],
     ];
 
     $conf['image_settings'] = [
@@ -196,6 +199,7 @@ class ImceProfileForm extends EntityForm {
         '#options' => image_style_options(),
         '#default_value' => $imce_profile->getConf('thumbnail_style'),
         '#description' => $this->t('Select a thumbnail style from the list to make the file browser display inline image previews. Note that this could reduce the performance of the file browser drastically.'),
+        '#parents' => ['conf', 'thumbnail_style'],
       ];
 
       $conf['thumbnail_settings']['thumbnail_grid_style'] = [
@@ -203,6 +207,7 @@ class ImceProfileForm extends EntityForm {
         '#title' => $this->t('Thumbnail grid style'),
         '#default_value' => $imce_profile->getConf('thumbnail_grid_style'),
         '#description' => $this->t('Check it if you want to display the thumbnail in a grid. If not checked it will display the thumbnail in a list.'),
+        '#parents' => ['conf', 'thumbnail_grid_style'],
       ];
     }
     // Folders.
