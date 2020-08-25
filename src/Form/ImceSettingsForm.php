@@ -107,6 +107,7 @@ class ImceSettingsForm extends ConfigFormBase {
       '#type' => 'radios',
       '#default_value' => $config->get('compress_type'),
       '#options' => [
+        'noCompress' => 'No Compress',
         'compressGd' => 'GD Library',
         'compressImagick' => 'Imagick',
         'compressTinify' => 'Tinify',
@@ -117,7 +118,6 @@ class ImceSettingsForm extends ConfigFormBase {
       ],
 
     ];
-
 
     $form['image']['quality_gd'] = [
       '#type' => 'range',

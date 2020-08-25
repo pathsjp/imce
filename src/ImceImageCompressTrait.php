@@ -47,4 +47,8 @@ trait ImceImageCompressTrait {
     $img->writeImage($imagePath);
   }
 
+  public function noCompress($uri) {
+    return FALSE;
+  }
+
 }
