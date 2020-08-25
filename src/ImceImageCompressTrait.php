@@ -30,7 +30,7 @@ trait ImceImageCompressTrait {
     }
 
     // Compress and save file to jpg.
-    imagejpeg($image, $uri, 70);
+    imagejpeg($image, $uri, \Drupal::config('imce.settings')->get('quality_gd'));
 
     // Return destination file.
     return $uri;
@@ -42,7 +42,7 @@ trait ImceImageCompressTrait {
     $img = new \Imagick();
     $img->readImage($imagePath);
     $img->setImageCompression(\Imagick::COMPRESSION_JPEG2000);
-    $img->setImageCompressionQuality(70);
+    $img->setImageCompressionQuality(\Drupal::config('imce.settings')->get('quality_imagick'));
     $img->stripImage();
     $img->writeImage($imagePath);
   }
