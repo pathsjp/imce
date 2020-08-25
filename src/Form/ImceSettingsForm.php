@@ -118,6 +118,45 @@ class ImceSettingsForm extends ConfigFormBase {
 
     ];
 
+
+    $form['image']['quality_gd'] = [
+      '#type' => 'range',
+      '#default_value' => $config->get('quality_gd'),
+      '#min' => 60,
+      '#max' => 90,
+      '#description' => 'Image quality: <span id="quality_percent_gd"></span>',
+      '#attributes' => [
+        'id' => 'quality_gd',
+      ],
+      '#states' => [
+        'visible' => [
+          ':input[name="compress_type"]' => ['value' => 'compressGd'],
+        ],
+        'required' => [
+          ':input[name="compress_type"]' => ['value' => 'compressGd'],
+        ],
+      ],
+    ];
+
+    $form['image']['quality_imagick'] = [
+      '#type' => 'range',
+      '#default_value' => $config->get('quality_imagick'),
+      '#min' => 60,
+      '#max' => 90,
+      '#description' => 'Image quality: <span id="quality_percent_imagick"></span>',
+      '#attributes' => [
+        'id' => 'quality_imagick',
+      ],
+      '#states' => [
+        'visible' => [
+          ':input[name="compress_type"]' => ['value' => 'compressImagick'],
+        ],
+        'required' => [
+          ':input[name="compress_type"]' => ['value' => 'compressImagick'],
+        ],
+      ],
+    ];
+
     $form['image']['tinify_api_key'] = [
       '#type' => 'textfield',
       '#default_value' => $config->get('tinify_api_key'),
@@ -154,6 +193,8 @@ class ImceSettingsForm extends ConfigFormBase {
     $config->set('compress_type', $form_state->getValue('compress_type'));
     // Set key to Tiify API.
     $config->set('tinify_api_key', $form_state->getValue('tinify_api_key'));
+    $config->set('quality_gd', $form_state->getValue('quality_gd'));
+    $config->set('quality_imagick', $form_state->getValue('quality_imagick'));
 
     $roles_profiles = $form_state->getValue('roles_profiles');
     // Filter empty values.
