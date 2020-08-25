@@ -30,7 +30,7 @@ trait ImceImageCompressTrait {
     }
 
     // Compress and save file to jpg.
-    imagejpeg($image, $uri, 90);
+    imagejpeg($image, $uri, 70);
 
     // Return destination file.
     return $uri;
@@ -42,7 +42,7 @@ trait ImceImageCompressTrait {
     $img = new \Imagick();
     $img->readImage($imagePath);
     $img->setImageCompression(\Imagick::COMPRESSION_JPEG2000);
-    $img->setImageCompressionQuality(80);
+    $img->setImageCompressionQuality(70);
     $img->stripImage();
     $img->writeImage($imagePath);
   }
