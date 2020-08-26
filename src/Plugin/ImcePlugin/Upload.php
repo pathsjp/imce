@@ -69,6 +69,7 @@ class Upload extends ImcePluginBase {
     $validators[get_class($this) . '::validateFileName'] = [$fm];
     // Save files.
     if ($files = file_save_upload('imce', $validators, $destination, NULL, $replace)) {
+      /** @var \Drupal\file\Entity\File $file */
       foreach (array_filter($files) as $file) {
         // Set status and save.
         $file->setPermanent();
