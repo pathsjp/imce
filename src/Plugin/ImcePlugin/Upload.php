@@ -69,13 +69,12 @@ class Upload extends ImcePluginBase {
     $validators[get_class($this) . '::validateFileName'] = [$fm];
     // Save files.
     if ($files = file_save_upload('imce', $validators, $destination, NULL, $replace)) {
-      $fs = \Drupal::service('file_system');
       foreach (array_filter($files) as $file) {
         // Set status and save.
         $file->setPermanent();
         $file->save();
         // Add to the folder and to js response.
-        $name = $fs->basename($file->getFileUri());
+        $name = $file->getFilename();
         $item = $folder->addFile($name);
         $item->uuid = $file->uuid();
         $this->imageCompress($file->getFileUri());
