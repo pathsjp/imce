@@ -457,7 +457,8 @@ class ImceFM {
    * Returns js properties of a file.
    */
   public function getFileProperties($uri) {
-    $properties = ['date' => filemtime($uri), 'size' => filesize($uri)];
+    $realpath = \Drupal::service('file_system')->realpath($uri);
+    $properties = ['date' => filemtime($uri), 'size' => filesize($realpath)];
     if (preg_match('/\.(jpe?g|png|gif)$/i', $uri)) {
       $properties = array_merge($properties, $this->getImageProperties($uri));
     }

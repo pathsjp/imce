@@ -78,8 +78,9 @@ class Upload extends ImcePluginBase {
         $name = $fs->basename($file->getFileUri());
         $item = $folder->addFile($name);
         $item->uuid = $file->uuid();
-        $item->addToJs();
         $this->imageCompress($file->getFileUri());
+        $item->addToJs();
+
       }
     }
   }
