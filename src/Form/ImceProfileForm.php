@@ -174,6 +174,17 @@ class ImceProfileForm extends EntityForm {
       '#field_suffix' => ' x ',
       '#parents' => ['conf', 'maxwidth'],
     ];
+    $conf['operation_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Operation settings'),
+    ];
+    $conf['operation_settings']['ignore_usage'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Ignore the file usage when deleting it.'),
+      '#default_value' => $imce_profile->getConf('ignore_usage'),
+      '#description' => $this->t('If it is checked it will be able to delete a file even if it is being used somewhere else. Pay attation if you really wanna to enable it.'),
+      '#parents' => ['conf', 'ignore_usage'],
+    ];
     $conf['image_settings']['dimensions']['maxheight'] = [
       '#type' => 'number',
       '#default_value' => $imce_profile->getConf('maxheight'),
