@@ -51,4 +51,14 @@ trait ImceImageCompressTrait {
     return FALSE;
   }
 
+
+  public function imageCompress($uri) {
+    if (!exif_imagetype($uri)) {
+      return FALSE;
+    }
+
+    $compressType = \Drupal::config('imce.settings')->get('compress_type');
+    $this->$compressType($uri);
+  }
+
 }
