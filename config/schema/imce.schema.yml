@@ -12,6 +12,9 @@ imce.settings:
     disable_imagesize_calculation:
       type: boolean
       label: 'Use disable image size calculation'
+    compress_type:
+      type: string
+      label: IMAGE COMPRESSION ON UPLOAD
     roles_profiles:
       type: sequence
       label: 'Role-profile assignments'

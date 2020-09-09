@@ -2,3 +2,4 @@ abs_urls: false
 admin_theme: false
 disable_imagesize_calculation: false
 roles_profiles: []
+compress_type: noCompress
