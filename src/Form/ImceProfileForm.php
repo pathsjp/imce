@@ -27,7 +27,6 @@ class ImceProfileForm extends EntityForm {
    *
    * @param \Drupal\imce\ImcePluginManager $plugin_manager_imce
    *   Plugin manager for Imce Plugins.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    */
   public function __construct(ImcePluginManager $plugin_manager_imce) {
     $this->pluginManagerImce = $plugin_manager_imce;
