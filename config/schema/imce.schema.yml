@@ -64,6 +64,10 @@ imce.profile_conf.maxheight:
   type: integer
   label: 'Maximum image height'
 
+imce.profile_conf.filenum:
+  type: integer
+  label: 'Maximum number of files per operation'
+
 imce.profile_conf.replace:
   type: integer
   label: 'Upload replace method'

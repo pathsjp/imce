@@ -8,6 +8,7 @@ conf:
   quota: 0
   maxwidth: 0
   maxheight: 0
+  filenum: 0
   replace: 0
   thumbnail_style: ''
   thumbnail_grid_style: false

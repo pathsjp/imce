@@ -55,7 +55,7 @@ class Resize extends ImcePluginBase {
    * Validates item resizing.
    */
   public function validateResize(ImceFM $fm, array $items, $width, $height, $copy) {
-    return $items && $fm->validateDimensions($items, $width, $height) && $fm->validateImageTypes($items) && $fm->validatePermissions($items, 'resize_images');
+    return $items && $fm->validateDimensions($items, $width, $height) && $fm->validateImageTypes($items) && $fm->validatePermissions($items, 'resize_images') && $fm->validateFilesPerOperation($items);
   }
 
   /**

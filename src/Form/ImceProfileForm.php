@@ -151,6 +151,28 @@ class ImceProfileForm extends EntityForm {
       '#parents' => ['conf', 'maxsize'],
     ];
 
+    $conf['operation_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Operation settings'),
+    ];
+    $conf['operation_settings']['ignore_usage'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Ignore the file usage when deleting it.'),
+      '#default_value' => $imce_profile->getConf('ignore_usage'),
+      '#description' => $this->t('If it is checked it will be able to delete a file even if it is being used somewhere else. Pay attation if you really wanna to enable it.'),
+      '#parents' => ['conf', 'ignore_usage'],
+    ];
+
+    $conf['operation_settings']['filenum'] = [
+      '#type' => 'number',
+      '#min' => 0,
+      '#step' => 'any',
+      '#size' => 8,
+      '#title' => $this->t('Maximum number of files per operation'),
+      '#default_value' => $imce_profile->getConf('filenum'),
+      '#description' => $this->t('You can allow users to select multiple files for operations such as delete and resize. Entire batch file operation is executed in a single drupal load, which may be good. However there will be an increase in script execution time, cpu load and memory consumption possibly exceeding the limits of your server, which is really bad. For unlimited number of file handling, set this to 0.'),
+    ];
+
     $conf['image_settings'] = [
       '#type' => 'details',
       '#title' => $this->t('Image settings'),
@@ -173,17 +195,6 @@ class ImceProfileForm extends EntityForm {
       '#placeholder' => $this->t('Width'),
       '#field_suffix' => ' x ',
       '#parents' => ['conf', 'maxwidth'],
-    ];
-    $conf['operation_settings'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Operation settings'),
-    ];
-    $conf['operation_settings']['ignore_usage'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Ignore the file usage when deleting it.'),
-      '#default_value' => $imce_profile->getConf('ignore_usage'),
-      '#description' => $this->t('If it is checked it will be able to delete a file even if it is being used somewhere else. Pay attation if you really wanna to enable it.'),
-      '#parents' => ['conf', 'ignore_usage'],
     ];
     $conf['image_settings']['dimensions']['maxheight'] = [
       '#type' => 'number',

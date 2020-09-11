@@ -8,6 +8,7 @@ conf:
   quota: 50
   maxwidth: 1024
   maxheight: 1024
+  filenum: 0
   replace: 0
   thumbnail_style: ''
   thumbnail_grid_style: false

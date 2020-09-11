@@ -54,7 +54,7 @@ class Delete extends ImcePluginBase {
    * Validates the deletion of the given items.
    */
   public function validateDelete(ImceFM $fm, array $items) {
-    return $items && $fm->validatePermissions($items, 'delete_files', 'delete_subfolders') && $fm->validatePredefinedPath($items);
+    return $items && $fm->validatePermissions($items, 'delete_files', 'delete_subfolders') && $fm->validatePredefinedPath($items) && $fm->validateFilesPerOperation($items);
   }
 
   /**

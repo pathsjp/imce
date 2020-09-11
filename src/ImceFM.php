@@ -747,4 +747,16 @@ class ImceFM {
     }
   }
 
+  /**
+   * Validate if the user has permission to execute the operation in multiple files.
+   */
+  public function validateFilesPerOperation($items) {
+    $files_per_operation = $this->getConf('filenum');
+    if (count($items) > $files_per_operation && $files_per_operation != 0) {
+      \Drupal::messenger()
+        ->addMessage(t('You are allowed to manage only %files files per operation.', ['%files' => $files_per_operation]), 'error');
+      return FALSE;
+    } else
+      return TRUE;
+  }
 }
