@@ -126,6 +126,7 @@ class ImceSettingsForm extends ConfigFormBase {
       '#max' => 90,
       '#description' => 'Image quality: <span id="quality_percent_gd"></span>',
       '#attributes' => [
+        'class' => ['imce-compress-field-size'],
         'id' => 'quality_gd',
       ],
       '#states' => [
@@ -145,6 +146,7 @@ class ImceSettingsForm extends ConfigFormBase {
       '#max' => 90,
       '#description' => 'Image quality: <span id="quality_percent_imagick"></span>',
       '#attributes' => [
+        'class' => ['imce-compress-field-size'],
         'id' => 'quality_imagick',
       ],
       '#states' => [
@@ -162,6 +164,7 @@ class ImceSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('tinify_api_key'),
       '#placeholder' => 'Enter with Tinify API key.',
       '#attributes' => [
+        'class' => ['imce-compress-field-size'],
         'id' => 'tinify_api_key',
       ],
       '#states' => [

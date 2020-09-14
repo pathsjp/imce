@@ -45,6 +45,11 @@
   display: inline-block;
 }
 
+input.imce-compress-field-size {
+  width: 350px;
+  margin-bottom: 10px;
+}
+
 iframe.imce-browser {
   height: 600px;
   width: 100%;
