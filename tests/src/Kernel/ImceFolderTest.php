@@ -83,7 +83,7 @@ class ImceFolderTest extends KernelTestBasePlugin {
    */
   public function testName() {
     $this->assertIsString($this->imceFolder->name);
-    $this->assertEqual($this->imceFolder->name, 'js');
+    $this->assertEquals($this->imceFolder->name, 'js');
   }
 
   /**

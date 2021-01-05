@@ -152,8 +152,8 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->setParameterCopy(1);
     $this->resize->opResize($this->imceFM);
     list($width, $height) = getimagesize(PublicStream::basePath() . '/ciandt_0.jpg');
-    $this->assertEqual($width, 315);
-    $this->assertEqual($height, 210);
+    $this->assertEquals($width, 315);
+    $this->assertEquals($height, 210);
   }
 
   /**
@@ -163,8 +163,8 @@ class ResizeTest extends KernelTestBasePlugin {
     $this->setParameterCopy(0);
     $this->resize->opResize($this->imceFM);
     list($width, $height) = getimagesize(PublicStream::basePath() . '/ciandt.jpg');
-    $this->assertEqual($width, 315);
-    $this->assertEqual($height, 210);
+    $this->assertEquals($width, 315);
+    $this->assertEquals($height, 210);
   }
 
   /**
