@@ -36,7 +36,7 @@ class ImceFolderTest extends KernelTestBasePlugin {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp() : void {
     parent::setUp();
     $this->imceFolder = new ImceFolder('js', $this->getConf());
     $this->imceFolder->setFm($this->getImceFM());

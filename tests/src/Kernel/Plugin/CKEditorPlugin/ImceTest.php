@@ -40,7 +40,7 @@ class ImceTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp() : void {
     parent::setUp();
     $this->imce = new Imce([], "text_textarea_with_summary", $this->getPluginDefinations());
   }

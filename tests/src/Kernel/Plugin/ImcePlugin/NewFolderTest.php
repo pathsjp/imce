@@ -46,7 +46,7 @@ class NewFolderTest extends KernelTestBasePlugin {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp() : void {
     parent::setUp();
 
     $this->imceFM = $this->getImceFM();

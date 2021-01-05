@@ -35,7 +35,7 @@ class ImceSettingsFormTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'system',
     'user',
     'imce',
@@ -44,7 +44,7 @@ class ImceSettingsFormTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp() : void {
     parent::setUp();
     $this->imceConfig = $this->container->get('config.factory')->get('imce.settings');
     $this->imceSettingsForm = ImceSettingsForm::create($this->container);
