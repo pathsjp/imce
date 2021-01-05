@@ -31,7 +31,7 @@ class ImceTest extends KernelTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'user',
     'system',
     'imce',
@@ -51,7 +51,8 @@ class ImceTest extends KernelTestBase {
   public function testGetDependencies() {
     $dependencies = $this->imce->getDependencies($this->createMock(Editor::class));
     $this->assertIsArray($dependencies);
-    $this->assertArraySubset(['drupalimage', 'drupalimagecaption'], $dependencies);;
+    $this->assertTrue(in_array('drupalimage', $dependencies));
+    $this->assertTrue(in_array('drupalimagecaption', $dependencies));
   }
 
   /**

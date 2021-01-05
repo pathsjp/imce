@@ -64,7 +64,7 @@ class ImceSettingsFormTest extends KernelTestBase {
   public function testProfileOptions() {
     $options = $this->imceSettingsForm->getProfileOptions();
     $this->assertIsArray($options);
-    $this->assertArraySubset($options, ['' => '-' . $this->t('None') . '-']);
+    $this->assertTrue(in_array('-' . $this->t('None') . '-', $options));
   }
 
   /**
