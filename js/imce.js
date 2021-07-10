@@ -35,9 +35,16 @@
    */
   $(document).ready(function () {
 
+    const urlParams = new URLSearchParams(window.location.search);
+
     var settings = window.drupalSettings;
     var conf = settings && settings.imce;
     var body = document.body;
+
+    let activePath = urlParams.get('active_path');
+    if(activePath) {
+      conf.active_path = activePath;
+    }
     if (conf && !imce.activeFolder && $(body).hasClass('imce-page')) {
       if (!conf.ajax_url) {
         conf.ajax_url = Drupal.url(settings.path.currentPath);
