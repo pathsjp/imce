@@ -2,18 +2,20 @@
 
 namespace Drupal\imce\Controller;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\imce\Imce;
 
 /**
- * Class ImceAdminBrowserController.
+ * Class ImceLinkTaskController.
  */
-class ImceAdminBrowserController extends ControllerBase {
+class ImceFrameController extends ControllerBase {
 
   /**
    * Browser Page.
    *
    * @return string
-   *   Return Hello string.
+   *   Return the IMCE file manager in a frame.
    */
   public function page() {
     $render['iframe'] = [
@@ -25,6 +27,14 @@ class ImceAdminBrowserController extends ControllerBase {
     ];
     $render['#attached']['library'][] = 'imce/drupal.imce.admin';
     return $render;
+  }
+
+  /**
+   * Checks access to /user/{user}/imce path.
+   */
+  public function checkAccess() {
+    $user_imce_profile = Imce::userProfile();
+    return AccessResult::allowedIf(Imce::access($this->currentUser()) && $user_imce_profile->getConf('usertab'));
   }
 
 }
