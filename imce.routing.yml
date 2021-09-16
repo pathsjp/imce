@@ -38,6 +38,10 @@ imce.user_browser:
     _title: 'IMCE File Browser'
   requirements:
     _custom_access: '\Drupal\imce\Controller\ImceFrameController::checkAccess'
+  options:
+    parameters:
+      user:
+        type: entity:user
 
 imce.profile_add:
   path: '/admin/config/media/imce/add-profile'

@@ -7,7 +7,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\imce\Imce;
 
 /**
- * Class ImceLinkTaskController.
+ * Class ImceFrameController.
  */
 class ImceFrameController extends ControllerBase {
 
@@ -33,8 +33,13 @@ class ImceFrameController extends ControllerBase {
    * Checks access to /user/{user}/imce path.
    */
   public function checkAccess() {
-    $user_imce_profile = Imce::userProfile();
-    return AccessResult::allowedIf(Imce::access($this->currentUser()) && $user_imce_profile->getConf('usertab'));
+    $path = \Drupal::service('path.current')->getPath();
+    $args = explode('/', trim($path, '/'));
+    $user = $this->currentUser();
+    $uid = $user->id();
+    $access = "$uid" === $args[1] || $user->hasPermission('administer imce');
+    $profile = $access ? Imce::userProfile($user) : FALSE;
+    return AccessResult::allowedIf($profile && $profile->getConf('usertab'));
   }
 
 }
