@@ -1144,8 +1144,8 @@ function imce_scan_directory($dirname, $imce) {
       $width = $img['width'];
       $height = $img['height'];
     }
-    $size = filesize($path);
-    $date = filemtime($path);
+    $size = @filesize($path) ?: 0;
+    $date = @filemtime($path) ?: 0;
     $directory['files'][$file] = array(
       'name' => $file,
       'size' => $size,
