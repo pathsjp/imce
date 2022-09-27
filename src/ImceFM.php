@@ -459,8 +459,8 @@ class ImceFM {
    */
   public function getFileProperties($uri) {
     $properties = [
-      'date' => filemtime($uri),
-      'size' => filesize($uri),
+      'date' => @filemtime($uri) ?: 0,
+      'size' => @filesize($uri) ?: 0,
     ];
     // Get image properties
     $regexp = isset($this->conf['image_extensions_regexp']) ? $this->conf['image_extensions_regexp'] : $this->imageExtensionsRegexp();
