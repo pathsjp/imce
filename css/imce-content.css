@@ -92,7 +92,6 @@ body.imce {
 #preview-wrapper {
   height: 180px;
   overflow: auto;
-  background: url(preview-bg.png);
 }
 
 /*columns of browse-wrapper*/
@@ -410,6 +409,9 @@ body.imce {
 
 #file-preview {
   text-align: center;
+}
+#file-preview img {
+  background: url(preview-bg.png);
 }
 .imce-hide, .js #forms-wrapper, #help-box {
   display: none;
