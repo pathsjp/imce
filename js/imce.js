@@ -262,7 +262,7 @@ setUploadOp: function () {
     if (el = form.elements.html_response) {
       el.value = 0;
     }
-  } 
+  }
   imce.opAdd({name: 'upload', title: Drupal.t('Upload'), content: form});//add op
 },
 
@@ -696,7 +696,7 @@ getURL: function (fid, uncached) {
   return url;
 },
 
-//get encoded file path relative to root. 
+//get encoded file path relative to root.
 getRelpath: function (fid) {
   var dir = imce.conf.dir;
   return (dir === '.' ? '' : dir + '/') + fid;
@@ -732,9 +732,10 @@ highlight: function (fid) {
 
 //process a row
 processRow: function (row) {
-  row.cells[0].innerHTML = '<span>' + imce.decodePlain(row.id) + '</span>';
+  var name = imce.decodePlain(row.id);
+  row.cells[0].innerHTML = '<span>' + name + '</span>';
   row.onmousedown = function(e) {
-    var e = e||window.event;
+    e = e||window.event;
     imce.fileClick(this, e.ctrlKey, e.shiftKey);
     return !(e.ctrlKey || e.shiftKey);
   };
@@ -742,6 +743,7 @@ processRow: function (row) {
     imce.send(this.id);
     return false;
   };
+  row.tabIndex = -1;
 },
 
 //decode urls. uses unescape. can be overridden to use decodeURIComponent

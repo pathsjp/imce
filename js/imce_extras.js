@@ -15,14 +15,41 @@ imce.hooks.load.push(function () {
 });
 
 // Shortcuts
-var F = null;
 imce.initiateShortcuts = function () {
-  $(imce.NW).attr('tabindex', '0').keydown(function (e) {
-    if (F = imce.dirKeys['k'+ e.keyCode]) return F(e);
-  });
-  $(imce.FLW).attr('tabindex', '0').keydown(function (e) {
-    if (F = imce.fileKeys['k'+ e.keyCode]) return F(e);
-  }).focus();
+  $(imce.NW)
+    .attr({
+      'tabindex': '0',
+      'aria-keyshortcuts': 'ArrowDown ArrowUp'
+    })
+    .keydown(function (e) {
+      var F = imce.dirKeys['k' + e.keyCode];
+      if (F) {
+        return F.apply(this, arguments);
+      }
+    });
+  $(imce.FLW)
+    .attr({
+      'tabindex': '0',
+      'aria-keyshortcuts': 'ArrowDown ArrowUp Enter Control+A'
+    })
+    .keydown(function (e) {
+      var F = imce.fileKeys['k' + e.keyCode];
+      if (F) {
+        return F.apply(this, arguments);
+      }
+    })
+    .focus(function(e) {
+      if (!e.relatedTarget || !this.contains(e.relatedTarget)) {
+        var row = imce.fids[imce.lastFid()] || imce.findex[0];
+        if (row) {
+          setTimeout(function() {
+            row.focus();
+            row = null;
+          });
+        }
+      }
+    })
+    .focus();
 };
 
 //shortcut key-function pairs for directories
@@ -59,11 +86,18 @@ imce.dirKeys.k39 = imce.dirKeys.k37;
 //shortcut key-function pairs for files
 imce.fileKeys = {
   k38: function (e) {//up-down. select previous-next row
-    var fid = imce.lastFid(), i = fid ? imce.fids[fid].rowIndex+e.keyCode-39 : 0;
-    imce.fileClick(imce.findex[i], e.ctrlKey, e.shiftKey);
+    var fid = imce.lastFid();
+    var i = fid ? imce.fids[fid].rowIndex + e.keyCode - 39 : 0;
+    var row = imce.findex[i];
+    imce.fileClick(row, e.ctrlKey, e.shiftKey);
+    row && row.focus();
+    return false;
   },
   k35: function (e) {//end-home. select first or last row
-    imce.fileClick(imce.findex[e.keyCode == 35 ? imce.findex.length-1 : 0], e.ctrlKey, e.shiftKey);
+    var row = imce.findex[e.keyCode == 35 ? imce.findex.length-1 : 0];
+    imce.fileClick(row, e.ctrlKey, e.shiftKey);
+    row && row.focus();
+    return false;
   },
   k13: function (e) {//enter-insert. send file to external app.
     imce.send(imce.vars.prvfid);
@@ -76,7 +110,9 @@ imce.fileKeys = {
     if (e.ctrlKey && imce.findex.length) {
       var fid = imce.findex[0].id;
       imce.selected[fid] ? (imce.vars.lastfid = fid) : imce.fileClick(fid);//select first row
-      imce.fileClick(imce.findex[imce.findex.length-1], false, true);//shift+click last row
+      var row = imce.findex[imce.findex.length-1];
+      imce.fileClick(row, false, true);//shift+click last row
+      row && row.focus();
       return false;
     }
   }
@@ -105,7 +141,24 @@ imce.initiateSorting = function() {
   imce.vars.cid = imce.cookie('imcecid') * 1;
   imce.vars.dsc = imce.cookie('imcedsc') * 1;
   imce.cols = imce.el('file-header').rows[0].cells;
-  $(imce.cols).click(function () {imce.columnSort(this.cellIndex, imce.hasC(this, 'asc'));});
+  var click = function () {
+    imce.columnSort(this.cellIndex, imce.hasC(this, 'asc'));
+  };
+  $(imce.cols)
+    .click(click)
+    .attr({
+      'tabindex': '0',
+      'aria-label': function(){
+        return Drupal.t('Sort by @name', {
+          '@name': $(this).text()
+        });
+      }
+    })
+    .keydown(function(e) {
+      if (e.keyCode === 13 && !e.ctrlKey && !e.shiftKey && !e.altKey) {
+        click.apply(this, arguments);
+      }
+    });
   imce.firstSort();
 };
 
