@@ -203,24 +203,23 @@ body.imce {
   table-layout: fixed;
   width: 100%;
 }
-#file-header td a {
+#file-header td {
   padding: 4px;
   font-weight: bold;
   cursor: default;
-  display:block;
 }
-#file-header td.asc a {
+#file-header td.asc {
   color: #f60;
 }
-#file-header td.asc a:after {
-  content: " \2193";
+#file-header td.asc:after {
+  content: "\2193";
   font-weight: normal;
 }
-#file-header td.desc a {
+#file-header td.desc {
   color: #09f;
 }
-#file-header td.desc a:after {
-  content: " \2191";
+#file-header td.desc:after {
+  content: "\2191";
   font-weight: normal;
 }
 #file-list td {

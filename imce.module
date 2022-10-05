@@ -6,12 +6,6 @@
  */
 
 /**
- * Flag for letting the user decide to replace the existing file with the new one
- * or keep the existing file and renaming the uploaded file
- */
-define('IMCE_RENAME_REPLACE', 1001);
-
-/**
  * Implements hook_menu().
  */
 function imce_menu() {

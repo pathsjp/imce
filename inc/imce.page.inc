@@ -144,20 +144,6 @@ function imce_upload_form($form, &$form_state, $ref) {
       '#options' => imce_thumbnail_options($imce['thumbnails']),
     );
   }
-  $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
-  // In case the user can decide, show options
-  if ($replace == IMCE_RENAME_REPLACE) {
-    $form['replace'] = array(
-      '#type' => 'radios',
-      '#title' => t('Behaviour for existing files'),
-      '#default_value' => variable_get('imce_settings_replace', FILE_EXISTS_RENAME),
-      '#options' => array(
-        FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
-        FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
-        FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
-      ),
-    );
-  }
   $form['upload'] = array(
     '#type' => 'submit',
     '#value' => t('Upload'),
@@ -204,12 +190,6 @@ function imce_fileop_form($form, &$form_state, $ref) {
       '#title' => t('Resize'),
     ) + imce_resize_form($imce);
   }
-
-  // Download.
-  $form['fset_download'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Download'),
-  ) + imce_download_form($imce);;
 
   $form['#action'] = $imce['url'];
   return $form;
@@ -277,18 +257,6 @@ function imce_resize_form(&$imce) {
 }
 
 /**
- * Download form.
- */
-function imce_download_form(&$imce) {
-  $form['download'] = array(
-    '#type' => 'submit',
-    '#value' => t('Download'),
-    '#submit' => NULL,
-  );
-  return $form;
-}
-
-/**
  * Validate file operations form.
  */
 function imce_fileop_form_validate($form, &$form_state) {
@@ -337,10 +305,6 @@ function imce_upload_submit($form, &$form_state) {
 
     // Save uploaded file.
     $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
-    // Retrieve the user option when the option is set for the user to decide.
-    if ($replace == IMCE_RENAME_REPLACE) {
-      $replace = $form_state['values']['replace'];
-    }
     if ($file = file_save_upload($i, $validators, $diruri, $replace)) {
 
       // Core bug #54223.
@@ -739,41 +703,42 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
 
 /**
  * Checks if the file is an image and returns info.
+ * There are three switchable versions:
+ *   * One that disables the metadata fetch entirely.
+ *   * One that uses Drupal's image_get_info().
+ *   * One that uses PHP's getimagesize().
  *
- * There are two switchable versions that
- * use image_get_info() and getimagesize().
+ * Disabling the metadata fetch may speed up MCE on S3 or slow NFS sites with
+ * lots of files in the initial directory.
  */
-if (variable_get('imce_image_get_info', 0)) {
-
+if (variable_get('imce_disable_image_info', 0)) {
   function imce_image_info($file) {
-    // Use APC to cache the file's data if available.
-    if (function_exists('apcu_fetch')) {
-      $cache = apcu_fetch($file);
-      if ($cache) {
-        return $cache;
-      }
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
+    if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png',))) {
+
+      $image_metadata = array(
+        'width' => '-',
+        'height' => '-',
+        'type' => 2,
+        'mime' => '',
+      );
+
+      return $image_metadata;
     }
 
+    return FALSE;
+  }
+}
+elseif (variable_get('imce_image_get_info', 0)) {
+
+  function imce_image_info($file) {
     $mimes = array(
       'image/jpeg' => IMAGETYPE_JPEG,
       'image/gif'  => IMAGETYPE_GIF,
       'image/png'  => IMAGETYPE_PNG,
     );
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @image_get_info($file)) && isset($mimes[$info['mime_type']]) ) {
-      $result = array(
-        'width' => $info['width'],
-        'height' => $info['height'],
-        'type' => $mimes[$info['mime_type']],
-        'mime' => $info['mime_type'],
-      );
-
-      // Use APC to cache the file's data if available, so future requests of
-      // this file will be quicker.
-      if (function_exists('apcu_add')) {
-        apcu_add($file, $result);
-      }
-
-      return $result;
+      return array('width' => $info['width'], 'height' => $info['height'], 'type' => $mimes[$info['mime_type']], 'mime' => $info['mime_type']);
     }
     return FALSE;
   }
@@ -781,27 +746,7 @@ if (variable_get('imce_image_get_info', 0)) {
 else {
   function imce_image_info($file) {
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
-      // Use APC to cache the file's data if available.
-      if (function_exists('apcu_fetch')) {
-        $cache = apcu_fetch($file);
-        if ($cache) {
-          return $cache;
-        }
-      }
-      $result = array(
-        'width' => $info[0],
-        'height' => $info[1],
-        'type' => $info[2],
-        'mime' => $info['mime']
-      );
-
-      // Use APC to cache the file's data if available, so future requests of
-      // this file will be quicker.
-      if (function_exists('apcu_add')) {
-        apcu_add($file,$result);
-      }
-
-      return $result;
+      return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
     }
     return FALSE;
   }
@@ -1103,8 +1048,8 @@ function imce_scan_directory($dirname, $imce) {
 
   while (($file = readdir($handle)) !== FALSE) {
 
-    // Do not include dot files or folders, or the UNIX lost+found directory.
-    if ((substr($file, 0, 1) === '.') || ($file == 'lost+found')) {
+    // Do not include dot files and folders.
+    if (substr($file, 0, 1) === '.') {
       continue;
     }
 
