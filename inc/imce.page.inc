@@ -132,10 +132,8 @@ function imce_upload_form($form, &$form_state, $ref) {
   $imce =& $ref['imce'];
   $form['imce'] = array(
     '#type' => 'file',
-    '#name' => 'files[]',
     '#title' => t('File'),
     '#size' => 30,
-    '#attributes' => array('multiple' => 'multiple'),
   );
   if (!empty($imce['thumbnails'])) {
     $form['thumbnails'] = array(
@@ -291,52 +289,47 @@ function imce_fileop_form_validate($form, &$form_state) {
  * Submit upload form.
  */
 function imce_upload_submit($form, &$form_state) {
-  // Multiple files support.  Credit: http://mohitaghera.drupalgardens.com/content/multiple-file-upload-usind-drupal-7-form-api
-  $num_files = count($_FILES['files']['name']);
-  for ($i = 0; $i < $num_files; $i++) {
+  $form_state['redirect'] = FALSE;
+  $imce =& $form_state['build_info']['args'][0]['imce'];
+  // Need to provide extension validatior,
+  // otherwise file_save_upload uses the default.
+  $validators['file_validate_extensions'] = array($imce['extensions'] === '*' ? NULL : $imce['extensions']);
+  $validators['imce_validate_all'] = array(&$imce);
+  $diruri = imce_dir_uri($imce);
 
-    $form_state['redirect'] = FALSE;
-    $imce =& $form_state['build_info']['args'][0]['imce'];
-    // Need to provide extension validatior,
-    // otherwise file_save_upload uses the default.
-    $validators['file_validate_extensions'] = array($imce['extensions'] === '*' ? NULL : $imce['extensions']);
-    $validators['imce_validate_all'] = array(&$imce);
-    $diruri = imce_dir_uri($imce);
+  // Save uploaded file.
+  $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+  if ($file = file_save_upload('imce', $validators, $diruri, $replace)) {
 
-    // Save uploaded file.
-    $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
-    if ($file = file_save_upload($i, $validators, $diruri, $replace)) {
-
-      // Core bug #54223.
-      if ($replace == FILE_EXISTS_RENAME) {
-        $name = basename($file->uri);
-        if ($name != $file->filename) {
-          $file->filename = $name;
-          drupal_set_message(t('The file has been renamed to %filename.', array('%filename' => $file->filename)));
-        }
-      }
-
-      // Global user may not be the owner.
-      $file->uid = $imce['uid'];
-      $file->status = FILE_STATUS_PERMANENT;
-      file_save($file);
-      imce_file_register($file);
-      drupal_set_message(t('%filename has been uploaded.', array('%filename' => $file->filename)));
-
-      // Update file list.
-      $img = imce_image_info($file->uri);
-      $file->width = $img ? $img['width'] : 0;
-      $file->height = $img ? $img['height'] : 0;
-      imce_add_file($file, $imce);
-
-      // Create thumbnails.
-      if (isset($form_state['values']['thumbnails']) && $img) {
-        imce_create_thumbnails($file->filename, $imce, $form_state['values']['thumbnails']);
+    // Core bug #54223.
+    if ($replace == FILE_EXISTS_RENAME) {
+      $name = drupal_basename($file->uri);
+      if ($name != $file->filename) {
+        $file->filename = $name;
+        drupal_set_message(t('The file has been renamed to %filename.', array('%filename' => $file->filename)));
       }
     }
-    else {
-      drupal_set_message(t('Upload failed.'), 'error');
+
+    // Global user may not be the owner.
+    $file->uid = $imce['uid'];
+    $file->status = FILE_STATUS_PERMANENT;
+    file_save($file);
+    imce_file_register($file);
+    drupal_set_message(t('%filename has been uploaded.', array('%filename' => $file->filename)));
+
+    // Update file list.
+    $img = imce_image_info($file->uri);
+    $file->width = $img ? $img['width'] : 0;
+    $file->height = $img ? $img['height'] : 0;
+    imce_add_file($file, $imce);
+
+    // Create thumbnails.
+    if (isset($form_state['values']['thumbnails']) && $img) {
+      imce_create_thumbnails($file->filename, $imce, $form_state['values']['thumbnails']);
     }
+  }
+  else {
+    drupal_set_message(t('Upload failed.'), 'error');
   }
 }
 
