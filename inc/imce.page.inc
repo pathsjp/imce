@@ -142,6 +142,19 @@ function imce_upload_form($form, &$form_state, $ref) {
       '#options' => imce_thumbnail_options($imce['thumbnails']),
     );
   }
+  $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+  if ($replace === 'user_input') {
+    $form['replace'] = array(
+      '#type' => 'radios',
+      '#title' => t('Behaviour for existing files'),
+      '#default_value' => FILE_EXISTS_RENAME,
+      '#options' => array(
+        FILE_EXISTS_RENAME => t('Keep the existing file renaming the new one'),
+        FILE_EXISTS_ERROR => t('Keep the existing file rejecting the new one'),
+        FILE_EXISTS_REPLACE => t('Replace the existing file with the new one'),
+      ),
+    );
+  }
   $form['upload'] = array(
     '#type' => 'submit',
     '#value' => t('Upload'),
@@ -299,6 +312,9 @@ function imce_upload_submit($form, &$form_state) {
 
   // Save uploaded file.
   $replace = variable_get('imce_settings_replace', FILE_EXISTS_RENAME);
+  if ($replace === 'user_input') {
+    $replace = $form_state['values']['replace'];
+  }
   if ($file = file_save_upload('imce', $validators, $diruri, $replace)) {
 
     // Core bug #54223.
