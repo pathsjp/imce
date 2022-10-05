@@ -564,13 +564,9 @@ setPreview: function (fid) {
   var row, html = '';
   imce.vars.prvfid = fid;
   if (fid && (row = imce.fids[fid])) {
-    if (row.cells[2].innerHTML == "-") {
-      html = imce.imgHtml(fid, row.cells[2].innerHTML, row.cells[3].innerHTML);
-    } else {
-      var width = row.cells[2].innerHTML * 1;
-      html = imce.vars.previewImages && width ? imce.imgHtml(fid, width, row.cells[3].innerHTML) : imce.decodePlain(fid);
-    }
-    html = '<a href="#" onclick="imce.send(\'' + fid + '\'); return false;" title="' + (imce.vars.prvtitle || '') + '">' + html + '</a>';
+    var width = row.cells[2].innerHTML * 1;
+    html = imce.vars.previewImages && width ? imce.imgHtml(fid, width, row.cells[3].innerHTML) : imce.decodePlain(fid);
+    html = '<a href="#" onclick="imce.send(\''+ fid +'\'); return false;" title="'+ (imce.vars.prvtitle||'') +'">'+ html +'</a>';
   }
   imce.el('file-preview').innerHTML = html;
 },
@@ -668,17 +664,11 @@ resMsgs: function (msgs) {
 
 //return img markup
 imgHtml: function (fid, width, height) {
-  if (width == "-")
-    return '<img src="'+ imce.getURL(fid, true) +'" alt="'+ imce.decodePlain(fid) +'">';
-  else
-    return '<img src="' + imce.getURL(fid, true) + '" width="' + width + '" height="' + height + '" alt="' + imce.decodePlain(fid) + '">';
+  return '<img src="'+ imce.getURL(fid, true) +'" width="'+ width +'" height="'+ height +'" alt="'+ imce.decodePlain(fid) +'">';
 },
 
-//check if the file is an image and if the image metadata is disabled
+//check if the file is an image
 isImage: function (fid) {
-  if (imce.fids[fid].cells[2].innerHTML == "-") {
-    return true;
-  }
   return imce.fids[fid].cells[2].innerHTML * 1;
 },
 

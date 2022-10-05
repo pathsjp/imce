@@ -10,12 +10,6 @@ imce.hooks.load.push(function () {
       isW = this.id == 'edit-width', val =  imce.el(isW ? 'edit-height' : 'edit-width').value*1;
       if (val && (w = imce.isImage(fid)) && (r = imce.fids[fid].cells[3].innerHTML*1 / w))
         this.value = Math.round(isW ? val/r : val*r);
-      else if (val && (w = imce.isImage(fid)) && imce.fids[fid].cells[3].innerHTML == '-') {
-        var img = $('#file-preview').find('img');
-        w = img[0].naturalWidth;
-        r = img[0].naturalHeight/w;
-        this.value = Math.round(isW ? val / r : val * r);
-      }
     }
   });
 });

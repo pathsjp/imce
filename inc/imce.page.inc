@@ -532,7 +532,7 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   $imguri = $destdir . $filename;
 
   // Check if the file is an image.
-  if (!$imce['files'][$filename]['width'] || !$img = image_get_info($imguri)) {
+  if (!$imce['files'][$filename]['width'] || !$img = imce_image_info($imguri)) {
     drupal_set_message(t('%filename is not an image.', array('%filename' => utf8_encode($filename))), 'error', FALSE);
     return FALSE;
   }
@@ -740,30 +740,10 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
 /**
  * Checks if the file is an image and returns info.
  *
- * There are two switchable versions:
- *   * One that disables the metadata fetch entirely.
- *   * One that uses Drupal's image_get_info().
- *   * One that uses PHP's getimagesize().
+ * There are two switchable versions that
+ * use image_get_info() and getimagesize().
  */
-if (variable_get('imce_disable_image_info', 0)) {
-  function imce_image_info($file) {
-    $ext = pathinfo($file, PATHINFO_EXTENSION);
-    if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png',))) {
-
-      $image_metadata = array(
-        'width' => '-',
-        'height' => '-',
-        'type' => 2,
-        'mime' => '',
-      );
-
-      return $image_metadata;
-    }
-
-    return FALSE;
-  }
-}
-elseif (variable_get('imce_image_get_info', 0)) {
+if (variable_get('imce_image_get_info', 0)) {
 
   function imce_image_info($file) {
     // Use APC to cache the file's data if available.
