@@ -712,34 +712,9 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
 
 /**
  * Checks if the file is an image and returns info.
- * There are three switchable versions:
- *   * One that disables the metadata fetch entirely.
- *   * One that uses Drupal's image_get_info().
- *   * One that uses PHP's getimagesize().
- *
- * Disabling the metadata fetch may speed up MCE on S3 or slow NFS sites with
- * lots of files in the initial directory.
+ * There are two switchable versions that use image_get_info() and getimagesize()
  */
-if (variable_get('imce_disable_image_info', 0)) {
-  function imce_image_info($file) {
-    $ext = pathinfo($file, PATHINFO_EXTENSION);
-    if (in_array($ext, array('jpg', 'jpeg', 'gif', 'png',))) {
-
-      $image_metadata = array(
-        'width' => '-',
-        'height' => '-',
-        'type' => 2,
-        'mime' => '',
-      );
-
-      return $image_metadata;
-    }
-
-    return FALSE;
-  }
-}
-elseif (variable_get('imce_image_get_info', 0)) {
-
+if (variable_get('imce_image_get_info', 0)) {
   function imce_image_info($file) {
     $mimes = array(
       'image/jpeg' => IMAGETYPE_JPEG,
@@ -747,7 +722,12 @@ elseif (variable_get('imce_image_get_info', 0)) {
       'image/png'  => IMAGETYPE_PNG,
     );
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @image_get_info($file)) && isset($mimes[$info['mime_type']]) ) {
-      return array('width' => $info['width'], 'height' => $info['height'], 'type' => $mimes[$info['mime_type']], 'mime' => $info['mime_type']);
+      return array(
+        'width' => $info['width'],
+        'height' => $info['height'],
+        'type' => $mimes[$info['mime_type']],
+        'mime' => $info['mime_type'],
+      );
     }
     return FALSE;
   }
@@ -755,7 +735,12 @@ elseif (variable_get('imce_image_get_info', 0)) {
 else {
   function imce_image_info($file) {
     if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
-      return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
+      return array(
+        'width' => $info[0],
+        'height' => $info[1],
+        'type' => $info[2],
+        'mime' => $info['mime'],
+      );
     }
     return FALSE;
   }
