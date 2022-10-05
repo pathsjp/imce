@@ -580,9 +580,8 @@ send: function (fid) {
 setSendTo: function (title, func) {
   imce.send = function (fid) { fid && func(imce.fileGet(fid), window);};
   var opFunc = function () {
-    if (imce.validateSelCount(1, 1)) {
-      imce.send(imce.vars.prvfid);
-    }
+    if (imce.selcount != 1) return imce.setMessage(Drupal.t('Please select a file.'), 'error');
+    imce.send(imce.vars.prvfid);
   };
   imce.vars.prvtitle = title;
   return imce.opAdd({name: 'sendto', title: title, func: opFunc});
