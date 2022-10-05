@@ -87,9 +87,6 @@ function imce_content($user, $scheme = NULL, $jsop = NULL) {
   $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
   unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid'], $imce['usertab']);
 
-  //add the default sort variable
-  $imce_ref['imce']['sort'] = variable_get('imce_settings_sort', 'default');
-
   drupal_add_js($imce_ref, 'setting');
 
   return $content;

@@ -117,23 +117,7 @@ imce.initiateSorting = function() {
 
 //sort the list for the first time
 imce.firstSort = function() {
-  switch (imce.conf.sort) {
-    case 'default':
-      imce.columnSort(imce.vars.cid, imce.vars.dsc);
-      break;
-    case 'by_name':
-      imce.columnSort(0, 0);
-      break;
-    case 'by_size':
-      imce.columnSort(1, 1);
-      break;
-    case 'by_date':
-      imce.columnSort(4, 1);
-      break;
-    default:
-      imce.columnSort(imce.vars.cid, imce.vars.dsc);
-      break;
-  }
+  imce.columnSort(imce.vars.cid, imce.vars.dsc);
 };
 
 //sort file list according to column index.
