@@ -185,11 +185,11 @@ fileProps: function (fid) {
 },
 
 //simulate row click. selection-highlighting
-fileClick: function(row, ctrl, shft) {
+fileClick: function(row, ctrl, shft, focus) {
   if (!row) return;
   var fid = typeof(row) == 'string' ? row : row.id;
   if (ctrl || fid == imce.vars.prvfid) {
-    imce.fileToggleSelect(fid);
+    imce.fileToggleSelect(fid, focus);
   }
   else if (shft) {
     var last = imce.lastFid();
@@ -198,35 +198,41 @@ fileClick: function(row, ctrl, shft) {
     var step = start > end ? -1 : 1;
     while (start != end) {
       start += step;
-      imce.fileSelect(imce.findex[start].id);
+      imce.fileSelect(imce.findex[start].id, focus);
     }
   }
   else {
     for (var fname in imce.selected) {
       imce.fileDeSelect(fname);
     }
-    imce.fileSelect(fid);
+    imce.fileSelect(fid, focus);
   }
   //set preview
   imce.setPreview(imce.selcount == 1 ? imce.lastFid() : null);
 },
 
 //file select/deselect functions
-fileSelect: function (fid) {
+fileSelect: function (fid, focus) {
   if (imce.selected[fid] || !imce.fids[fid]) return;
   imce.selected[fid] = imce.fids[imce.vars.lastfid=fid];
-  $(imce.selected[fid]).addClass('selected');
+  var $row = $(imce.selected[fid]).addClass('selected');
+  if (focus) {
+    $row.focus();
+  }
   imce.selcount++;
 },
-fileDeSelect: function (fid) {
+fileDeSelect: function (fid, focus) {
   if (!imce.selected[fid] || !imce.fids[fid]) return;
   if (imce.vars.lastfid == fid) imce.vars.lastfid = null;
-  $(imce.selected[fid]).removeClass('selected');
+  var $row = $(imce.selected[fid]).removeClass('selected');
+  if (focus) {
+    $row.focus();
+  }
   delete imce.selected[fid];
   imce.selcount--;
 },
-fileToggleSelect: function (fid) {
-  imce['file'+ (imce.selected[fid] ? 'De' : '') +'Select'](fid);
+fileToggleSelect: function (fid, focus) {
+  imce['file'+ (imce.selected[fid] ? 'De' : '') +'Select'](fid, focus);
 },
 
 //process file operation form and create operation tabs.
@@ -727,7 +733,7 @@ hasC: function (el, name) {
 //highlight a single file
 highlight: function (fid) {
   if (imce.vars.prvfid) imce.fileClick(imce.vars.prvfid);
-  imce.fileClick(fid);
+  imce.fileClick(fid, false, false, true);
 },
 
 //process a row
@@ -736,7 +742,7 @@ processRow: function (row) {
   row.cells[0].innerHTML = '<span>' + name + '</span>';
   row.onmousedown = function(e) {
     e = e||window.event;
-    imce.fileClick(this, e.ctrlKey, e.shiftKey);
+    imce.fileClick(this, e.ctrlKey, e.shiftKey, true);
     return !(e.ctrlKey || e.shiftKey);
   };
   row.ondblclick = function(e) {

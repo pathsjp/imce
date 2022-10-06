@@ -40,13 +40,16 @@ imce.initiateShortcuts = function () {
     })
     .focus(function(e) {
       if (!e.relatedTarget || !this.contains(e.relatedTarget)) {
-        var row = imce.fids[imce.lastFid()] || imce.findex[0];
-        if (row) {
-          setTimeout(function() {
-            row.focus();
-            row = null;
-          });
-        }
+        var el = this;
+        setTimeout(function() {
+          if (el === document.activeElement) {
+            var row = imce.fids[imce.lastFid()] || imce.findex[0];
+            if (row) {
+              row.focus();
+            }
+          }
+          el = e = null;
+        });
       }
     })
     .focus();
@@ -89,14 +92,12 @@ imce.fileKeys = {
     var fid = imce.lastFid();
     var i = fid ? imce.fids[fid].rowIndex + e.keyCode - 39 : 0;
     var row = imce.findex[i];
-    imce.fileClick(row, e.ctrlKey, e.shiftKey);
-    row && row.focus();
+    imce.fileClick(row, e.ctrlKey, e.shiftKey, true);
     return false;
   },
   k35: function (e) {//end-home. select first or last row
     var row = imce.findex[e.keyCode == 35 ? imce.findex.length-1 : 0];
-    imce.fileClick(row, e.ctrlKey, e.shiftKey);
-    row && row.focus();
+    imce.fileClick(row, e.ctrlKey, e.shiftKey, true);
     return false;
   },
   k13: function (e) {//enter-insert. send file to external app.
@@ -111,8 +112,7 @@ imce.fileKeys = {
       var fid = imce.findex[0].id;
       imce.selected[fid] ? (imce.vars.lastfid = fid) : imce.fileClick(fid);//select first row
       var row = imce.findex[imce.findex.length-1];
-      imce.fileClick(row, false, true);//shift+click last row
-      row && row.focus();
+      imce.fileClick(row, false, true, true);//shift+click last row
       return false;
     }
   }
