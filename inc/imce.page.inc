@@ -712,38 +712,65 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
 
 /**
  * Checks if the file is an image and returns info.
- * There are two switchable versions that use image_get_info() and getimagesize()
  */
-if (variable_get('imce_image_get_info', 0)) {
-  function imce_image_info($file) {
-    $mimes = array(
-      'image/jpeg' => IMAGETYPE_JPEG,
-      'image/gif'  => IMAGETYPE_GIF,
-      'image/png'  => IMAGETYPE_PNG,
-    );
-    if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @image_get_info($file)) && isset($mimes[$info['mime_type']]) ) {
-      return array(
-        'width' => $info['width'],
-        'height' => $info['height'],
-        'type' => $mimes[$info['mime_type']],
-        'mime' => $info['mime_type'],
-      );
-    }
+function imce_image_info($uri) {
+  // Allow custom callback
+  static $callback;
+  if (!isset($callback)) {
+    $callback = variable_get('imce_image_info_callback', FALSE);
+  }
+  if ($callback) {
+    return $callback($uri);
+  }
+  // Check uri
+  if (!is_file($uri) || !preg_match('/\.(jpe?g|png|gif)$/i', $uri)) {
     return FALSE;
   }
+  // Call alternate with image_get_info()
+  static $alternate;
+  if (!isset($alternate)) {
+    $alternate = variable_get('imce_image_get_info', FALSE) ? 'imce_image_info_alternate' : FALSE;
+  }
+  if ($alternate) {
+    return $alternate($uri);
+  }
+  // Use getimagesize
+  static $types = array(
+    IMAGETYPE_JPEG => 1,
+    IMAGETYPE_GIF => 1,
+    IMAGETYPE_PNG => 1,
+  );
+  $info = @getimagesize($uri);
+  if (!$info || !isset($types[$info[2]])) {
+    return FALSE;
+  }
+  return array(
+    'width' => $info[0],
+    'height' => $info[1],
+    'type' => $info[2],
+    'mime' => $info['mime'],
+  );
 }
-else {
-  function imce_image_info($file) {
-    if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
-      return array(
-        'width' => $info[0],
-        'height' => $info[1],
-        'type' => $info[2],
-        'mime' => $info['mime'],
-      );
-    }
+
+/**
+ * Returns image info using image_get_info()
+ */
+function imce_image_info_alternate($uri) {
+  static $mimes = array(
+    'image/jpeg' => IMAGETYPE_JPEG,
+    'image/gif'  => IMAGETYPE_GIF,
+    'image/png'  => IMAGETYPE_PNG,
+  );
+  $info = @image_get_info($uri);
+  if (!$info || !isset($mimes[$info['mime_type']])) {
     return FALSE;
   }
+  return array(
+    'width' => $info['width'],
+    'height' => $info['height'],
+    'type' => $mimes[$info['mime_type']],
+    'mime' => $info['mime_type'],
+  );
 }
 
 /**
