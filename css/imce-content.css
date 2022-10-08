@@ -378,6 +378,8 @@ body.imce {
   padding: 5px;
   background-color: #fff;
   border: 2px solid #000;
+  max-height: 50%;
+  overflow: auto;
 }
 #message-box  * {
   font-size: 1.1em;

@@ -1,6 +1,6 @@
 (function($) {
 //Global container.
-window.imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, ops: {}, cache: {}, urlId: {},
+window.imce = {tree: {}, findex: [], fids: {}, selected: {}, selcount: 0, ops: {}, cache: {}, urlId: {}, msgQueue: [],
 vars: {previewImages: 1, cache: 1},
 hooks: {load: [], list: [], navigate: [], cache: []},
 
@@ -582,18 +582,43 @@ prepareMsgs: function () {
 
 //insert log message
 setMessage: function (msg, type) {
-  var $box = $(imce.msgBox);
+  var queue = imce.msgQueue;
+  msg = '<div class="message '+ (type || 'status') +'">'+ msg +'</div>';
+  if (queue[queue.length - 1] === msg) {
+    return;
+  }
+  queue.push(msg);
   var logs = imce.el('log-messages') || $(imce.newEl('div')).appendTo('#help-box-content').before('<h4>'+ Drupal.t('Log messages') +':</h4>').attr('id', 'log-messages')[0];
-  var msg = '<div class="message '+ (type || 'status') +'">'+ msg +'</div>';
-  $box.queue(function() {
-    $box.css({opacity: 0, display: 'block'}).html(msg);
-    $box.dequeue();
-  });
-  var q = $box.queue().length, t = imce.vars.msgT || 1000;
-  q = q < 2 ? 1 : q < 3 ? 0.8 : q < 4 ? 0.7 : 0.4;//adjust speed with respect to queue length
-  $box.fadeTo(600 * q, 1).fadeTo(t * q, 1).fadeOut(400 * q);
   $(logs).append(msg);
+  // Already displaying the message box
+  if ($(imce.msgBox).queue().length) {
+    return;
+  }
+  imce.startMsgBoxDisplay();
   return false;
+},
+
+startMsgBoxDisplay: function() {
+  var queue = imce.msgQueue;
+  if (!queue.length) {
+    return;
+  }
+  var $box = $(imce.msgBox);
+  $box.css({opacity: 0, display: 'block'}).html(queue.join('<br><br>'));
+  queue.length = 0;
+  $box.fadeTo(600, 1).fadeTo(imce.vars.msgT || 1000, 1);
+  $box.queue(imce.finishMsgBoxDisplay);
+},
+
+finishMsgBoxDisplay: function() {
+  var $box = $(imce.msgBox);
+  if ($box.hasClass('hover')) {
+    setTimeout(imce.finishMsgBoxDisplay, 300);
+  }
+  else {
+    $box.fadeOut(400, imce.startMsgBoxDisplay);
+    $box.dequeue();
+  }
 },
 
 //invoke hooks
@@ -842,6 +867,11 @@ updateUI: function() {
   $('#content-resizer').remove();
   //message-box
   imce.msgBox = imce.el('message-box') || $(imce.newEl('div')).attr('id', 'message-box').prependTo('#imce-content')[0];
+  $(imce.msgBox).hover(function() {
+    $(this).addClass('hover');
+  }, function() {
+    $(this).removeClass('hover');
+  });
   //create help tab
   var $hbox = $('#help-box');
   $hbox.is('a') && $hbox.replaceWith($(imce.newEl('div')).attr('id', 'help-box').append($hbox.children()));
