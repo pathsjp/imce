@@ -1070,7 +1070,7 @@ function imce_scan_directory($dirname, $imce) {
   while (($file = readdir($handle)) !== FALSE) {
 
     // Do not include dot files and folders.
-    if (substr($file, 0, 1) === '.') {
+    if (substr($file, 0, 1) === '.' || $file === 'lost+found') {
       continue;
     }
 
