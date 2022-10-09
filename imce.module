@@ -88,9 +88,18 @@ function imce_permission() {
  */
 function imce_theme() {
   $path = drupal_get_path('module', 'imce') . '/tpl';
-  $theme['imce_admin'] = array('function' => 'imce_admin_theme', 'render element' => 'form');
-  $theme['imce_directories'] = array('function' => 'imce_directories_theme', 'render element' => 'form');
-  $theme['imce_thumbnails'] = array('function' => 'imce_thumbnails_theme', 'render element' => 'form');
+  $theme['imce_admin'] = array(
+    'function' => 'imce_admin_theme',
+    'render element' => 'form',
+  );
+  $theme['imce_directories'] = array(
+    'function' => 'imce_directories_theme',
+    'render element' => 'form',
+  );
+  $theme['imce_thumbnails'] = array(
+    'function' => 'imce_thumbnails_theme',
+    'render element' => 'form',
+  );
   $theme['imce_root_text'] = array(
     'variables' => array('imce_ref' => NULL),
   );

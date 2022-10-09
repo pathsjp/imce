@@ -148,7 +148,10 @@ function imce_admin_form($form, &$form_state) {
     '#default_value' => variable_get('imce_settings_menu_link', 1),
   );
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save configuration'));
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+  );
   $form['#theme'] = 'imce_admin';
   $form['#submit'][] = 'imce_admin_submit';
   return $form;
@@ -346,7 +349,10 @@ function imce_profile_form($form, &$form_state, $pid = 0) {
 
   $form = array('profile' => $form);
   $form['pid'] = array('#type' => 'hidden', '#value' => $pid);
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save configuration'));
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+  );
   $form['#validate'][] = 'imce_profile_validate';
   $form['#submit'][] = 'imce_profile_submit';
   return $form;
@@ -566,7 +572,10 @@ function imce_role_form($role, $weight = TRUE, $core = TRUE) {
     $form['weight'] = $core ? array(
       '#type' => 'textfield',
       '#value' => $role['weight'],
-      '#attributes' => array('readonly' => 'readonly', 'style' => 'border: none; width: 2em; background-color: transparent;'),
+      '#attributes' => array(
+        'readonly' => 'readonly',
+        'style' => 'border: none; width: 2em; background-color: transparent;',
+      ),
     ) : array(
       '#type' => 'weight',
       '#default_value' => $role['weight'],

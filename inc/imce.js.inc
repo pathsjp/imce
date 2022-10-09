@@ -10,7 +10,9 @@
  */
 function imce_js_navigate(&$imce) {
   return array(
-    'files' => theme('imce_file_list', array('imce_ref' => array('imce' => &$imce))),
+    'files' => theme('imce_file_list', array(
+      'imce_ref' => array('imce' => &$imce),
+    )),
     'dirsize' => format_size($imce['dirsize']),
     'subdirectories' => array_map('rawurlencode', array_values($imce['subdirectories'])),
     'perm' => $imce['perm'],
@@ -24,7 +26,10 @@ function imce_js_upload(&$imce) {
   if ($imce['perm']['upload']) {
     $_POST['op'] = t('Upload');
     drupal_get_form('imce_upload_form', array('imce' => &$imce));
-    return array('added' => isset($imce['added']) ? $imce['added'] : NULL, 'dirsize' => format_size($imce['dirsize']));
+    return array(
+      'added' => isset($imce['added']) ? $imce['added'] : NULL,
+      'dirsize' => format_size($imce['dirsize']),
+    );
   }
 }
 

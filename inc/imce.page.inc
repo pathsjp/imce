@@ -160,7 +160,12 @@ function imce_upload_form($form, &$form_state, $ref) {
     '#value' => t('Upload'),
     '#submit' => $imce['perm']['upload'] ? array('imce_upload_submit') : NULL,
   );
-  $form = array('fset_upload' => array('#type' => 'fieldset', '#title' => t('Upload file')) + $form);
+  $form = array(
+    'fset_upload' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Upload file'),
+    ) + $form,
+  );
   $form['html_response'] = array('#type' => 'hidden', '#default_value' => '1');
   $form['#attributes']['enctype'] = 'multipart/form-data';
   $form['#action'] = $imce['url'];
@@ -290,7 +295,12 @@ function imce_fileop_form_validate($form, &$form_state) {
   for ($i = 0; $i < $cnt; $i++) {
     $filenames[$i] = $filename = rawurldecode($filenames[$i]);
     if (!isset($imce['files'][$filename])) {
-      watchdog('imce', 'Illegal choice %choice in !name element.', array('%choice' => $filename, '!name' => t('directory (%dir)', array('%dir' => imce_dir_uri($imce)))), WATCHDOG_ERROR);
+      watchdog('imce', 'Illegal choice %choice in !name element.', array(
+        '%choice' => $filename,
+        '!name' => t('directory (%dir)', array(
+          '%dir' => imce_dir_uri($imce),
+        )),
+      ), WATCHDOG_ERROR);
       return form_error($form['filenames'], t('An illegal choice has been detected. Please contact the site administrator.'));
     }
   }
@@ -384,13 +394,22 @@ function imce_resize_submit($form, &$form_state) {
   // Check dimensions.
   $width = (int) $form_state['values']['width'];
   $height = (int) $form_state['values']['height'];
-  list($maxw, $maxh) = $imce['dimensions'] ? explode('x', $imce['dimensions']) : array(0, 0);
+  $maxw = 0;
+  $maxh = 0;
+  if ($imce['dimensions']) {
+    list($maxw, $maxh) = explode('x', $imce['dimensions']);
+  }
   if ($width < 1 || $height < 1 || ($maxw && ($width > $maxw || $height > $maxh))) {
     drupal_set_message(t('Please specify dimensions within the allowed range that is from 1x1 to @dimensions.', array('@dimensions' => $imce['dimensions'] ? $imce['dimensions'] : t('unlimited'))), 'error');
     return;
   }
 
-  $resized = imce_process_files($form_state['values']['filenames'], $imce, 'imce_resize_image', array($width, $height, $form_state['values']['copy']));
+  $resized = imce_process_files(
+    $form_state['values']['filenames'],
+    $imce,
+    'imce_resize_image',
+    array($width, $height, $form_state['values']['copy'])
+  );
 
   if (!empty($resized)) {
     drupal_set_message(t('File resizing successful: %files.', array('%files' => utf8_encode(implode(', ', $resized)))));
@@ -526,7 +545,10 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   // Check if a file having the same properties exists already.
   if (isset($imce['files'][$file->filename])) {
     if (($f = $imce['files'][$file->filename]) && $f['width'] == $width && $f['height'] == $height) {
-      drupal_set_message(t('%filename(%dimensions) already exists.', array('%filename' => utf8_encode($file->filename), '%dimensions' => $width . 'x' . $height)), 'error');
+      drupal_set_message(t('%filename(%dimensions) already exists.', array(
+        '%filename' => utf8_encode($file->filename),
+        '%dimensions' => $width . 'x' . $height,
+      )), 'error');
       return FALSE;
     }
   }
@@ -542,7 +564,10 @@ function imce_resize_image($filename, &$imce, $width, $height, $copy = TRUE, $de
   $image = image_load($imguri);
   $function = 'image_' . $op;
   if (!$image || !function_exists($function) || !$function($image, $width, $height)) {
-    drupal_set_message(t('%filename cannot be resized to %dimensions', array('%filename' => utf8_encode($filename), '%dimensions' => $width . 'x' . $height)), 'error', FALSE);
+    drupal_set_message(t('%filename cannot be resized to %dimensions', array(
+      '%filename' => utf8_encode($filename),
+      '%dimensions' => $width . 'x' . $height,
+    )), 'error', FALSE);
     return FALSE;
   }
 
@@ -658,7 +683,13 @@ function imce_validate_all($file, $imce) {
 function imce_validate_filesize($file, $maxsize = 0) {
   $errors = array();
   if ($maxsize && $file->filesize > $maxsize) {
-    $errors[] = t('The file is %filesize exceeding the maximum file size of %maxsize.', array('%filesize' => format_size($file->filesize), '%maxsize' => format_size($maxsize)));
+    $errors[] = t(
+      'The file is %filesize exceeding the maximum file size of %maxsize.',
+      array(
+        '%filesize' => format_size($file->filesize),
+        '%maxsize' => format_size($maxsize),
+      )
+    );
   }
   return $errors;
 }
@@ -714,7 +745,7 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
  * Checks if the file is an image and returns info.
  */
 function imce_image_info($uri) {
-  // Allow custom callback
+  // Allow custom callback.
   static $callback;
   if (!isset($callback)) {
     $callback = variable_get('imce_image_info_callback', FALSE);
@@ -722,7 +753,7 @@ function imce_image_info($uri) {
   if ($callback) {
     return $callback($uri);
   }
-  // Check uri
+  // Check uri.
   if (!is_file($uri) || !preg_match('/\.(jpe?g|png|gif)$/i', $uri)) {
     return FALSE;
   }
@@ -734,7 +765,7 @@ function imce_image_info($uri) {
   if ($alternate) {
     return $alternate($uri);
   }
-  // Use getimagesize
+  // Use getimagesize.
   static $types = array(
     IMAGETYPE_JPEG => 1,
     IMAGETYPE_GIF => 1,
@@ -969,9 +1000,7 @@ function imce_inaccessible_directory($dirname, $imce) {
 }
 
 /**
- * Return the permissions.
- *
- * Return the permissions for a directory that is accessed directly or indirectly.
+ * Returns the permissions of a directory.
  *
  * A child of a predefined directory in the directory
  * list takes its parent's properties.
@@ -1058,7 +1087,12 @@ function imce_perm_exists(&$imce, $perm) {
  */
 function imce_scan_directory($dirname, $imce) {
 
-  $directory = array('dirsize' => 0, 'files' => array(), 'subdirectories' => array(), 'error' => FALSE);
+  $directory = array(
+    'dirsize' => 0,
+    'files' => array(),
+    'subdirectories' => array(),
+    'error' => FALSE,
+  );
   $diruri = imce_dir_uri($imce, $dirname);
 
   if (!is_string($dirname) || $dirname == '' || !$handle = opendir($diruri)) {
@@ -1093,7 +1127,7 @@ function imce_scan_directory($dirname, $imce) {
       'size' => $size,
       'width' => $width,
       'height' => $height,
-      'date' => $date
+      'date' => $date,
     );
     $directory['dirsize'] += $size;
   }
@@ -1143,7 +1177,9 @@ function imce_create_tree(&$imce) {
 
 /**
  * Return tree html.
- * This is not themable because it is complex and needs to be in a proper format for js processing.
+ *
+ * This is not themable because it is complex.
+ * and needs to be in a proper format for js processing.
  */
 function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
   unset($paths[':access:'], $paths[':active:']);
@@ -1169,7 +1205,7 @@ function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
 }
 
 /**
- * Return the uri of the active directory
+ * Return the uri of the active directory.
  */
 function imce_dir_uri($imce, $dir = NULL) {
   if (!isset($dir)) {

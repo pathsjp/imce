@@ -106,8 +106,10 @@ Clicking the files in preview do the same thing as well.
 You can point a predefined function to be executed when IMCE loads.
 When the URL is like "app=myApp|imceload@myOnloadFunc", IMCE looks for "myOnloadFunc" in the parent window and executes it with the window parameter referring to IMCE window.
 ```
-function myOnloadFunc (win) { //any method of imce is available through win.imce
-  win.imce.setSendTo('Give it to myApplication baby', myFileHandler);//you should also define myFileHandler
+function myOnloadFunc (win) {
+  // You can call imce methods via win.imce
+  // You should also define myFileHandler.
+  win.imce.setSendTo('Give it to myApplication baby', myFileHandler);
 }
 ```
 - USING sendto:
@@ -115,8 +117,10 @@ You can point a predefined function to which the selected files are sent.
 When the URL is like "app=myApp|sendto@myFileHandler", IMCE calls "myFileHandler" function of the parent window with file and window parameters.
 ```
 function myFileHandler (file, win) {
-  $('#urlFieldId').val(file.url);//insert file url into the url field
-  win.close();//close IMCE
+  // Insert file url into the url field
+  $('#urlFieldId').val(file.url);
+  // Close IMCE.
+  win.close();
 }
 ```
 Usually sendto method is easier to implement, on the other hand imceload method is more flexible as you manually add your sento operator and also can do any modification before IMCE shows up.
@@ -135,7 +139,8 @@ The initial step of advanced integration is the same as imceload-integration abo
 We open IMCE and set its onload function:
 
 ```
-window.open('/imce?app=myApp|imceload@initiateMyApp', '', 'width=760,height=560,resizable=1'); //initiateMyApp(win) will run when imce loads
+// initiateMyApp(win) will run when imce loads.
+window.open('/imce?app=myApp|imceload@initiateMyApp', '', 'width=760,height=560,resizable=1');
 ```
 Now we define our initiator function in which we do the necessary manipulations to IMCE interface:
 ```
