@@ -523,25 +523,6 @@ body.imce {
   line-height: 1.2em;
 }
 
-.ie-7 #navigation-tree li {
-  list-style-image: none;
-}
-
-.ie-7 #imce-content input.form-submit,
-.ie-7 #imce-content input[type=submit],
-.ie-7 #imce-content button {
-  border-style: outset;
-}
-
-.ie-7 #ops-list a span {
-  cursor: pointer;
-}
-
-.ie-7 #file-list-wrapper {
-  display: inline-block;
-  /* Gives hasLayout */
-}
-
 /* File list in box view. */
 .box-view #file-list tr {
   display: block;

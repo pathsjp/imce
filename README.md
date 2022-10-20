@@ -50,9 +50,6 @@ And also if "safe mode restriction" is active in your server, don't expect IMCE 
 - Disappearing images after node submission:
 Having nothing to do with IMCE, it appeared many times in issue queues. This is an input filtering issue that can be resolved by adding `<img>` tag into the default input format. Using Full HTML is another solution. See admin/config/content/formats.
 
-- Upload does not work in Opera
-Jquery form plugin before version 2.09 has problems with Opera 9.2+. Replace Drupal's misc/jquery.form.js with the one at http://jquery.malsup.com/form/#download
-
 - IMCE may have problem working with Google Analytics and Secure pages modules. Just make sure to add *imce* path to the exceptions list of these modules.
 
 
@@ -186,7 +183,6 @@ imce.setMessage(msg, type): logs a message of the type(status, warning, error)
 - All URL strings in the examples start with "/" considering the base path is "/".
 In case your drupal is running on a sub directory e.g, http://localhost/drupal, these URLs should start with "/drupal/".
 There is a safer solution that does not require manual URL fixing: If the Drupal javascript object is available in your page you can use Drupal.settings.basePath at the beginning of URLs (Drupal.settings.basePath+'?q=imce....'). Note that, this won't work with multilingual paths with language prefixes.
-- file and directory ids(names) used in imce.js are url encoded forms of original names. They are decoded using imce.decode and displayed in the lists.
 
 ## MAINTAINERS
 

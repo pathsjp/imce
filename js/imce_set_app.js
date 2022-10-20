@@ -20,7 +20,9 @@
     if (index == -1) {
       return;
     }
-    var data = decodeURIComponent(location.href.substr(index + 4)).split('|');
+    var data = decodeURIComponent(location.href.substring(index + 4)).split(
+      '|'
+    );
     var arr,
       prop,
       str,
@@ -70,7 +72,7 @@
         }
       }
       var filename = $('#' + appFields.url, appWindow.document).val() || '';
-      imce.highlight(filename.substr(filename.lastIndexOf('/') + 1));
+      imce.highlight(filename.substring(filename.lastIndexOf('/') + 1));
     }
     // Set send to
     sendtoFunc && imce.setSendTo(Drupal.t('Insert file'), sendtoFunc);
@@ -89,16 +91,7 @@
           .blur()
           .change()
           .focus();
-      } catch (e) {
-        try {
-          $doc
-            .find('#' + appFields.url)
-            // Inline events for IE
-            .trigger('onblur')
-            .trigger('onchange')
-            .trigger('onfocus');
-        } catch (e) {}
-      }
+      } catch (e) {}
     }
     appWindow.focus();
     win.close();

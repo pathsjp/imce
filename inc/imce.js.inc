@@ -14,7 +14,7 @@ function imce_js_navigate(&$imce) {
       'imce_ref' => array('imce' => &$imce),
     )),
     'dirsize' => format_size($imce['dirsize']),
-    'subdirectories' => array_map('rawurlencode', array_values($imce['subdirectories'])),
+    'subdirectories' => array_values($imce['subdirectories']),
     'perm' => $imce['perm'],
   );
 }

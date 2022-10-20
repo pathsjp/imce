@@ -11,9 +11,10 @@
         .show()
         .find('a')
         .click(function () {
-          var i = this.name.indexOf('-IMCE-');
-          imceInline.activeTextarea = $('#' + this.name.substr(0, i)).get(0);
-          imceInline.activeType = this.name.substr(i + 6);
+          imceInline.activeTextarea = $(
+            '#' + this.getAttribute('data-textarea')
+          )[0];
+          imceInline.activeType = this.getAttribute('data-type');
           imceInline.pop = window.open(
             this.href +
               (this.href.indexOf('?') < 0 ? '?' : '&') +

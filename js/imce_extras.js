@@ -6,18 +6,19 @@
   // Add scale calculator for resizing.
   imce.hooks.load.push(function () {
     $('#edit-width, #edit-height').focus(function () {
-      var fid, r, w, isW, val;
-      var el = this;
-      if ((fid = imce.vars.prvfid)) {
-        isW = el.id === 'edit-width';
-        val = imce.el(isW ? 'edit-height' : 'edit-width').value * 1;
-        if (
-          val &&
-          (w = imce.isImage(fid)) &&
-          (r = (imce.fids[fid].cells[3].innerHTML * 1) / w)
-        ) {
-          el.value = Math.round(isW ? val / r : val * r);
-        }
+      var fid = imce.vars.prvfid;
+      if (!fid) {
+        return;
+      }
+      var isW = this.id === 'edit-width';
+      var val = imce.el(isW ? 'edit-height' : 'edit-width').value * 1;
+      if (!val) {
+        return;
+      }
+      var dim = imce.getDim(fid);
+      if (dim.width) {
+        var ratio = dim.height / dim.width;
+        this.value = Math.round(isW ? val / ratio : val * ratio);
       }
     });
   });
@@ -152,7 +153,7 @@
     k65: function (e) {
       // Ctrl+A to select all.
       if (e.ctrlKey && imce.findex.length) {
-        var fid = imce.findex[0].id;
+        var fid = imce.findex[0].getAttribute('data-name');
         // Select first row.
         imce.selected[fid] ? (imce.vars.lastfid = fid) : imce.fileClick(fid);
         var row = imce.findex[imce.findex.length - 1];
@@ -180,11 +181,12 @@
 
   // Prepare column sorting.
   imce.initiateSorting = function () {
-    // Add cache hook. cache the old directory's sort settings before the new one replaces it.
+    // Cache the old directory's sort settings before the new one replaces it.
     imce.hooks.cache.push(function (cache, newdir) {
-      (cache.cid = imce.vars.cid), (cache.dsc = imce.vars.dsc);
+      cache.cid = imce.vars.cid;
+      cache.dsc = imce.vars.dsc;
     });
-    // Add navigation hook. refresh sorting after the new directory content is loaded.
+    // Refresh sorting after the new directory content is loaded.
     imce.hooks.navigate.push(function (data, olddir, cached) {
       cached ? imce.updateSortState(data.cid, data.dsc) : imce.firstSort();
     });
@@ -223,17 +225,11 @@
       return;
     }
     var func = 'sort' + (cid == 0 ? 'Str' : 'Num') + (dsc ? 'Dsc' : 'Asc');
-    var prop = cid == 2 || cid == 3 ? 'innerHTML' : 'id';
+    var attr = 'data-' + (imce.filePropNames[cid] || 'name');
     // Sort rows.
-    imce.findex.sort(
-      cid
-        ? function (r1, r2) {
-            return imce[func](r1.cells[cid][prop], r2.cells[cid][prop]);
-          }
-        : function (r1, r2) {
-            return imce[func](r1.id, r2.id);
-          }
-    );
+    imce.findex.sort(function (r1, r2) {
+      return imce[func](r1.getAttribute(attr), r2.getAttribute(attr));
+    });
     // Insert sorted rows.
     for (var row, i = 0; (row = imce.findex[i]); i++) {
       imce.tbody.appendChild(row);
@@ -245,9 +241,14 @@
   imce.updateSortState = function (cid, dsc) {
     $(imce.cols[imce.vars.cid]).removeClass(imce.vars.dsc ? 'desc' : 'asc');
     $(imce.cols[cid]).addClass(dsc ? 'desc' : 'asc');
-    imce.vars.cid != cid && imce.cookie('imcecid', (imce.vars.cid = cid));
-    imce.vars.dsc != dsc &&
-      imce.cookie('imcedsc', (imce.vars.dsc = dsc) ? 1 : 0);
+    if (imce.vars.cid != cid) {
+      imce.vars.cid = cid;
+      imce.cookie('imcecid', cid);
+    }
+    if (imce.vars.dsc != dsc) {
+      imce.vars.dsc = dsc;
+      imce.cookie('imcedsc', dsc ? 1 : 0);
+    }
   };
 
   // Sorters.
@@ -339,7 +340,7 @@
   imce.recallHeights = function (bwFixedHeight) {
     // Window & body dimensions.
     // @ts-ignore
-    var winHeight = window.opera ? window.innerHeight : $(window).height();
+    var winHeight = $(window).height();
     var bodyHeight = $(document.body).outerHeight(true);
     var diff = winHeight - bodyHeight;
     var bwHeight = $(imce.BW).height(),
@@ -386,34 +387,34 @@
   // Large images can also be previewed by setting imce.vars.prvstyle
   // to a valid image style(imagecache preset).
   imce.thumbRow = function (row) {
-    var w = row.cells[2].innerHTML * 1;
-    if (!w) {
+    var dim = imce.getDim(row);
+    if (!dim.width) {
       return;
     }
-    var h = row.cells[3].innerHTML * 1;
-    if (imce.vars.tMaxW < w || imce.vars.tMaxH < h) {
-      if (!imce.vars.prvstyle || imce.conf.dir.indexOf('styles') == 0) {
+    var fid = row.getAttribute('data-name');
+    if (imce.vars.tMaxW < dim.width || imce.vars.tMaxH < dim.height) {
+      if (!imce.vars.prvstyle || imce.conf.dir.indexOf('styles') === 0) {
         return;
       }
       var img = new Image();
-      img.src = imce.imagestyleURL(imce.getURL(row.id), imce.vars.prvstyle);
+      img.src = imce.imagestyleURL(imce.getURL(fid), imce.vars.prvstyle);
       img.className = 'imagestyle-' + imce.vars.prvstyle;
     }
     else {
-      var prvH = h,
-        prvW = w;
-      if (imce.vars.prvW < w || imce.vars.prvH < h) {
-        if (h < w) {
+      var prvW = dim.width;
+      var prvH = dim.height;
+      if (imce.vars.prvW < dim.width || imce.vars.prvH < dim.height) {
+        if (dim.height < dim.width) {
           prvW = imce.vars.prvW;
-          prvH = (prvW * h) / w;
+          prvH = (prvW * dim.height) / dim.width;
         }
         else {
           prvH = imce.vars.prvH;
-          prvW = (prvH * w) / h;
+          prvW = (prvH * dim.width) / dim.height;
         }
       }
       var img = new Image(prvW, prvH);
-      img.src = imce.getURL(row.id);
+      img.src = imce.getURL(fid);
     }
     var cell = row.cells[0];
     cell.insertBefore(img, cell.firstChild);
@@ -424,20 +425,20 @@
   imce.imagestyleURL = function (url, stylename) {
     var len = imce.conf.furl.length - 1;
     return (
-      url.substr(0, len) +
+      url.substring(0, len) +
       '/styles/' +
       stylename +
       '/' +
       imce.conf.scheme +
-      url.substr(len)
+      url.substring(len)
     );
   };
 
   // Replace table view with box view for file list.
   imce.boxView = function () {
-    var w = imce.vars.boxW,
-      h = imce.vars.boxH;
-    if (!w || !h || (imce.ie && imce.ie < 8)) {
+    var width = imce.vars.boxW;
+    var height = imce.vars.boxH;
+    if (!width || !height) {
       return;
     }
     var $body = $(document.body);
@@ -448,11 +449,11 @@
     };
     $body.append(
       '<style type="text/css">.box-view #file-list td.name {width: ' +
-        w +
+        width +
         'px;height: ' +
-        h +
+        height +
         'px;} .box-view #file-list td.name span {width: ' +
-        w +
+        width +
         'px;word-wrap: normal;text-overflow: ellipsis;}</style>'
     );
     imce.hooks.load.push(function () {
@@ -469,15 +470,14 @@
 
   // Process a row for box view. include all data in box title.
   imce.boxViewRow = function (row) {
-    var s = ' | ',
-      w = row.cells[2].innerHTML * 1,
-      dim = w ? s + w + 'x' + row.cells[3].innerHTML * 1 : '';
+    var dim = imce.getDim(row);
+    var wxh = dim.width ? ' | ' + dim.width + 'x' + dim.height : '';
     row.cells[0].title =
-      imce.decode(row.id) +
-      s +
-      row.cells[1].innerHTML +
-      dim +
-      s +
-      row.cells[4].innerHTML;
+      row.getAttribute('name') +
+      ' | ' +
+      row.cells[1].textContent +
+      wxh +
+      ' | ' +
+      row.cells[4].textContent;
   };
 })(jQuery);

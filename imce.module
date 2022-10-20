@@ -162,13 +162,15 @@ function imce_textarea($element) {
     $arrayAtributtes = array(
       '!image' => l(t('image'), 'imce', array(
         'attributes' => array(
-          'name' => $element['#id'] . '-IMCE-image',
+          'data-type' => 'image',
+          'data-textarea' => $element['#id'],
           'class' => array('imce-inline-image'),
         ),
       )),
       '!link' => l(t('link'), 'imce', array(
         'attributes' => array(
-          'name' => $element['#id'] . '-IMCE-link',
+          'data-type' => 'link',
+          'data-textarea' => $element['#id'],
           'class' => array('imce-inline-link'),
         ),
       )),

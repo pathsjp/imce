@@ -22,13 +22,14 @@ $imce =& $imce_ref['imce'];
 <table id="file-list" class="files" aria-label="<?php print t('File list'); ?>">
   <tbody><?php
   if ($imce['perm']['browse'] && !empty($imce['files'])) {
-    foreach ($imce['files'] as $name => $file) {?>
-    <tr id="<?php print $raw = rawurlencode($file['name']); ?>" aria-label="<?php print $plain = check_plain($file['name']); ?>">
-      <td class="name" title="<?php print $plain; ?>"><?php print $raw; ?></td>
-      <td class="size" id="<?php print $file['size']; ?>"><?php print format_size($file['size']); ?></td>
+    foreach ($imce['files'] as $name => $file) {
+      $plain = check_plain($file['name']); ?>
+    <tr data-name="<?php print $plain; ?>" data-size="<?php print $file['size']; ?>" data-date="<?php print $file['date']; ?>" data-width="<?php print $file['width']; ?>" data-height="<?php print $file['height']; ?>" aria-label="<?php print $plain ?>">
+      <td class="name" title="<?php print $plain; ?>"><?php print $plain; ?></td>
+      <td class="size"><?php print format_size($file['size']); ?></td>
       <td class="width"><?php print $file['width']; ?></td>
       <td class="height"><?php print $file['height']; ?></td>
-      <td class="date" id="<?php print $file['date']; ?>"><?php print format_date($file['date'], 'short'); ?></td>
+      <td class="date"><?php print format_date($file['date'], 'short'); ?></td>
     </tr><?php
     }
   }?>

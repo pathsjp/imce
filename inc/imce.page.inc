@@ -28,7 +28,9 @@ function imce_user_page($account) {
  * Returns the imce page for the specified user and the file scheme.
  */
 function imce_page($user, $scheme = NULL, $jsop = NULL) {
-  return theme('imce_page', array('content' => imce_content($user, $scheme, $jsop)));
+  return theme('imce_page', array(
+    'content' => imce_content($user, $scheme, $jsop),
+  ));
 }
 
 /**
@@ -84,7 +86,6 @@ function imce_content($user, $scheme = NULL, $jsop = NULL) {
   ));
 
   // Make necessary changes for js conversion.
-  $imce['dir'] = str_replace('%2F', '/', rawurlencode($imce['dir']));
   unset($imce['files'], $imce['name'], $imce['directories'], $imce['subdirectories'], $imce['filesize'], $imce['quota'], $imce['tuquota'], $imce['thumbnails'], $imce['uid'], $imce['usertab']);
 
   drupal_add_js($imce_ref, 'setting');
@@ -293,7 +294,7 @@ function imce_fileop_form_validate($form, &$form_state) {
 
   // Check if there is any illegal choice.
   for ($i = 0; $i < $cnt; $i++) {
-    $filenames[$i] = $filename = rawurldecode($filenames[$i]);
+    $filename = $filenames[$i];
     if (!isset($imce['files'][$filename])) {
       watchdog('imce', 'Illegal choice %choice in !name element.', array(
         '%choice' => $filename,
@@ -632,7 +633,6 @@ function imce_add_file($file, &$imce) {
   );
   if (isset($_GET['jsop'])) {
     $add = $imce['files'][$file->filename];
-    $add['name'] = rawurlencode($file->filename);
     $add['fsize'] = format_size($file->filesize);
     $add['fdate'] = format_date($file->timestamp, 'short');
     $add['id'] = $file->fid;
@@ -648,7 +648,7 @@ function imce_remove_file($filename, &$imce) {
     $imce['dirsize'] -= $imce['files'][$filename]['size'];
     unset($imce['files'][$filename]);
     if (isset($_GET['jsop'])) {
-      $imce['removed'][] = rawurlencode($filename);
+      $imce['removed'][] = $filename;
     }
   }
 }
@@ -936,7 +936,7 @@ function imce_working_directory(&$imce) {
     if ($info = imce_directory_info($_GET['dir'], $imce)) {
       if (imce_check_directory($_GET['dir'], $imce)) {
         if ($sess) {
-          $_SESSION['imce_directory'] = rawurlencode($info['name']);
+          $_SESSION['imce_directory'] = $info['name'];
         }
       }
       else {
@@ -951,7 +951,7 @@ function imce_working_directory(&$imce) {
 
   // Check session.
   if ($sess && isset($_SESSION['imce_directory'])) {
-    $dirname = rawurldecode($_SESSION['imce_directory']);
+    $dirname = $_SESSION['imce_directory'];
     if ($info = imce_directory_info($dirname, $imce)) {
       if (imce_check_directory($dirname, $imce)) {
         return $info;
@@ -964,7 +964,7 @@ function imce_working_directory(&$imce) {
     $dirname = (string) $dirname;
     if (imce_check_directory($dirname, $imce)) {
       if ($sess) {
-        $_SESSION['imce_directory'] = rawurlencode($dirname);
+        $_SESSION['imce_directory'] = $dirname;
       }
       return $info;
     }
@@ -1145,7 +1145,7 @@ function imce_create_tree(&$imce) {
   // Rearrange paths as arg0=>arg1=>...
   foreach ($imce['directories'] as $path => $arr) {
     $tmp =& $paths;
-    if ($path != '.') {
+    if ("$path" != '.') {
       $args = explode('/', $path);
       foreach ($args as $arg) {
         if (!isset($tmp[$arg])) {
@@ -1171,7 +1171,6 @@ function imce_create_tree(&$imce) {
   else {
     $root = '<a title="." class="folder disabled">' . $root . '</a>';
   }
-
   return $root . imce_tree_html($imce, $paths, $q);
 }
 
@@ -1186,13 +1185,12 @@ function imce_tree_html(&$imce, $paths, $q = '?', $prefix = '', $eprefix = '') {
   $html = '';
   foreach ($paths as $arg => $children) {
     $path = $prefix . $arg;
-    $earg = rawurlencode($arg);
-    $epath = $eprefix . $earg;
+    $epath = $eprefix . rawurlencode($arg);
     if (isset($children[':access:']) || imce_directory_info($path, $imce)) {
-      $a = '<a href="' . $imce['url'] . $q . 'dir=' . $epath . '" title="' . $epath . '" class="folder' . (isset($children[':active:']) ? ' active' : '') . '">' . $earg . '</a>';
+      $a = '<a href="' . $imce['url'] . $q . 'dir=' . $epath . '" title="' . check_plain($path) . '" class="folder' . (isset($children[':active:']) ? ' active' : '') . '">' . check_plain($arg) . '</a>';
     }
     else {
-      $a = '<a title="' . $epath . '" class="folder disabled">' . $earg . '</a>';
+      $a = '<a title="' . check_plain($path) . '" class="folder disabled">' . check_plain($arg) . '</a>';
     }
     $ul = imce_tree_html($imce, $children, $q, $path . '/', $epath . '/');
     $class = $ul ? ' class="expanded"' : (isset($children[':active:']) ? ' class="leaf"' : '');
