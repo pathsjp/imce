@@ -27,7 +27,6 @@ class ImceProfileForm extends EntityForm {
    *
    * @param \Drupal\imce\ImcePluginManager $plugin_manager_imce
    *   Plugin manager for Imce Plugins.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    */
   public function __construct(ImcePluginManager $plugin_manager_imce) {
     $this->pluginManagerImce = $plugin_manager_imce;
@@ -168,8 +167,8 @@ class ImceProfileForm extends EntityForm {
     $conf['dimensions']['description'] = [
       '#markup' => '<div class="description">' . $this->t('Images exceeding the limit will be scaled down.') . '</div>',
     ];
-    
-    // Advanced settings
+
+    // Advanced settings.
     $conf['advanced'] = [
       '#type' => 'details',
       '#title' => $this->t('Advanced settings'),
@@ -212,7 +211,7 @@ class ImceProfileForm extends EntityForm {
       '#default_value' => $imce_profile->getConf('ignore_usage'),
       '#description' => $this->t('IMCE avoids deletion or overwriting of files that are in use by other Drupal modules. Enabling this option skips the file usage check. Not recommended!'),
     ];
-    
+
     // Folders.
     $conf['folders'] = [
       '#type' => 'fieldset',

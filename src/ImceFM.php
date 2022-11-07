@@ -462,7 +462,7 @@ class ImceFM {
       'date' => @filemtime($uri) ?: 0,
       'size' => @filesize($uri) ?: 0,
     ];
-    // Get image properties
+    // Get image properties.
     $regexp = isset($this->conf['image_extensions_regexp']) ? $this->conf['image_extensions_regexp'] : $this->imageExtensionsRegexp();
     if ($regexp && preg_match($regexp, $uri) && $info = getimagesize($uri)) {
       $properties['width'] = $info[0];
@@ -477,6 +477,9 @@ class ImceFM {
 
   /**
    * Returns thumbnail style.
+   *
+   * @return false|Drupal\image\ImageStyleInterface
+   *   Drupal ImageStyle entity.
    */
   public function getThumbnailStyle() {
     if (!isset($this->thumbnailStyle)) {
@@ -644,7 +647,7 @@ class ImceFM {
    * Builds and returns image extension regular expression.
    */
   public function imageExtensionsRegexp() {
-    // Build only once
+    // Build only once.
     $regexp = &$this->conf['image_extensions_regexp'];
     if (!isset($regexp)) {
       $exts = trim($this->getConf('image_extensions', 'jpg jpeg png gif webp'));
