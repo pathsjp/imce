@@ -89,7 +89,7 @@
    */
   imceFileField.submit = function (fieldId, paths) {
     $('[data-drupal-selector="' + fieldId + '-imce-paths"]').val(paths.join(':'));
-    $('[data-drupal-selector="' + fieldId + '-upload-button"]').tirgger('mousedown');
+    $('[data-drupal-selector="' + fieldId + '-upload-button"]').trigger('mousedown');
   };
 
 })(jQuery, Drupal);
