@@ -322,7 +322,7 @@ class Imce {
       'status' => 1,
       'filesize' => filesize($uri),
       'filename' => \Drupal::service('file_system')->basename($uri),
-      'filemime' => \Drupal::service('file.mime_type.guesser')->guess($uri),
+      'filemime' => \Drupal::service('file.mime_type.guesser')->guessMimeType($uri),
     ];
     $file = \Drupal::entityTypeManager()->getStorage('file')->create($values);
     if ($save) {

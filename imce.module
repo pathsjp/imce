@@ -36,7 +36,7 @@ function imce_theme() {
 function imce_file_download($uri) {
   if (Imce::accessFileUri($uri, \Drupal::currentUser())) {
     return [
-      'Content-type' => \Drupal::service('file.mime_type.guesser')->guess($uri),
+      'Content-type' => \Drupal::service('file.mime_type.guesser')->guessMimeType($uri),
       'Content-Length' => filesize($uri),
     ];
   }
