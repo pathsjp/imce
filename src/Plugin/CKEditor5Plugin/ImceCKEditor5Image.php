@@ -9,7 +9,6 @@ use Drupal\ckeditor5\Plugin\CKEditor5PluginDefault;
  *
  * @CKEditor5Plugin(
  *   id = "imce_image",
- *   label = "Imce Image",
  *   ckeditor5 = @CKEditor5AspectsOfCKEditor5Plugin(
  *     plugins = { "imce.ImceImage" },
  *   ),
