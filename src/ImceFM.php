@@ -719,6 +719,7 @@ class ImceFM {
       if ($request->request->has('jsop')) {
         $this->run();
         $data = $this->getResponse();
+        \Drupal::service('plugin.manager.imce.plugin')->alterJsResponse($data, $this);
         // Return html response if the flag is set.
         if ($request->request->get('return_html')) {
           return new Response('<html><body><textarea>' . Json::encode($data) . '</textarea></body></html>');
