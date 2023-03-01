@@ -4,3 +4,6 @@ description: Provides a file manager supporting personal folders.
 package: Media
 core_version_requirement: ^9.3 || ^10
 configure: imce.admin
+
+test_dependencies:
+  - ckeditor:ckeditor
