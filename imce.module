@@ -140,6 +140,10 @@ function imce_help($route_name, RouteMatchInterface $route_match) {
  * Implements hook_editor_js_settings_alter().
  */
 function imce_editor_js_settings_alter(&$settings) {
+  // Disable ImceSelector integration if CKEditor4 is enabled.
+  if (\Drupal::moduleHandler()->moduleExists('ckeditor')) {
+    return;
+  }
   if (!empty($settings['editor']['formats'])) {
     foreach ($settings['editor']['formats'] as &$conf) {
       if ($conf['editor'] === 'ckeditor5') {
